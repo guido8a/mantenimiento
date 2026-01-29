@@ -95,7 +95,7 @@
 
     <div style="text-align: center;"><h2 class="titl">
             <p class="text-warning">${empresa?.nombre}</p>
-            <p class="text-warning">Base de Conocimiento y Agenda Empresarial</p>
+            <p class="text-warning">Base de Conocimiento y Agenda Empresarial11</p>
         </h2>
     </div>
 
