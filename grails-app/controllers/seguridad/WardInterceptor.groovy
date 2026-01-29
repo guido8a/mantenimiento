@@ -24,57 +24,28 @@ class WardInterceptor {
         }
 
         if(session.an == 'saveTramite' && session.cn == 'tramite'){
-            println("entro")
+//            println("entro")
             return true
         } else {
-            if (!session?.usuario && !session?.perfil) {
+            if (!session?.usuario || !session?.perfil) {
+                println "...sin sesión"
                 if(controllerName != "inicio" && actionName != "index") {
-                    flash.message = "Usted ha superado el tiempo de inactividad máximo de la sesión"
+//                    flash.message = "Usted ha superado el tiempo de inactividad máximo de la sesión"
                 }
-//                render grailsLinkGenerator.link(controller: 'login', action: 'login', absolute: true)
-//                redirect(controller: 'login', action: 'login')
                 render "<script type='text/javascript'> window.location.href = '/' </script>"
                 session.finalize()
                 return false
+            }
+
+            if (isAllowed()) {
+                return true
             } else {
-//                def usu = Persona.get(session.usuario.id)
-                println "session válida: ${usro.id}"
-                if (usro.estaActivo) {
-                    def perms = session.usuario.permisos
-//                    session.usuario = Persona.get(session.usuario.id).refresh()
-                    session.usuario.permisos = perms
-
-                    if (!isAllowed()) {
-                        println "no permitido"
-                        redirect(controller: 'shield', action: 'ataques')
-                        return false
-                    }
-
-                } else {
-                    println "session.flag: " + session.flag
-                    if (!session.flag || session.flag < 1) {
-//                    println "menor que cero "+session.flag
-                        session.usuario = null
-                        session.perfil = null
-                        session.permisos = null
-                        session.menu = null
-                        session.an = null
-                        session.cn = null
-                        session.invalidate()
-                        session.flag = null
-                        session.finalize()
-                        redirect(controller: 'login', action: 'login')
-                        return false
-                    } else {
-                        session.flag = session.flag - 1
-                        session.departamento = Departamento.get(session.departamento.id).refresh()
-                        return true
-                    }
-                }
+                println "******Dar permisos a prfl: ${session?.perfil?.codigo} en acción: $actionName controlador: $controllerName"
+                return true   /** quitar para manejar permisos **/
             }
         }
 
-        true
+        //true
     }
 
     boolean after() {

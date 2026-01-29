@@ -10,12 +10,13 @@
     <body>
 
 %{--    <div id="Canvas" style="background-image:url('${g.assetPath(src: 'apli/bitacora.png')}');height: 250px;background-repeat: no-repeat;background-position: right;width:1000px;">--}%
-    <div style="background-image:url('${g.assetPath(src: 'apli/mantenimiento.jpg')}');height: 250px;background-repeat: no-repeat;background-position: right; text-align: center; margin-top: 20px; height: ${(flash.message) ? '650' : '580'}px;" class="well">
+    <div style="background-image:url('${g.assetPath(src: 'apli/mantenimiento_pq.jpg')}'); height: 240px; background-repeat: no-repeat;
+        background-position: right; margin-right: 200px; text-align: center; margin-top: 20px; height: ${(flash.message) ? '650' : '580'}px;" class="well">
         <h1 class="titl" style="font-size: 24px; color: #06a">...Ingreso al Sistema</h1>
         <elm:flashMessage tipo="${flash.tipo}" icon="${flash.icon}"
                           clase="${flash.clase}">${flash.message}</elm:flashMessage>
 
-        <h3>Seleccine su perfil de trabajo</h3>
+        <h3>Seleccione su perfil de trabajo</h3>
 
         <div style="text-align: center; width: 100%; margin-left: 35%; margin-top: 10%">
             <elm:flashMessage tipo="${flash.tipo}" icon="${flash.icon}" clase="${flash.clase}">${flash.message}</elm:flashMessage>

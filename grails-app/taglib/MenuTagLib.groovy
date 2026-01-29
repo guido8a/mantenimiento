@@ -116,10 +116,9 @@ class MenuTagLib {
         def txt = ""
         def items = [:]
         def usuario, perfil, dpto
-        if (session.usuario) {
-            usuario = session.usuario
-            perfil = session.perfil
-            dpto = session.departamento
+        if (session?.usuario) {
+            usuario = session?.usuario
+            perfil = session?.perfil
         }
         def strItems = ""
         if (!attrs.title) {
