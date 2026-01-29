@@ -125,6 +125,7 @@ class MenuTagLib {
         if (!attrs.title) {
             attrs.title = "Bitácora"
         }
+
 //        attrs.title = attrs.title.toUpperCase()
         if (usuario) {
             def acciones = Prms.findAllByPerfil(perfil).accion.sort { it.modulo.orden }
