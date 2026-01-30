@@ -95,7 +95,7 @@
 
     <div style="text-align: center;"><h2 class="titl">
             <p class="text-warning">${empresa?.nombre}</p>
-            <p class="text-warning">Base de Conocimiento y Agenda Empresarial11</p>
+            <p class="text-warning">Registro de Actividades de Mantenimiento y Soporte Técnico</p>
         </h2>
     </div>
 
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="texto">
-                    <span class="text-success"><strong>Base de conocimiento</strong></span></div>
+                    <span class="text-success"><strong>Mantenimeinto y Soporte Técnico</strong></span></div>
             </div>
         </div>
         </a>
@@ -125,37 +125,9 @@
                 </div>
 
                 <div class="texto">
-                    <span class="text-success"><strong>Buscar actividades</strong></span></div>
+                    <span class="text-success"><strong>Informes y Oficios</strong></span></div>
             </div>
         </div>
-        </a>
-
-
-        <a href= "${createLink(controller:'actividad', action: 'list')}" style="text-decoration: none">
-            <div class="ui-corner-all item2 fuera">
-                <div class="ui-corner-all item2">
-                    <div class="imagen2">
-                        <asset:image src="apli/actividades.png" alt="Buscar en la Base de Conocimiento"  width="100%" height="100%"/>
-                    </div>
-
-                    <div style="margin-top: 50px; margin-left: 140px;">
-                        <span class="text-success" style="font-size: large"><strong>Mis Actividades</strong></span>
-                    </div>
-                        <span class="text-success" style="margin-top: 20px; margin-left: 30px; width: 400px; display: block"><strong>Actividades en las que estoy involucrado o pertenecen a mi grupo de trabajo</strong></span>
-                </div>
-            </div>
-        </a>
-
-
-        <a href= "${createLink(controller:'actividad', action: 'firma')}" style="text-decoration: none">
-            <div class="ui-corner-all item3 fuera">
-                <div class="ui-corner-all item3">
-                    <div style="margin-top: 10px; margin-left: 100px;">
-                        <span class="text-success" style="font-size: large"><strong>(FirmaService) Firma electrónica en
-                        /var/bitacora/firmas/salida.pdf</strong></span>
-                    </div>
-                </div>
-            </div>
         </a>
 
     </div>
