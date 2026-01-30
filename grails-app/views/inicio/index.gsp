@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>Bitácora</title>
+    <title>Mantenimiento</title>
     <meta name="layout" content="main"/>
     <style type="text/css">
     @page {
