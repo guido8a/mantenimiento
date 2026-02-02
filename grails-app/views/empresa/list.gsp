@@ -1,9 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fabricio
-  Date: 30/10/20
-  Time: 11:00
---%>
 
 <%@ page import="seguridad.Persona" contentType="text/html;charset=UTF-8" %>
 <html>

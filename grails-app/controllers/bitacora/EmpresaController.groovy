@@ -1,7 +1,5 @@
 package bitacora
 
-
-
 class EmpresaController {
 
     def list(){

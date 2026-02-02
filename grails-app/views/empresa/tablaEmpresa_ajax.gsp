@@ -1,12 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fabricio
-  Date: 30/10/20
-  Time: 11:12
---%>
-
-%{--<util:renderHTML html="${msg}"/>--}%
-
 <style type="text/css">
 table {
     table-layout: fixed;
