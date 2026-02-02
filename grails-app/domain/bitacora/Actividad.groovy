@@ -1,23 +1,18 @@
 package bitacora
 
 import audita.Auditable
-import seguridad.Persona
 
 class Actividad implements Auditable{
-    Actividad padre
-    String    descripcion
-    Date      fechaRegistro
-    Date      fechaInicio
-    Date      fechaFin
-    int       avance = 0
-    int       horas = 1
-    Double    tiempo = 0
-    Prioridad prioridad
-    Persona ingresa
-    Persona responsable
-    String    como
-    String    observaciones
-    Proyecto proyecto
+
+    Usuario usuario
+    TipoMantenimiento tipoMantenimiento
+    ModuloSistema moduloSistema
+    Periodo periodo
+    String requerimiento
+    Date fecha
+    String descripcion
+    String algoritmo
+    String clave
 
     static mapping = {
         table 'actv'
@@ -25,49 +20,29 @@ class Actividad implements Auditable{
         id generator: 'identity'
         version false
         columns {
-            id            column: 'actv__id'
-            padre         column: 'actvpdre'
-            descripcion   column: 'actvdscr'
-            fechaRegistro column: 'actvfcha'
-            fechaInicio   column: 'actvfcin'
-            fechaFin      column: 'actvfcfn'
-            horas         column: 'actvhora'
-            tiempo        column: 'actvtmpo'
-            ingresa       column: 'prsn__id'
-            responsable   column: 'prsnpara'
-            prioridad     column: 'prdd__id'
-            como          column: 'actvcomo'
-            avance        column: 'actvavnc'
-            observaciones column: 'actvobsr'
-            proyecto    column: 'proy__id'
-
+            id column: 'actv__id'
+            usuario column: 'pcnt__id'
+            tipoMantenimiento column: 'tpmt__id'
+            moduloSistema column: 'mdst__id'
+            periodo column: 'prdo__id'
+            requerimiento column: 'actvreqm'
+            fecha column: 'actvfcha'
+            descripcion column: 'actvdscr'
+            algoritmo column: 'actvalgr'
+            clave column: 'actvclve'
         }
     }
 
-//    String toString() {
-//        "${this.responsable} : ${this.descripcion}"
-//    }
-
     static constraints = {
-        padre(blank: true, nullable: true)
-        descripcion(size: 5..255, blank: false)
-        fechaInicio(blank: true, nullable: true)
-        fechaFin(blank: true, nullable: true)
-        horas(blank: false, nullable: false)
-        tiempo(blank: true, nullable: true)
-        ingresa(blank: false, nullable: false)
-        responsable(blank: false, nullable: false)
-        prioridad(blank: false, nullable: false)
-        como(blank: true, nullable: true)
-        avance(blank: false, nullable: false)
-        observaciones(blank: true, nullable: true)
-        proyecto(blank: true, nullable: true)
-
+        usuario(blank: false, nullable: false)
+        tipoMantenimiento(blank: true, nullable: true)
+        moduloSistema(blank: true, nullable: true)
+        periodo(blank: true, nullable: true)
+        requerimiento(size: 0..15, blank: true, nullable: true)
+        fecha(blank: true, nullable: true)
+        descripcion(size: 0..512, blank: true, nullable: true)
+        algoritmo(size: 0..512, blank: true, nullable: true)
+        clave(size: 0..63, blank: true, nullable: true)
     }
-/*
-    def beforeInsert = {
-        descripcion = descripcion.toUpperCase()
-    }
-*/
 
 }
