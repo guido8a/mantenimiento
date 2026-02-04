@@ -1,4 +1,3 @@
-<%@ page import="seguridad.Permiso; seguridad.Permiso; seguridad.Prfl; seguridad.PermisoUsuario; seguridad.Sesn; seguridad.Accs; seguridad.Persona" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,163 +20,134 @@
 <g:set var="iconActivar" value="fa-hdd-o"/>
 <g:set var="iconDesactivar" value="fa-power-off"/>
 
-<elm:flashMessage tipo="${flash.tipo}" clase="${flash.clase}">${flash.message}</elm:flashMessage>
-
 <!-- botones -->
 <div class="btn-toolbar toolbar" style="margin-bottom: 15px">
     <div class="btn-group">
-        <g:link action="form" class="btn btn-primary btnCrear">
-            <i class="fa fa-file"></i> Crear
-        </g:link>
+        <a href="#" class="btn btn-info btnCrear" >  <i class="fa fa-user"></i>  Nuevo Usuario</a>
     </div>
-
-%{--    <div class="btn-group pull-right col-md-3">--}%
-%{--        <div class="input-group">--}%
-%{--            <input type="text" class="form-control span2 input-search" placeholder="Buscar" value="${params.search}">--}%
-%{--            <span class="input-group-btn">--}%
-%{--                <g:link action="list" class="btn btn-primary btn-search">--}%
-%{--                    <i class="fas fa-search"></i>&nbsp;--}%
-%{--                </g:link>--}%
-%{--            </span>--}%
-%{--        </div><!-- /input-group -->--}%
-%{--    </div>--}%
+    <div class="btn-group">
+        <a href="#" class="btn btn-success btnReporte" >  <i class="fa fa-print"></i>  Reporte de usuarios</a>
+    </div>
 </div>
 
-<g:set var="admin" value="${seguridad.Permiso.findByCodigo('P013')}"/>
-
-<table class="table table-condensed table-bordered" width='100%'>
-    <thead>
-    <tr>
-        <th style="width: 60px;" class="text-center">
-            <div class="btn-group text-left">
-                <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-                    <g:if test="${params.estado}">
-                        <g:if test="${params.estado == 'usuario'}">
-                            <i class="fa fa-user text-info"></i>
-                        </g:if>
-                        <g:if test="${params.estado == 'inactivo'}">
-                            <i class="fa fa-user text-muted"></i>
-                        </g:if>
-                        <g:if test="${params.estado == 'admin'}">
-                            <i class="fa fa-user text-success"></i>
-                        </g:if>
-                    </g:if>
-                    <g:else>
-                        Estado
-                    </g:else>
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="#" class="a" data-tipo="">
-                            Todos
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#" class="a" data-tipo="inactivo">
-                            <i class="fa fa-user text-muted"></i> Inactivo
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#" class="a" data-tipo="admin">
-                            <i class="fa fa-user text-success"></i> Administrador
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="a" data-tipo="usuario">
-                            <i class="fa fa-user text-info"></i> Activo
-                        </a>
-                    </li>
-                </ul>
+<div style="overflow: hidden">
+    <fieldset class="borde" style="border-radius: 4px">
+        <div class="row-fluid" style="margin-left: 10px">
+            <span class="grupo">
+                <span class="col-md-2">
+                    <label class="control-label text-info">Buscar Por</label>
+                    <g:select name="buscarPor" class="buscarPor col-md-12 form-control" from="${[1: 'Usuario', 2: 'Nombre', 3 : 'Apellido']}" optionKey="key"
+                              optionValue="value"/>
+                </span>
+                <span class="col-md-2">
+                    <label class="control-label text-info">Criterio</label>
+                    <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control"/>
+                </span>
+                <span class="col-md-2">
+                    <label class="control-label text-info">Estado del usuario</label>
+                    <g:select name="estado" class="estado form-control" from="${[1: 'Todos', 2: 'Activo', 3: 'Inactivo']}" optionKey="key"
+                              optionValue="value"/>
+                </span>
+                <span class="col-md-2">
+                    <label class="control-label text-info">Perfil</label>
+                    <g:select name="perfil" class="form-control" from="${seguridad.Prfl.list([sort: 'nombre'])}" optionKey="id"
+                              optionValue="nombre" noSelection="[0 : 'Seleccionar...']"/>
+                </span>
+                <span class="col-md-3">
+                    <label class="control-label text-info">Departamento</label>
+                    <g:select name="departamento" class="form-control" from="${janus.Departamento.list().sort{it.descripcion}}" optionKey="id"
+                              optionValue="descripcion" noSelection="[0 : 'Seleccionar...']"/>
+                </span>
+            </span>
+            <div class="col-md-1" style="margin-top: 20px">
+                <button class="btn btn-info" id="btnBuscarUsuarios"><i class="fa fa-search"></i></button>
             </div>
-        </th>
-        <g:sortableColumn property="login" title="Usuario" params="${params}"/>
-        <g:sortableColumn property="nombre" title="Nombre" params="${params}"/>
-        <g:sortableColumn property="apellido" title="Apellido" params="${params}"/>
-        <g:sortableColumn property="departamento" title="Departamento" params="${params}"/>
-        <th style="width: 220px;">
-            <g:select name="perfil" from="${Prfl.list([sort: 'nombre'])}" optionKey="id" optionValue="nombre"
-                      class="form-control input-sm perfiles" noSelection="['': 'Todos los perfiles']" value="${params.perfil}"/>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <g:each in="${personaInstanceList}" status="i" var="personaInstance">
-        <g:set var="del" value="${true}"/>
-        <g:if test="${Sesn.countByUsuario(personaInstance) > 0}">
-            <g:set var="del" value="${false}"/>
-        </g:if>
-        <g:set var="perfiles" value="${Sesn.withCriteria {
-            eq("usuario", personaInstance)
-            or {
-                le("fechaInicio", new Date())
-                isNull("fechaInicio")
-            }
-            or {
-                ge("fechaFin", new Date())
-                isNull("fechaFin")
-            }
-            perfil {
-                order("nombre")
-            }
-        }}"/>
+        </div>
+    </fieldset>
 
-        <tr data-id="${personaInstance.id}" data-tramites="0"
-            class="${personaInstance.activo == 1 ? 'activo' : 'inactivo'} ${del ? 'eliminar' : ''}" id="trPersona">
-            <td class="text-center">
-                <i class="fa fa-user text-${!personaInstance.estaActivo ? 'muted' : 'info'}"></i>
-            </td>
-            <td><elm:textoBusqueda texto='${fieldValue(bean: personaInstance, field: "login")}' search='${params.search}'/></td>
-            <td><elm:textoBusqueda texto='${fieldValue(bean: personaInstance, field: "nombre")}' search='${params.search}'/></td>
-            <td><elm:textoBusqueda texto='${fieldValue(bean: personaInstance, field: "apellido")}' search='${params.search}'/></td>
-            <td><elm:textoBusqueda texto='${personaInstance.departamento?.nombre}' search='${params.search}'/></td>
-            <td>
-                <g:each in="${perfiles}" var="per" status="p">
-                    ${p > 0 ? ', ' : ''}<strong>${per.perfil.nombre}</strong>
-                    <g:if test="${per.fechaInicio || per.fechaFin}">
-                        (${per.fechaInicio?.format("dd-MM-yyyy")} a ${per.fechaFin?.format("dd-MM-yyyy")})
-                    </g:if>
-                </g:each>
-            </td>
-        </tr>
-    </g:each>
-    </tbody>
-</table>
-
-<elm:pagination total="${personaInstanceCount}" params="${params}"/>
-
+    <fieldset class="borde" style="border-radius: 4px">
+        <div id="divTablaUsuarios" style="height: 560px; overflow: auto; margin-top: 5px">
+        </div>
+    </fieldset>
+</div>
 
 <script type="text/javascript">
 
-    var tramites = 0;
+    $(".btnReporte").click(function () {
+        location.href = "${g.createLink(controller: 'reportes6',action: 'imprimirUsuariosExcel')}"
+    });
+
+    $("#btnOferentes").click(function () {
+        createEditOferente();
+    });
+
+    $("#btnAsignarCoordinador").click(function () {
+        location.href="${createLink(controller: 'asignarCoordinador', action: 'asignarCoordinador')}"
+    });
+
+    $("#btnAsignarDirector").click(function () {
+        location.href="${createLink(controller: 'asignarDirector', action: 'asignarDirector')}"
+    });
+
+    $("#btnColocarRol").click(function () {
+        location.href="${createLink(controller: 'personaRol', action: 'registroPersonaRol')}"
+    });
+
+    cargarTablaUsuarios();
+
+    $("#btnBuscarUsuarios").click(function () {
+        cargarTablaUsuarios();
+    });
+
+    function cargarTablaUsuarios(){
+        var d = cargarLoader("Cargando...");
+        var buscarPor = $("#buscarPor option:selected").val();
+        var criterio = $("#criterioCriterio").val();
+        var estado = $("#estado option:selected").val();
+        var perfil = $("#perfil option:selected").val();
+        var departamento = $("#departamento option:selected").val();
+        $.ajax({
+            type: 'POST',
+            url: '${createLink(controller: 'persona', action: 'tablaUsuarios_ajax')}',
+            data:{
+                buscarPor: buscarPor,
+                criterio: criterio,
+                estado: estado,
+                perfil: perfil,
+                departamento: departamento
+            },
+            success: function (msg){
+                d.modal("hide");
+                $("#divTablaUsuarios").html(msg)
+            }
+        })
+    }
+
     function submitForm() {
         var $form = $("#frmPersona");
         var $btn = $("#dlgCreateEdit").find("#btnSave");
         var idPersona = $("#trPersona").data("id");
         if ($form.valid()) {
-            // $btn.replaceWith(spinner);
 
-           cargarLoader("Guardando...");
+            var dialog = cargarLoader("Guardando...");
 
             $.ajax({
                 type    : "POST",
-                url     : '${createLink(controller: 'persona', action:'save_ajax')}',
+                %{--url     : '${createLink(controller: 'persona', action:'save_ajax')}',--}%
+                url     : '${createLink(controller: 'persona', action:'savePersona_ajax')}',
                 data    : $form.serialize(),
                 success : function (msg) {
-                    var parts = msg.split("*");
-                    if (parts[0] != "INFO") {
-                        log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
-                        if (parts[0] == "SUCCESS") {
+                    var parts = msg.split("_");
+                    if (parts[0] !== "INFO") {
+                        if(parts[0] === 'ok'){
                             dialog.modal('hide');
+                            log(parts[1], "success");
                             setTimeout(function () {
-                            location.reload(true);
+                                location.reload();
                             }, 1000);
-                        } else {
-                            spinner.replaceWith($btn);
+                        }else{
                             dialog.modal('hide');
-                            return false;
+                            log(parts[1], "error")
                         }
                     } else {
                         // closeLoader();
@@ -198,7 +168,7 @@
                                         var $sel = $("#selWarning");
                                         var resp = $sel.val();
                                         var dpto = $sel.data("dpto");
-                                        if (resp == 1 || resp == "1") {
+                                        if (resp === 1 || resp === "1") {
                                             openLoader("Cambiando");
                                             $.ajax({
                                                 type    : "POST",
@@ -209,9 +179,9 @@
                                                 },
                                                 success : function (msg) {
                                                     var parts = msg.split("_");
-                                                    log(parts[1], parts[0] == "OK" ? "success" : "error"); // log(msg, type, title, hide)
-                                                    if (parts[0] == "OK") {
-                                                        location.reload(true);
+                                                    log(parts[1], parts[0] === "OK" ? "success" : "error"); // log(msg, type, title, hide)
+                                                    if (parts[0] === "OK") {
+                                                        location.reload();
                                                     }
                                                 }
                                             });
@@ -243,7 +213,7 @@
                     label     : "<i class='fa fa-trash'></i> Eliminar Usuario",
                     className : "btn-danger",
                     callback  : function () {
-                       cargarLoader("Eliminando");
+                        var a = cargarLoader("Eliminando");
                         $.ajax({
                             type    : "POST",
                             url     : '${createLink(controller: 'persona', action:'delete_ajax')}',
@@ -251,11 +221,11 @@
                                 id : itemId
                             },
                             success : function (msg) {
-                                dialog.modal('hide');
+                                a.modal('hide');
                                 var parts = msg.split("_");
-                                log(parts[1], parts[0] == "OK" ? "success" : "error"); // log(msg, type, title, hide)
-                                if (parts[0] == "OK") {
-                                    location.reload(true);
+                                log(parts[1], parts[0] === "OK" ? "success" : "error"); // log(msg, type, title, hide)
+                                if (parts[0] === "OK") {
+                                    location.reload();
                                 }
                             }
                         });
@@ -264,58 +234,7 @@
             }
         });
     }
-    function cambiarEstadoRow(itemId, activar, tramites) {
-        var icon, textMsg, textBtn, textLoader, url, clase;
-        if (activar) {
-            clase = "success";
-            icon = "${iconActivar}";
-            textMsg = "<p>¿Está seguro que desea activar la persona seleccionada?</p>";
-            textBtn = "Activar";
-            textLoader = "Activando";
-            url = "${createLink(action:'activar_ajax')}";
-            var b = bootbox.dialog({
-                title   : "Alerta",
-                message : "<i class='fa " + icon + " fa-3x pull-left text-" + clase + " text-shadow'></i>" + textMsg,
-                buttons : {
-                    cancelar      : {
-                        label     : "Cancelar",
-                        className : "btn-primary",
-                        callback  : function () {
-                        }
-                    },
-                    cambiarEstado : {
-                        label     : "<i class='fa " + icon + "'></i> " + textBtn,
-                        className : "btn-" + clase,
-                        callback  : function () {
-                            openLoader(textLoader);
-                            $.ajax({
-                                type    : "POST",
-                                url     : url,
-                                data    : {
-                                    id : itemId
-                                },
-                                success : function (msg) {
-                                    var parts = msg.split("_");
-                                    log(parts[1], parts[0] == "OK" ? "success" : "error"); // log(msg, type, title, hide)
-                                    if (parts[0] == "OK") {
-                                        location.reload(true);
-                                    } else {
-                                        closeLoader();
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        } else {
-            clase = "danger";
-            icon = "${iconDesactivar}";
-            textBtn = "Desactivar";
-            textLoader = "Desactivando";
-            url = "${createLink(action:'desactivar_ajax')}";
-        }
-    }
+
     function createEditRow(id, tipo) {
         var title = id ? "Editar " : "Crear ";
         var data = id ? {id : id} : {};
@@ -329,7 +248,6 @@
                 url = "${createLink(controller: 'persona',  action:'formUsuario_ajax')}";
                 break;
         }
-
         $.ajax({
             type    : "POST",
             url     : url,
@@ -337,7 +255,7 @@
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgCreateEdit",
-                    class   : "long",
+                    class   : "modal-lg",
                     title   : title + tipo,
                     message : msg,
                     buttons : {
@@ -364,151 +282,87 @@
         }); //ajax
     } //createEdit
 
-    function createContextMenu(node) {
-        var $tr = $(node);
-
-        var items = {
-            header : {
-                label  : "Acciones",
-                header : true
-            }
-        };
-
-        var id = $tr.data("id");
-
-        var estaActivo = $tr.hasClass("activo");
-        var estaInactivo = $tr.hasClass("inactivo");
-        var puedeEliminar = $tr.hasClass("eliminar");
-
-        puedeEliminar = true;
-
-        var ver = {
-            label  : 'Ver',
-            icon   : "fa fa-search",
-            action : function () {
-                $.ajax({
-                    type    : "POST",
-                    url     : "${createLink(controller: 'persona', action:'show_ajax')}",
-                    data    : {
-                        id : id
-                    },
-                    success : function (msg) {
-                        bootbox.dialog({
-                            title   : "Ver Persona",
-                            message : msg,
-                            buttons : {
-                                ok : {
-                                    label     : "Aceptar",
-                                    className : "btn-primary",
-                                    callback  : function () {
-                                    }
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        };
-
-        var editar = {
-            label           : 'Editar',
-            icon            : "fa fa-pen",
-            separator_after : true,
-            action          : function (e) {
-                createEditRow(id, "persona");
-            }
-        };
-
-        var config = {
-            label           : 'Perfiles',
-            icon            : "fa fa-address-card",
-            separator_after : true,
-            url             : "${createLink(controller: 'persona', action: 'config')}/" + id
-        };
-
-        var eliminar = {
-            label            : 'Eliminar Usuario',
-            icon             : "fa fa-times-circle",
-            separator_before : true,
-            action           : function (e) {
-                deleteRow(id);
-            }
-        };
-
-        items.ver = ver;
-        items.editar = editar;
-        if (estaActivo) {
-            items.config = config;
-        }
-
-        if (puedeEliminar) {
-            items.eliminar = eliminar;
-        }
-
-        return items;
-    }
-
     $(function () {
-
-        $("#perfil").change(function () {
-            openLoader();
-            var params = "${params}";
-            var id = $(this).val();
-            var strParams = "";
-            params = str_replace('[', '', params);
-            params = str_replace(']', '', params);
-            params = str_replace(':', '=', params);
-            params = params.split(",");
-            for (var i = 0; i < params.length; i++) {
-                params[i] = $.trim(params[i]);
-                if (params[i].startsWith("perfil")) {
-                    params[i] = "perfil=" + id;
-                }
-                if (!params[i].startsWith("action") && !params[i].startsWith("controller") && !params[i].startsWith("format") && !params[i].startsWith("offset")) {
-                    strParams += params[i] + "&"
-                }
-            }
-            location.href = "${createLink(action: 'list')}?" + strParams
-        });
-
-        $(".a").click(function () {
-            var tipo = $(this).data("tipo");
-            openLoader();
-            var params = "${params}";
-            var strParams = "";
-            params = str_replace('[', '', params);
-            params = str_replace(']', '', params);
-            params = str_replace(':', '=', params);
-            params = params.split(",");
-            for (var i = 0; i < params.length; i++) {
-                params[i] = $.trim(params[i]);
-                if (params[i].startsWith("estado")) {
-                    params[i] = "estado=" + tipo;
-                }
-                if (!params[i].startsWith("action") && !params[i].startsWith("controller") && !params[i].startsWith("format") && !params[i].startsWith("offset")) {
-                    strParams += params[i] + "&"
-                }
-            }
-            location.href = "${createLink(action: 'list')}?" + strParams
-        });
-
         $(".btnCrear").click(function () {
             createEditRow(null, "persona");
             return false;
         });
-
-        $("tr").contextMenu({
-            items  : createContextMenu,
-            onShow : function ($element) {
-                $element.addClass("trHighlight");
-            },
-            onHide : function ($element) {
-                $(".trHighlight").removeClass("trHighlight");
-            }
-        });
-
     });
-</script>
 
+    function createEditOferente(id) {
+        var title = id ? "Editar " : "Crear ";
+        var data = id ? {id : id} : {};
+
+        $.ajax({
+            type    : "POST",
+            url     :  "${createLink(controller: 'persona', action:'formOferente')}",
+            data    : data,
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgCreateEditOF",
+                    class   : "modal-lg",
+                    title   : title + " oferente",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-save'></i> Guardar",
+                            className : "btn-success",
+                            callback  : function () {
+                                return submitFormOferente();
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+                setTimeout(function () {
+                    b.find(".form-control").not(".datepicker").first().focus()
+                }, 500);
+            } //success
+        }); //ajax
+    } //createEdit
+
+    function submitFormOferente() {
+        var $form = $("#frmSave-Oferente");
+        if ($form.valid()) {
+            var data = $form.serialize();
+            var dialog = cargarLoader("Guardando...");
+            $.ajax({
+                type    : "POST",
+                url     : $form.attr("action"),
+                data    : data,
+                success : function (msg) {
+                    dialog.modal('hide');
+                    var parts = msg.split("_");
+                    if(parts[0] === 'ok'){
+                        log(parts[1], "success");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 800);
+                    }else{
+                        bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
+                        return false;
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+
+    $("#criterioCriterio").keydown(function (ev) {
+        if (ev.keyCode === 13) {
+            cargarTablaUsuarios();
+            return false;
+        }
+        return true;
+    });
+
+</script>
 </body>
 </html>

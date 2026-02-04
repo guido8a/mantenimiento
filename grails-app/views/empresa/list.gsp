@@ -1,14 +1,8 @@
-
 <%@ page import="seguridad.Persona" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main">
     <title>Lista de empresas</title>
-
-    <style type="text/css">
-
-    </style>
-
 </head>
 
 <body>
@@ -21,17 +15,15 @@
     </div>
 </div>
 
-<div style="margin-top: 30px; min-height: 400px" class="vertical-container">
-    <p class="css-vertical-text">Empresas</p>
-    <div class="linea"></div>
+<div style="margin-top: 30px; min-height: 400px">
     <table class="table table-bordered table-hover table-condensed" style="width: 100%; background-color: #a39e9e">
         <thead>
         <tr style="width: 100%">
-            <th class="alinear"  style="width: 40%">Nombre</th>
-            <th class="alinear"  style="width: 30%">Dirección</th>
-            <th class="alinear"  style="width: 10%">Teléfono</th>
-            <th class="alinear" style="width: 10%">Mail</th>
-            <th class="alinear" style="width: 10%">RUC</th>
+            <th class="alinear" style="width: 15%">RUC</th>
+            <th class="alinear"  style="width: 30%">Nombre</th>
+            <th class="alinear"  style="width: 25%">Dirección</th>
+            <th class="alinear"  style="width: 15%">Teléfono</th>
+            <th class="alinear" style="width: 10%">Acciones</th>
         </tr>
         </thead>
     </table>
@@ -40,8 +32,9 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
+
+    cargarTablaEmpresas();
 
     $("#btnCrearEmpresa").click(function () {
         createEditRow();
@@ -61,7 +54,7 @@
                     message : msg,
                     buttons : {
                         cancelar : {
-                            label     : "Cancelar",
+                            label     : "<i class='fa fa-times'></i> Cancelar",
                             className : "btn-primary",
                             callback  : function () {
                             }
@@ -83,22 +76,19 @@
         }); //ajax
     } //createEdit
 
-    cargarBandeja();
 
     function submitForm() {
         var $form = $("#frmEmpresa");
-        var $btn = $("#dlgCreateEdit").find("#btnSave");
         if ($form.valid()) {
-            $btn.replaceWith(spinner);
             $.ajax({
                 type    : "POST",
                 url     : '${createLink(controller: 'empresa', action:'save_ajax')}',
                 data    : $form.serialize(),
                 success : function (msg) {
-                    if (msg== "ok") {
+                    if (msg==="ok") {
                         log("Empresa guardada correctamente","success");
                         setTimeout(function () {
-                            cargarBandeja();
+                            cargarTablaEmpresas();
                         }, 500);
                     } else {
                         log("Error al guardar la empresa","error");
@@ -112,119 +102,177 @@
         } //else
     }
 
-
-    function cargarBandeja(){
-        $("#bandeja").html("").append($("<div style='width:100%; text-align: center;'/>").append(spinnerSquare64));
+    function cargarTablaEmpresas(){
+        var c = cargarLoader("Cargando...");
         $.ajax({
             type    : "POST",
             url     : "${g.createLink(controller: 'empresa', action: 'tablaEmpresa_ajax')}",
             data    : {
             },
             success : function (msg) {
+                c.modal("hide");
                 $("#bandeja").html(msg);
             },
             error   : function (msg) {
+                c.modal("hide");
                 $("#bandeja").html("Ha ocurrido un error");
             }
         });
     }
 
-
-    $("input").keyup(function (ev) {
-        if (ev.keyCode == 13) {
-            $(".btnBusqueda").click();
-        }
-    });
-
-
-    function createContextMenu(node) {
-        var $tr = $(node);
-        var data = id ? { id: id } : {};
-
-        var items = {
-            header : {
-                label  : "Acciones",
-                header : true
-            }
-        };
-
-        var id = $tr.data("id");
-
-        var ver = {
-            label  : 'Ver',
-            icon   : "fa fa-search",
-            action : function (e) {
-                $.ajax({
-                    type    : "POST",
-                    url     : "${createLink(controller: 'empresa', action:'show_ajax')}",
-                    data    : {
-                        id:id
-                    },
-                    success : function (msg) {
-                        var b = bootbox.dialog({
-                            id      : "dlgVer",
-                            title   : "Datos de la Empresa",
-                            message : msg,
-                            buttons : {
-                                cancelar : {
-                                    label     : "Cerrar",
-                                    className : "btn-primary",
-                                    callback  : function () {
-                                    }
-                                }
-                            } //buttons
-                        }); //dialog
-                    } //success
-                }); //ajax
-            }
-        };
-
-        var editar = {
-            label  : 'Editar',
-            icon   : "fa fa-pen",
-            action : function (e) {
-                createEditRow(id);
-            }
-        };
-
-        var borrar = {
-            label  : 'Borrar',
-            icon   : "fa fa-trash",
-            action : function (e) {
-                bootbox.confirm("<strong>" + "Está seguro de borrar esta empresa?" + "</strong>", function (result) {
-                    if (result) {
+    function deleteRow(itemId) {
+        bootbox.dialog({
+            title   : "<i class='fa fa-trash fa-2x pull-left text-danger text-shadow'></i> Alerta",
+            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar la empresa seleccionada? </br> Esta acción no se puede deshacer.</p>",
+            buttons : {
+                cancelar : {
+                    label     : "<i class='fa fa-times'></i> Cancelar",
+                    className : "btn-primary",
+                    callback  : function () {
+                    }
+                },
+                eliminar : {
+                    label     : "<i class='fa fa-trash'></i> Eliminar",
+                    className : "btn-danger",
+                    callback  : function () {
+                        openLoader("Borrando...");
                         $.ajax({
                             type    : "POST",
                             url     : '${createLink(controller: 'empresa', action:'borrar_ajax')}',
                             data    : {
-                                id: id
+                                id : itemId
                             },
                             success : function (msg) {
-                                if (msg== "ok") {
-                                    log("Empresa borrada correctamente","success");
-                                    setTimeout(function () {
-                                        cargarBandeja();
-                                    }, 500);
+                                closeLoader();
+                                if (msg === "ok") {
+                                    log("Bodega borrado correctamente","success");
+                                    cargarTablaEmpresas();
                                 } else {
-                                    log("Error al borrar la empresa","error");
-                                    cargarBandeja();
+                                    log("Error al borrar la bodega","error");
                                     return false;
                                 }
                             }
                         });
                     }
-                })
-
+                }
             }
-        };
-
-
-        items.ver = ver;
-        items.editar = editar;
-        items.borrar = borrar;
-
-        return items
+        });
     }
+
+    function verEmpresa(id) {
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'empresa', action:'show_ajax')}",
+            data    : {
+                id:id
+            },
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgVer",
+                    title   : "Datos de la Empresa",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "<i class='fa fa-times'></i> Cerrar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    }
+
+    %{--function createContextMenu(node) {--}%
+    %{--    var $tr = $(node);--}%
+    %{--    var data = id ? { id: id } : {};--}%
+
+    %{--    var items = {--}%
+    %{--        header : {--}%
+    %{--            label  : "Acciones",--}%
+    %{--            header : true--}%
+    %{--        }--}%
+    %{--    };--}%
+
+    %{--    var id = $tr.data("id");--}%
+
+    %{--    var ver = {--}%
+    %{--        label  : 'Ver',--}%
+    %{--        icon   : "fa fa-search",--}%
+    %{--        action : function (e) {--}%
+    %{--            $.ajax({--}%
+    %{--                type    : "POST",--}%
+    %{--                url     : "${createLink(controller: 'empresa', action:'show_ajax')}",--}%
+    %{--                data    : {--}%
+    %{--                    id:id--}%
+    %{--                },--}%
+    %{--                success : function (msg) {--}%
+    %{--                    var b = bootbox.dialog({--}%
+    %{--                        id      : "dlgVer",--}%
+    %{--                        title   : "Datos de la Empresa",--}%
+    %{--                        message : msg,--}%
+    %{--                        buttons : {--}%
+    %{--                            cancelar : {--}%
+    %{--                                label     : "Cerrar",--}%
+    %{--                                className : "btn-primary",--}%
+    %{--                                callback  : function () {--}%
+    %{--                                }--}%
+    %{--                            }--}%
+    %{--                        } //buttons--}%
+    %{--                    }); //dialog--}%
+    %{--                } //success--}%
+    %{--            }); //ajax--}%
+    %{--        }--}%
+    %{--    };--}%
+
+    %{--    var editar = {--}%
+    %{--        label  : 'Editar',--}%
+    %{--        icon   : "fa fa-pen",--}%
+    %{--        action : function (e) {--}%
+    %{--            createEditRow(id);--}%
+    %{--        }--}%
+    %{--    };--}%
+
+    %{--    var borrar = {--}%
+    %{--        label  : 'Borrar',--}%
+    %{--        icon   : "fa fa-trash",--}%
+    %{--        action : function (e) {--}%
+    %{--            bootbox.confirm("<strong>" + "Está seguro de borrar esta empresa?" + "</strong>", function (result) {--}%
+    %{--                if (result) {--}%
+    %{--                    $.ajax({--}%
+    %{--                        type    : "POST",--}%
+    %{--                        url     : '${createLink(controller: 'empresa', action:'borrar_ajax')}',--}%
+    %{--                        data    : {--}%
+    %{--                            id: id--}%
+    %{--                        },--}%
+    %{--                        success : function (msg) {--}%
+    %{--                            if (msg== "ok") {--}%
+    %{--                                log("Empresa borrada correctamente","success");--}%
+    %{--                                setTimeout(function () {--}%
+    %{--                                    cargarBandeja();--}%
+    %{--                                }, 500);--}%
+    %{--                            } else {--}%
+    %{--                                log("Error al borrar la empresa","error");--}%
+    %{--                                cargarBandeja();--}%
+    %{--                                return false;--}%
+    %{--                            }--}%
+    %{--                        }--}%
+    %{--                    });--}%
+    %{--                }--}%
+    %{--            })--}%
+
+    %{--        }--}%
+    %{--    };--}%
+
+
+    %{--    items.ver = ver;--}%
+    %{--    items.editar = editar;--}%
+    %{--    items.borrar = borrar;--}%
+
+    %{--    return items--}%
+    %{--}--}%
+
 
 
 </script>

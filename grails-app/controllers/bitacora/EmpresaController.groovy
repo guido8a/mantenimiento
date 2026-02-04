@@ -18,9 +18,6 @@ class EmpresaController {
     }
 
     def tablaEmpresa_ajax() {
-        println "tablaEmpresa_ajax $params"
-
-
         def empresas = Empresa.list().sort{it.nombre}
         return[empresas: empresas]
     }

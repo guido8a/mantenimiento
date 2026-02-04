@@ -1,18 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fabricio
-  Date: 30/10/20
-  Time: 12:31
---%>
-
-
 <%@ page import="bitacora.Empresa" %>
 
-<g:if test="${!empresa}">
-    <elm:notFound elem="Empresa" genero="o" />
-</g:if>
-<g:else>
-
+<div style="font-size: 12px">
     <g:if test="${empresa?.nombre}">
         <div class="row">
             <div class="col-md-2 text-info">
@@ -93,7 +81,7 @@
     <g:if test="${empresa?.fechaInicio}">
         <div class="row">
             <div class="col-md-2 text-info">
-                Fecha de Inicio
+                Fecha Inicio
             </div>
 
             <div class="col-md-9">
@@ -106,7 +94,7 @@
     <g:if test="${empresa?.fechaFin}">
         <div class="row">
             <div class="col-md-2 text-info">
-                Fecha de Fin
+                Fecha Fin
             </div>
 
             <div class="col-md-9">
@@ -115,7 +103,4 @@
 
         </div>
     </g:if>
-
-
-
-</g:else>
+</div>
