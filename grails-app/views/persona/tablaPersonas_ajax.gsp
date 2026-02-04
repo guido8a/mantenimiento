@@ -1,48 +1,72 @@
 <%@ page import="seguridad.Persona" %>
-<table class="table table-bordered table-striped table-hover table-condensed" id="tabla">
+<table class="table table-bordered table-striped table-hover table-condensed" id="tabla" style="width: 100%; background-color: #a39e9e">
     <thead>
-    <tr>
-        <th style="width: 5%">Estado</th>
-        <th style="width: 8%">Usuario</th>
+    <tr style="text-align: center">
+        <th style="width: 10%">Usuario</th>
         <th style="width: 20%">Nombre</th>
         <th style="width: 20%">Apellido</th>
-        <th style="width: 27%">Departamento</th>
-        <th style="width: 20%">Perfiles</th>
+        <th style="width: 19%">Perfiles</th>
+        <th style="width: 10%">Estado</th>
+        <th style="width: 15%">Acciones</th>
+        <th style="width: 1%"></th>
     </tr>
     </thead>
 </table>
 
-<div class="" style="width: 99.7%;height: 530px; overflow-y: auto;float: right;">
-    <table class="table-bordered table-condensed table-striped table-hover" style="width: 100%">
-        <g:each in="${data}" var="dt" status="i">
-            <g:set var="usuario" value="${dt.prsn__id}"/>
-            <tr data-id="${dt.prsn__id}" class="${dt.prsnactv == 0 ? 'inactivo' : 'activo'}">
-                <td style="width: 5%; text-align: center">
-                    <g:if test="${dt.prsnactv == 1}">
-                        <i class="fa fa-user text-success"></i>
-                    </g:if>
-                    <g:if test="${dt.prsnactv == 0}">
-                        <i class="fa fa-user text-muted"></i>
-                    </g:if>
-                <td style="width: 8%">${dt.prsnlogn}</td>
-                <td style="width: 20%">${dt.prsnnmbr}</td>
-                <td style="width: 20%">${dt.prsnapll}</td>
-                <td style="width: 27%">${janus.Departamento.get(dt.dpto__id).descripcion}</td>
-                <td style="width: 19%">
-                    <ul>
-                        <g:each in="${seguridad.Sesn.findAllByUsuarioAndFechaFinIsNull(seguridad.Persona.get(dt.prsn__id))}" var="perfiles">
-                            <li>${perfiles?.perfil?.nombre ?: ''}</li>
-                        </g:each>
-                    </ul>
-                </td>
-                <td style="width: 1%"></td>
-            </tr>
-        </g:each>
+<div class="" style="width: 99.7%;height: 450px; overflow-y: auto;float: right;">
+    <table class="table-bordered table-condensed table-striped table-hover" style="width: 100%; font-size: 14px">
+        <g:if test="${data.size() > 0}">
+            <g:each in="${data}" var="dt" status="i">
+                <g:set var="usuario" value="${dt.prsn__id}"/>
+                <tr data-id="${dt.prsn__id}" class="${dt.prsnactv == 0 ? 'inactivo' : 'activo'}">
+                    <td style="width: 10%">${dt.prsnlogn}</td>
+                    <td style="width: 20%">${dt.prsnnmbr}</td>
+                    <td style="width: 20%">${dt.prsnapll}</td>
+                    <td style="width: 19%">
+                        <ul>
+                            <g:each in="${seguridad.Sesn.findAllByUsuarioAndFechaFinIsNull(seguridad.Persona.get(dt.prsn__id))}" var="perfiles">
+                                <li>${perfiles?.perfil?.nombre ?: ''}</li>
+                            </g:each>
+                        </ul>
+                    </td>
+                    <td style="width: 10%; text-align: center">
+                        <g:if test="${dt.prsnactv == '1'}">
+                            <i class="fa fa-user text-success"></i> Activo
+                        </g:if>
+                        <g:if test="${dt.prsnactv == 0}">
+                            <i class="fa fa-user text-muted"></i> Inactivo
+                        </g:if>
+                    </td>
+                    <td style="width: 15%; text-align: center">
+                        <a class="btn btn-xs btnVerPersona btn-info" href="#"  title="Ver" data-id="${dt.prsn__id}">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <a class="btn btn-xs btnEditarPersona btn-success" href="#"  title="Editar" data-id="${dt.prsn__id}">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a class="btn btn-xs btnPerfiles btn-info" href="#"  title="Perfiles" data-id="${dt.prsn__id}">
+                            <i class="fa fa-address-card"></i>
+                        </a>
+                        <a class="btn btn-xs btnBorrarPersona btn-danger" href="#" title="Eliminar" data-id="${dt.prsn__id}">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                    <td style="width: 1%"></td>
+                </tr>
+            </g:each>
+        </g:if>
+        <g:else>
+            <div class="alert alert-warning" style="margin-top: 0px; text-align: center; font-size: 14px; font-weight: bold"><i class="fa fa-exclamation-triangle fa-2x text-info"></i> No se encontraron registros</div>
+        </g:else>
     </table>
 </div>
 
-
 <script type="text/javascript">
+
+    $(".btnEditarPersona").click(function () {
+        var id = $(this).data("id");
+        createEditRow(id)
+    });
 
     function createContextMenu(node) {
         var $tr = $(node);
@@ -127,64 +151,14 @@
         return items;
     }
 
-    $(function () {
-
-        %{--$("#perfil").change(function () {--}%
-        %{--    openLoader();--}%
-        %{--    var params = "${params}";--}%
-        %{--    var id = $(this).val();--}%
-        %{--    var strParams = "";--}%
-        %{--    params = str_replace('[', '', params);--}%
-        %{--    params = str_replace(']', '', params);--}%
-        %{--    params = str_replace(':', '=', params);--}%
-        %{--    params = params.split(",");--}%
-        %{--    for (var i = 0; i < params.length; i++) {--}%
-        %{--        params[i] = $.trim(params[i]);--}%
-        %{--        if (params[i].startsWith("perfil")) {--}%
-        %{--            params[i] = "perfil=" + id;--}%
-        %{--        }--}%
-        %{--        if (!params[i].startsWith("action") && !params[i].startsWith("controller") && !params[i].startsWith("format") && !params[i].startsWith("offset")) {--}%
-        %{--            strParams += params[i] + "&"--}%
-        %{--        }--}%
-        %{--    }--}%
-        %{--    location.href = "${createLink(action: 'list')}?" + strParams--}%
-        %{--});--}%
-
-        %{--$(".a").click(function () {--}%
-        %{--    var tipo = $(this).data("tipo");--}%
-        %{--    openLoader();--}%
-        %{--    var params = "${params}";--}%
-        %{--    var strParams = "";--}%
-        %{--    params = str_replace('[', '', params);--}%
-        %{--    params = str_replace(']', '', params);--}%
-        %{--    params = str_replace(':', '=', params);--}%
-        %{--    params = params.split(",");--}%
-        %{--    for (var i = 0; i < params.length; i++) {--}%
-        %{--        params[i] = $.trim(params[i]);--}%
-        %{--        if (params[i].startsWith("estado")) {--}%
-        %{--            params[i] = "estado=" + tipo;--}%
-        %{--        }--}%
-        %{--        if (!params[i].startsWith("action") && !params[i].startsWith("controller") && !params[i].startsWith("format") && !params[i].startsWith("offset")) {--}%
-        %{--            strParams += params[i] + "&"--}%
-        %{--        }--}%
-        %{--    }--}%
-        %{--    location.href = "${createLink(action: 'list')}?" + strParams--}%
-        %{--});--}%
-
-        // $(".btnCrear").click(function () {
-        //     createEditRow(null, "persona");
-        //     return false;
-        // });
-
-        $("tr").contextMenu({
-            items  : createContextMenu,
-            onShow : function ($element) {
-                $element.addClass("trHighlight");
-            },
-            onHide : function ($element) {
-                $(".trHighlight").removeClass("trHighlight");
-            }
-        });
-
+    $("tr").contextMenu({
+        items  : createContextMenu,
+        onShow : function ($element) {
+            $element.addClass("trHighlight");
+        },
+        onHide : function ($element) {
+            $(".trHighlight").removeClass("trHighlight");
+        }
     });
+
 </script>

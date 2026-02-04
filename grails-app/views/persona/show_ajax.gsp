@@ -1,9 +1,6 @@
 <%@ page import="seguridad.Persona" %>
 
-<g:if test="${!personaInstance}">
-    <elm:notFound elem="Persona" genero="o"/>
-</g:if>
-<g:else>
+
     <div class="modal-contenido">
         <g:if test="${personaInstance?.nombre || personaInstance?.apellido}">
             <div class="row">
@@ -138,4 +135,3 @@
             </div>
         </g:if>
     </div>
-</g:else>
