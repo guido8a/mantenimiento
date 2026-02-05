@@ -33,16 +33,19 @@
                         <g:if test="${dt.prsnactv == '1'}">
                             <i class="fa fa-user text-success"></i> Activo
                         </g:if>
-                        <g:if test="${dt.prsnactv == 0}">
+                        <g:else>
                             <i class="fa fa-user text-muted"></i> Inactivo
-                        </g:if>
+                        </g:else>
                     </td>
                     <td style="width: 15%; text-align: center">
                         <a class="btn btn-xs btnVerPersona btn-info" href="#"  title="Ver" data-id="${dt.prsn__id}">
                             <i class="fa fa-search"></i>
                         </a>
-                        <a class="btn btn-xs btnEditarPersona btn-success" href="#"  title="Editar" data-id="${dt.prsn__id}">
+                        <a class="btn btn-xs btnEditarPersona btn-success" href="#" title="Editar" data-id="${dt.prsn__id}">
                             <i class="fa fa-edit"></i>
+                        </a>
+                        <a class="btn btn-xs btnResetear btn-warning" href="#" title="Restablecer contraseña y autorización" data-id="${dt.prsn__id}">
+                            <i class="fa fa-retweet"></i>
                         </a>
                         <a class="btn btn-xs btnPerfiles btn-info" href="#"  title="Perfiles" data-id="${dt.prsn__id}">
                             <i class="fa fa-address-card"></i>
@@ -63,102 +66,123 @@
 
 <script type="text/javascript">
 
+
+    $(".btnPerfiles").click(function () {
+        var id = $(this).data("id");
+        location.href="${createLink(controller: 'persona', action: 'perfiles')}?id=" + id
+    });
+
+    $(".btnResetear").click(function () {
+        var id = $(this).data("id");
+        restablecerContrasena(id);
+    });
+
+    $(".btnBorrarPersona").click(function () {
+        var id = $(this).data("id");
+        deletePersona(id)
+    });
+
     $(".btnEditarPersona").click(function () {
         var id = $(this).data("id");
         createEditRow(id)
     });
 
-    function createContextMenu(node) {
-        var $tr = $(node);
-
-        var items = {
-            header : {
-                label  : "Acciones",
-                header : true
-            }
-        };
-
-        var id = $tr.data("id");
-
-        var estaActivo = $tr.hasClass("activo");
-        var estaInactivo = $tr.hasClass("inactivo");
-        var puedeEliminar = $tr.hasClass("eliminar");
-
-        puedeEliminar = true;
-
-        var ver = {
-            label  : 'Ver',
-            icon   : "fa fa-search",
-            action : function () {
-                $.ajax({
-                    type    : "POST",
-                    url     : "${createLink(controller: 'persona', action:'show_ajax')}",
-                    data    : {
-                        id : id
-                    },
-                    success : function (msg) {
-                        bootbox.dialog({
-                            title   : "Ver Persona",
-                            message : msg,
-                            buttons : {
-                                ok : {
-                                    label     : "Aceptar",
-                                    className : "btn-primary",
-                                    callback  : function () {
-                                    }
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        };
-
-        var editar = {
-            label           : 'Editar',
-            icon            : "fa fa-pen text-success",
-            separator_after : true,
-            action          : function (e) {
-                createEditRow(id, "persona");
-            }
-        };
-
-        var config = {
-            label           : 'Perfiles',
-            icon            : "fa fa-address-card text-info",
-            separator_after : true,
-            url             : "${createLink(controller: 'persona', action: 'config')}/" + id
-        };
-
-        var eliminar = {
-            label            : 'Eliminar Usuario',
-            icon             : "fa fa-times-circle text-danger",
-            action           : function (e) {
-                deleteRow(id);
-            }
-        };
-
-        items.ver = ver;
-        items.editar = editar;
-        if (estaActivo) {
-            items.config = config;
-        }
-
-        if (puedeEliminar) {
-            items.eliminar = eliminar;
-        }
-
-        return items;
-    }
-
-    $("tr").contextMenu({
-        items  : createContextMenu,
-        onShow : function ($element) {
-            $element.addClass("trHighlight");
-        },
-        onHide : function ($element) {
-            $(".trHighlight").removeClass("trHighlight");
-        }
+    $(".btnVerPersona").click(function () {
+        var id = $(this).data("id");
+        verPersona(id)
     });
+
+    %{--function createContextMenu(node) {--}%
+    %{--    var $tr = $(node);--}%
+
+    %{--    var items = {--}%
+    %{--        header : {--}%
+    %{--            label  : "Acciones",--}%
+    %{--            header : true--}%
+    %{--        }--}%
+    %{--    };--}%
+
+    %{--    var id = $tr.data("id");--}%
+
+    %{--    var estaActivo = $tr.hasClass("activo");--}%
+    %{--    var estaInactivo = $tr.hasClass("inactivo");--}%
+    %{--    var puedeEliminar = $tr.hasClass("eliminar");--}%
+
+    %{--    puedeEliminar = true;--}%
+
+    %{--    var ver = {--}%
+    %{--        label  : 'Ver',--}%
+    %{--        icon   : "fa fa-search",--}%
+    %{--        action : function () {--}%
+    %{--            $.ajax({--}%
+    %{--                type    : "POST",--}%
+    %{--                url     : "${createLink(controller: 'persona', action:'show_ajax')}",--}%
+    %{--                data    : {--}%
+    %{--                    id : id--}%
+    %{--                },--}%
+    %{--                success : function (msg) {--}%
+    %{--                    bootbox.dialog({--}%
+    %{--                        title   : "Ver Persona",--}%
+    %{--                        message : msg,--}%
+    %{--                        buttons : {--}%
+    %{--                            ok : {--}%
+    %{--                                label     : "Aceptar",--}%
+    %{--                                className : "btn-primary",--}%
+    %{--                                callback  : function () {--}%
+    %{--                                }--}%
+    %{--                            }--}%
+    %{--                        }--}%
+    %{--                    });--}%
+    %{--                }--}%
+    %{--            });--}%
+    %{--        }--}%
+    %{--    };--}%
+
+    %{--    var editar = {--}%
+    %{--        label           : 'Editar',--}%
+    %{--        icon            : "fa fa-pen text-success",--}%
+    %{--        separator_after : true,--}%
+    %{--        action          : function (e) {--}%
+    %{--            createEditRow(id, "persona");--}%
+    %{--        }--}%
+    %{--    };--}%
+
+    %{--    var config = {--}%
+    %{--        label           : 'Perfiles',--}%
+    %{--        icon            : "fa fa-address-card text-info",--}%
+    %{--        separator_after : true,--}%
+    %{--        url             : "${createLink(controller: 'persona', action: 'config')}/" + id--}%
+    %{--    };--}%
+
+    %{--    var eliminar = {--}%
+    %{--        label            : 'Eliminar Usuario',--}%
+    %{--        icon             : "fa fa-times-circle text-danger",--}%
+    %{--        action           : function (e) {--}%
+    %{--            deleteRow(id);--}%
+    %{--        }--}%
+    %{--    };--}%
+
+    %{--    items.ver = ver;--}%
+    %{--    items.editar = editar;--}%
+    %{--    if (estaActivo) {--}%
+    %{--        items.config = config;--}%
+    %{--    }--}%
+
+    %{--    if (puedeEliminar) {--}%
+    %{--        items.eliminar = eliminar;--}%
+    %{--    }--}%
+
+    %{--    return items;--}%
+    %{--}--}%
+
+    // $("tr").contextMenu({
+    //     items  : createContextMenu,
+    //     onShow : function ($element) {
+    //         $element.addClass("trHighlight");
+    //     },
+    //     onHide : function ($element) {
+    //         $(".trHighlight").removeClass("trHighlight");
+    //     }
+    // });
 
 </script>

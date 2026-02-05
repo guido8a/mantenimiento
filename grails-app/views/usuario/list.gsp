@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Personal</title>
+    <title>Usuarios</title>
 
     <style type="text/css">
     .table {
@@ -21,7 +21,7 @@
 <!-- botones -->
 <div class="btn-toolbar toolbar" style="margin-bottom: 15px">
     <div class="btn-group">
-        <a href="#" class="btn btn-info btnCrear" >  <i class="fa fa-user"></i>  Nueva persona</a>
+        <a href="#" class="btn btn-info btnCrear" >  <i class="fa fa-user"></i>  Nuevo Usuario</a>
     </div>
 </div>
 
@@ -31,7 +31,7 @@
             <span class="grupo">
                 <span class="col-md-2">
                     <label class="control-label text-info">Buscar Por</label>
-                    <g:select name="buscarPor" class="buscarPor col-md-12 form-control" from="${[1: 'Usuario', 2: 'Nombre', 3 : 'Apellido']}" optionKey="key"
+                    <g:select name="buscarPor" class="buscarPor col-md-12 form-control" from="${[1: 'Cédula', 2: 'Nombre', 3 : 'Apellido']}" optionKey="key"
                               optionValue="value"/>
                 </span>
                 <span class="col-md-4">
@@ -46,7 +46,7 @@
         </div>
     </fieldset>
 
-    <div id="divTablaPersonas" style="margin-top: 20px">
+    <div id="divTablaUsuarios" style="margin-top: 20px">
     </div>
 </div>
 
@@ -59,7 +59,7 @@
     });
 
     $(".btnCrear").click(function () {
-        createEditRow(null, "persona");
+        createEditRow(null);
         return false;
     });
 
@@ -75,14 +75,14 @@
         var criterio = $("#criterioCriterio").val();
         $.ajax({
             type: 'POST',
-            url: '${createLink(controller: 'persona', action: 'tablaPersonas_ajax')}',
+            url: '${createLink(controller: 'usuario', action: 'tablaUsuarios_ajax')}',
             data:{
                 buscarPor: buscarPor,
                 criterio: criterio
             },
             success: function (msg){
                 d.modal("hide");
-                $("#divTablaPersonas").html(msg)
+                $("#divTablaUsuarios").html(msg)
             }
         })
     }

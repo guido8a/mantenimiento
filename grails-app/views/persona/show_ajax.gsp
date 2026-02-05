@@ -1,137 +1,140 @@
 <%@ page import="seguridad.Persona" %>
 
-
-    <div class="modal-contenido">
-        <g:if test="${personaInstance?.nombre || personaInstance?.apellido}">
-            <div class="row">
-                <div class="col-md-2 show-label">
-                    Nombre
-                </div>
-
-                <div class="col-md-4 text-info">
-                    <g:fieldValue bean="${personaInstance}" field="nombre"/>
-                </div>
-
-                <div class="col-md-2 show-label">
-                    Apellido
-                </div>
-
-                <div class="col-md-4 text-info">
-                    <g:fieldValue bean="${personaInstance}" field="apellido"/>
-                </div>
-
+<div class="modal-contenido" style="font-size: 14px">
+    <g:if test="${personaInstance?.nombre}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Nombre
             </div>
-        </g:if>
-
-        <g:if test="${personaInstance?.sexo}">
-            <div class="row">
-                <div class="col-md-2 show-label">
-                    Sexo
-                </div>
-
-                <div class="col-md-4  text-info">
-                    ${personaInstance.sexo == "M" ? "Masculino" : "Femenino"}
-                </div>
-
+            <div class="col-md-6 ">
+                ${personaInstance?.nombre}
             </div>
-        </g:if>
+        </div>
+    </g:if>
 
-        <g:if test="${personaInstance?.telefono}">
-            <div class="row">
-                <div class="col-md-2 show-label">
-                    Teléfono
-                </div>
-
-                <div class="col-md-4 text-info">
-                    <g:fieldValue bean="${personaInstance}" field="telefono"/>
-                </div>
-
+    <g:if test="${personaInstance?.apellido}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Apellido
             </div>
-        </g:if>
-
-        <g:if test="${personaInstance?.mail}">
-            <div class="row">
-                <div class="col-md-2 show-label">
-                    E-mail
-                </div>
-
-                <div class="col-md-4  text-info">
-                    <g:fieldValue bean="${personaInstance}" field="mail"/>
-                </div>
-
+            <div class="col-md-6 ">
+                ${personaInstance?.apellido}"
             </div>
-        </g:if>
+        </div>
+    </g:if>
 
-        <g:if test="${personaInstance?.departamento || personaInstance?.cargo}">
-            <div class="row">
-                <div class="col-md-2 show-label">
-                    Departamento
-                </div>
-
-                <div class="col-md-4 text-info">
-                    ${personaInstance?.departamento?.encodeAsHTML()}
-                </div>
-
-                <div class="col-md-2 show-label">
-                    Cargo
-                </div>
-
-                <div class="col-md-4 text-info">
-                    %{--${personaInstance?.cargoPersonal?.encodeAsHTML()}--}%
-                    ${personaInstance?.cargo ?: ''}
-                </div>
-
+    <g:if test="${personaInstance?.login}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Usuario
             </div>
-        </g:if>
 
-        <g:if test="${personaInstance?.login || personaInstance?.sigla}">
-            <div class="row">
-                <div class="col-md-2 show-label">
-                    Usuario
-                </div>
-
-                <div class="col-md-4 text-info">
-                    <g:fieldValue bean="${personaInstance}" field="login"/>
-                </div>
-
-                <div class="col-md-2 show-label">
-                    Sigla
-                </div>
-
-                <div class="col-md-4 text-info">
-                    <g:fieldValue bean="${personaInstance}" field="sigla"/>
-                </div>
-
+            <div class="col-md-4 ">
+                ${personaInstance?.login}
             </div>
-        </g:if>
+        </div>
+    </g:if>
 
-        <g:if test="${personaInstance?.estaActivo}">
-            <div class="row">
-                <div class="col-md-2 show-label">
-                    Activo
-                </div>
-
-                <div class="col-md-4 text-info">
-                    ${personaInstance.estaActivo == 1 ? "Sí" : "No"}
-                </div>
-
+    <g:if test="${personaInstance?.sigla}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Sigla
             </div>
-        </g:if>
-
-        <g:if test="${perfiles.size() > 0}">
-            <div class="row">
-                <div class="col-md-2 show-label">
-                    Perfiles
-                </div>
-
-                <div class="col-md-10 text-info">
-                    <ul>
-                        <g:each in="${perfiles.perfil}" var="perfil">
-                            <li>${perfil.nombre}</li>
-                        </g:each>
-                    </ul>
-                </div>
-
+            <div class="col-md-4 ">
+                ${personaInstance?.sigla}/>
             </div>
-        </g:if>
+        </div>
+    </g:if>
+
+    <g:if test="${personaInstance?.sexo}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Sexo
+            </div>
+            <div class="col-md-4  ">
+                ${personaInstance.sexo == "M" ? "Masculino" : "Femenino"}
+            </div>
+        </div>
+    </g:if>
+
+    <g:if test="${personaInstance?.telefono}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Teléfono
+            </div>
+            <div class="col-md-4 ">
+                ${personaInstance?.telefono}
+            </div>
+        </div>
+    </g:if>
+
+    <g:if test="${personaInstance?.mail}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                E-mail
+            </div>
+            <div class="col-md-4  ">
+                ${personaInstance?.mail}
+            </div>
+        </div>
+    </g:if>
+
+    <g:if test="${personaInstance?.cargo}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Cargo
+            </div>
+            <div class="col-md-4 ">
+                ${personaInstance?.cargo}
+            </div>
+        </div>
+    </g:if>
+
+    <g:if test="${personaInstance?.activo}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Activo
+            </div>
+
+            <div class="col-md-4 ">
+                ${personaInstance?.activo == '1' ? "ACTIVO" : "NO ACTIVO"}
+            </div>
+        </div>
+    </g:if>
+
+    <div class="row">
+        <div class="col-md-2 show-label text-info">
+            Contraseña
+        </div>
+
+        <div class="col-md-4 ">
+            ${personaInstance?.password ? "Si tiene contraseña creada" : "No tiene contraseña creada"}
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-2 show-label  text-info">
+            Autorización
+        </div>
+
+        <div class="col-md-6">
+            ${personaInstance?.autorizacion ? "Si tiene autorización creada" : "No tiene autorización creada"}
+        </div>
+    </div>
+
+    <g:if test="${perfiles.size() > 0}">
+        <div class="row">
+            <div class="col-md-2 show-label text-info">
+                Perfiles
+            </div>
+
+            <div class="col-md-10">
+                <ul>
+                    <g:each in="${perfiles.perfil}" var="perfil">
+                        <li>${perfil.nombre}</li>
+                    </g:each>
+                </ul>
+            </div>
+        </div>
+    </g:if>
+</div>

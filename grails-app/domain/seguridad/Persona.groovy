@@ -56,7 +56,6 @@ class Persona implements Auditable{
         autorizacion(matches: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÚÓüÜ_-]+$/, blank: true, nullable: true, attributes: [mensaje: 'Contraseña para autorizaciones'])
         activo(blank: false, attributes: [title: 'activo'])
         telefono(blank: false, attributes: [title: 'teléfono'])
-//        fechaInicio(blank: false, attributes: [title: 'Fecha de inicio'])
         fechaInicio(blank: true, nullable: true, attributes: [title: 'Fecha de inicio'])
         fechaFin(blank: true, nullable: true, attributes: [title: 'Fecha de finalización'])
         cargo(blank: true, nullable: true, size: 1..255, attributes: [mensaje: 'Cargo'])
