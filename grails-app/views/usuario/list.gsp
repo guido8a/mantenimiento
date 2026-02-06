@@ -59,7 +59,7 @@
     });
 
     $(".btnCrear").click(function () {
-        createEditRow(null);
+        createEditUsuario(null);
         return false;
     });
 
@@ -87,7 +87,7 @@
         })
     }
 
-    function deletePersona(itemId) {
+    function deleteUsuario(itemId) {
         bootbox.dialog({
             title   : "<i class='fa fa-trash fa-2x pull-left text-danger text-shadow'></i> Eliminar usuario del sistema",
             message : "<p style='font-size: 14px'> ¿Está seguro que desea eliminar al usuario seleccionado? </br> Esta acción no se puede deshacer.</p>",
@@ -105,7 +105,7 @@
                         var a = cargarLoader("Borrando...");
                         $.ajax({
                             type    : "POST",
-                            url     : '${createLink(controller: 'persona', action:'delete_ajax')}',
+                            url     : '${createLink(controller: 'usuario', action:'delete_ajax')}',
                             data    : {
                                 id : itemId
                             },
@@ -126,18 +126,18 @@
         });
     }
 
-    function createEditRow(id) {
+    function createEditUsuario(id) {
         var title = id ? "Editar " : "Crear ";
         var data = id ? {id : id} : {};
         $.ajax({
             type    : "POST",
-            url     : "${createLink(controller: 'persona', action:'form_ajax')}",
+            url     : "${createLink(controller: 'usuario', action:'form_ajax')}",
             data    : data,
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgCreateEdit",
                     class   : "modal-lg",
-                    title   : title + " Persona",
+                    title   : title + " Usuario",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -151,7 +151,7 @@
                             label     : "<i class='fa fa-save'></i> Guardar",
                             className : "btn-success",
                             callback  : function () {
-                                return submitForm();
+                                return submitFormUsuario();
                             } //callback
                         } //guardar
                     } //buttons
@@ -160,13 +160,13 @@
         }); //ajax
     } //createEdit
 
-    function submitForm() {
-        var $form = $("#frmPersona");
+    function submitFormUsuario() {
+        var $form = $("#frmUsuario");
         if ($form.valid()) {
             var dialog = cargarLoader("Guardando...");
             $.ajax({
                 type    : "POST",
-                url     : '${createLink(controller: 'persona', action:'save_ajax')}',
+                url     : '${createLink(controller: 'usuario', action:'save_ajax')}',
                 data    : $form.serialize(),
                 success : function (msg) {
                     dialog.modal('hide');
@@ -184,10 +184,10 @@
         } //else
     }
 
-    function verPersona(id){
+    function verUsuario(id){
         $.ajax({
             type    : "POST",
-            url     : "${createLink(controller: 'persona', action:'show_ajax')}",
+            url     : "${createLink(controller: 'usuario', action:'show_ajax')}",
             data    : {
                 id : id
             },
@@ -204,45 +204,6 @@
                         }
                     }
                 });
-            }
-        });
-    }
-
-    function restablecerContrasena(id){
-        bootbox.dialog({
-            title   : "<i class='fa fa-exclamation-triangle fa-2x pull-left text-info text-shadow'></i> Restablecer contraseña",
-            message : "<p style='font-size: 14px'> ¿Está seguro que desea restablecer la contraseña y la autorización del usuario seleccionado?</p>",
-            buttons : {
-                cancelar : {
-                    label     : "Cancelar",
-                    className : "btn-primary",
-                    callback  : function () {
-                    }
-                },
-                eliminar : {
-                    label     : "<i class='fa fa-check-circle'></i> Restableceer",
-                    className : "btn-success",
-                    callback  : function () {
-                        var a = cargarLoader("Guardando...");
-                        $.ajax({
-                            type    : "POST",
-                            url     : '${createLink(controller: 'persona', action:'restablecer_ajax')}',
-                            data    : {
-                                id : id
-                            },
-                            success : function (msg) {
-                                a.modal('hide');
-                                var parts = msg.split("_");
-                                if(parts[0] === 'ok'){
-                                    log(parts[1], "success");
-                                    cargarTablaUsuarios();
-                                }else{
-                                    log(parts[1], "error")
-                                }
-                            }
-                        });
-                    }
-                }
             }
         });
     }

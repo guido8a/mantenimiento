@@ -21,7 +21,7 @@ class Usuario {
         version false
 
         columns {
-            id column: 'usro__id'
+            id column: 'pcnt__id'
             empresa column: 'empr__id'
             cedula column: 'pcntcdla'
             nombre column: 'pcntnmbr'
@@ -37,14 +37,14 @@ class Usuario {
     }
     static constraints = {
         empresa(blank: false, nullable: false)
-        cedula(size: 10..10, blank: false)
-        nombre(size: 3..31, blank: false)
-        apellido(size: 3..31, blank: true)
+        cedula(size: 10..10, blank: false, nullable: false)
+        nombre(size: 3..31, blank: false, nullable: false)
+        apellido(size: 3..31, blank: false, nullable: false)
         sexo(inList: ["F", "M"], size: 1..1, blank: false, attributes: ['mensaje': 'Sexo del usuario'])
-        mail(size: 3..63, blank: true)
+        mail(size: 3..63, blank: true, nullable: true)
         titulo(size: 1..4, blank: true, nullable: true)
-        activo(blank: false, attributes: [title: 'activo'])
-        telefono(blank: true, attributes: [title: 'teléfono'])
+        activo(blank: false,  attributes: [title: 'activo'])
+        telefono(blank: true, nullable: true,  attributes: [title: 'teléfono'])
         fechaInicio(blank: true, nullable: true, attributes: [title: 'Fecha de inicio'])
         fechaFin(blank: true, nullable: true, attributes: [title: 'Fecha de finalización'])
     }

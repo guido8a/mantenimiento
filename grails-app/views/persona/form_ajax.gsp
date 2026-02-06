@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div class="form-group keeptogether ${hasErrors(bean: personaInstance, field: 'login', 'error')} ${hasErrors(bean: personaInstance, field: 'sigla', 'error')}">
+        <div class="form-group keeptogether ${hasErrors(bean: personaInstance, field: 'sigla', 'error')} ${hasErrors(bean: personaInstance, field: 'activo', 'error')}">
             <div class="col-md-12">
                 <span class="grupo">
 
@@ -112,11 +112,7 @@
                         Activo
                     </label>
                     <span class="col-md-4">
-                        %{--                        <g:select name="activo" value="${personaInstance.activo}" class="form-control input-sm required" required=""--}%
-                        %{--                                  from="${[1: 'Sí', 0: 'No']}" optionKey="key" optionValue="value"/>--}%
-
                         <g:checkBox name="activoName" id="activo" class="form-control" data-on-Label="Si" checked="${personaInstance.activo == '1' ?: false}"/>
-
                     </span>
                 </span>
             </div>
