@@ -4,6 +4,19 @@
     <g:form class="form-horizontal" name="frmPersona" role="form" action="save_ajax" method="POST">
         <g:hiddenField name="id" value="${personaInstance?.id}"/>
 
+        <div class="form-group keeptogether ${hasErrors(bean: personaInstance, field: 'empresa', 'error')} required">
+            <div class="col-md-6">
+                <span class="grupo">
+                    <label for="empresa" class="col-md-4 control-label">
+                        Empresa
+                    </label>
+                </span>
+                <div class="col-md-8">
+                    <g:select name="empresa" from="${bitacora.Empresa.list().sort{it.nombre}}" class="form-control" optionValue="nombre" optionKey="id" value="${personaInstance?.empresa?.id}"/>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group keeptogether ${hasErrors(bean: personaInstance, field: 'login', 'error')} required">
             <div class="col-md-6">
                 <span class="grupo">

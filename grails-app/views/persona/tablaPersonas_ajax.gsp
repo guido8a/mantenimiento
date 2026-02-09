@@ -2,9 +2,10 @@
 <table class="table table-bordered table-striped table-hover table-condensed" id="tabla" style="width: 100%; background-color: #a39e9e">
     <thead>
     <tr style="text-align: center">
+        <th style="width: 10%">Empresa</th>
         <th style="width: 10%">Usuario</th>
-        <th style="width: 20%">Nombre</th>
-        <th style="width: 20%">Apellido</th>
+        <th style="width: 15%">Nombre</th>
+        <th style="width: 15%">Apellido</th>
         <th style="width: 19%">Perfiles</th>
         <th style="width: 10%">Estado</th>
         <th style="width: 15%">Acciones</th>
@@ -19,9 +20,10 @@
             <g:each in="${data}" var="dt" status="i">
                 <g:set var="usuario" value="${dt.prsn__id}"/>
                 <tr data-id="${dt.prsn__id}" class="${dt.prsnactv == 0 ? 'inactivo' : 'activo'}">
+                    <td style="width: 10%">${seguridad.Persona.get(dt.prsn__id)?.empresa?.nombre}</td>
                     <td style="width: 10%">${dt.prsnlogn}</td>
-                    <td style="width: 20%">${dt.prsnnmbr}</td>
-                    <td style="width: 20%">${dt.prsnapll}</td>
+                    <td style="width: 15%">${dt.prsnnmbr}</td>
+                    <td style="width: 15%">${dt.prsnapll}</td>
                     <td style="width: 19%">
                         <ul>
                             <g:each in="${seguridad.Sesn.findAllByUsuarioAndFechaFinIsNull(seguridad.Persona.get(dt.prsn__id))}" var="perfiles">

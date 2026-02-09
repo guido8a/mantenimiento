@@ -1,9 +1,11 @@
 package seguridad
 
 import audita.Auditable
+import bitacora.Empresa
 
 class Persona implements Auditable{
 
+    Empresa empresa
     String nombre
     String apellido
     String sexo
@@ -30,6 +32,7 @@ class Persona implements Auditable{
 
         columns {
             id column: 'prsn__id'
+            empresa column: 'empr__id'
             nombre column: 'prsnnmbr'
             apellido column: 'prsnapll'
             sexo column: 'prsnsexo'
@@ -46,6 +49,7 @@ class Persona implements Auditable{
         }
     }
     static constraints = {
+        empresa(blank: false, nullable: false)
         nombre(size: 3..30, blank: false)
         apellido(size: 3..30, blank: false)
         sexo(inList: ["F", "M"], size: 1..1, blank: false, attributes: ['mensaje': 'Sexo de la persona'])

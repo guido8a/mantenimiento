@@ -1,0 +1,99 @@
+package bitacora
+
+import seguridad.Persona
+
+class ActividadController {
+
+    def dbConnectionService
+
+    def list(){
+    }
+
+    def tablaActividades_ajax(){
+
+        println("tabla atividades " + params)
+        def datos;
+        def sqlTx = ""
+        def listaItems = ['actvreqm', 'actvclve' ]
+        def bsca
+        def tipoTx = ''
+        def periodoTx = ''
+        def usuarioTx = ''
+        if(params.buscarPor){
+            bsca = listaItems[params.buscarPor?.toInteger()-1]
+        }else{
+            bsca = listaItems[0]
+        }
+
+        if(params.usuario && params.usuario != 'null'){
+            def usuario = Usuario.get(params.usuario)
+            usuarioTx = " and actv.pcnt__id = ${usuario?.id} "
+        }
+
+        if(params.periodo && params.periodo != 'null'){
+            def periodo = Periodo.get(params.periodo)
+            periodoTx = " and actv.prdo__id = ${periodo?.id} "
+        }
+
+        if(params.tipo && params.tipo != 'null'){
+            def tipo = TipoMantenimiento.get(params.tipo)
+            tipoTx = " and actv.tpmt__id = ${tipo?.id} "
+        }
+
+        def select  =  " select * from actv, prdo, tpmt, usro "
+        def txwh = " where actv__id is not null and ${bsca} ilike '%${params.criterio}%' ${usuarioTx} ${periodoTx} ${tipoTx} "
+        println("tx " + txwh)
+        sqlTx = "${select} ${txwh} order by actvfcha limit 50 ".toString()
+        def cn = dbConnectionService.getConnection()
+        datos = cn.rows(sqlTx)
+        [data: datos, tipo: params.tipo]
+    }
+
+    def verActividad(){
+        def actividad = null
+        if(params.id){
+            actividad = Actividad.get(params.id)
+        }
+        return [actividad: actividad]
+    }
+
+    def buscarUsuario_ajax(){
+
+    }
+
+    def tablaBuscarUsuario_ajax(){
+
+        println("tabla buscar usuario " + params)
+        def usuarioActual = Persona.get(session.usuario.id)
+        def empresa = usuarioActual.empresa
+
+        def datos;
+        def sqlTx = ""
+        def listaItems = ['pcntcdla', 'pcntnmbr', 'pcntapll' ]
+        def bsca
+        if(params.buscarPor){
+            bsca = listaItems[params.buscarPor?.toInteger()-1]
+        }else{
+            bsca = listaItems[0]
+        }
+        def select  =  " select * from usro "
+        def txwh = " where pcnt__id is not null and empr__id = '${empresa?.id}' and ${bsca} ilike '%${params.criterio}%'"
+        sqlTx = "${select} ${txwh} order by pcntapll limit 50 ".toString()
+        def cn = dbConnectionService.getConnection()
+        datos = cn.rows(sqlTx)
+        [data: datos, tipo: params.tipo]
+    }
+
+    def form_ajax(){
+
+        def actividad
+
+        if(params.id){
+            actividad = Actividad.get(params.id)
+        }else{
+            actividad = new Actividad()
+        }
+
+        return [actividad: actividad]
+    }
+}

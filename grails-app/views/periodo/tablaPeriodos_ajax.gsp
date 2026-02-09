@@ -12,29 +12,23 @@ th, td {
 
 <div class="" style="width: 99.7%;height: 390px; overflow-y: auto;float: right; margin-top: -20px">
     <table class="table-bordered table-condensed table-hover" style="width: 100%">
-        <g:if test="${empresas}">
-            <g:each in="${empresas}" var="empresa" status="z">
-                <tr id="${empresa.id}" data-id="${empresa.id}" style="width: 100%">
+        <g:if test="${periodos}">
+            <g:each in="${periodos}" var="periodo">
+                <tr id="${periodo?.id}" data-id="${periodo?.id}" style="width: 100%">
                     <td style="width: 15%">
-                        ${empresa?.ruc}
+                        ${periodo?.numero}
                     </td>
-                    <td style="width: 30%">
-                        ${empresa?.nombre}
+                    <td style="width: 35%">
+                        ${periodo?.fechads?.format("dd-MM-yyyy")}
                     </td>
-                    <td style="width: 25%">
-                        ${empresa?.direccion}
+                    <td style="width: 35%">
+                        ${periodo?.fechahs?.format("dd-MM-yyyy")}
                     </td>
-                    <td style="width: 15%">
-                        ${empresa?.telefono}
-                    </td>
-                    <td style="width: 10%; text-align: center">
-                        <a class="btn btn-xs btnVerEmpresa btn-info" href="#"  title="Ver" data-id="${empresa.id}">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <a class="btn btn-xs btn-edit btn-success" href="#"  title="Editar" data-id="${empresa.id}">
+                    <td style="width: 15%; text-align: center">
+                        <a class="btn btn-xs btn-edit btn-success" href="#"  title="Editar" data-id="${periodo.id}">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a class="btn btn-xs btn-delete btn-danger" href="#" title="Eliminar" data-id="${empresa.id}">
+                        <a class="btn btn-xs btn-delete btn-danger" href="#" title="Eliminar" data-id="${periodo.id}">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
@@ -49,14 +43,9 @@ th, td {
 
 <script type="text/javascript">
 
-    $(".btnVerEmpresa").click(function () {
-        var id = $(this).data("id");
-        verEmpresa(id);
-    });
-
     $(".btn-edit").click(function () {
         var id = $(this).data("id");
-        createEditRow(id);
+        createEditPeriodo(id);
     });
     $(".btn-delete").click(function () {
         var id = $(this).data("id");

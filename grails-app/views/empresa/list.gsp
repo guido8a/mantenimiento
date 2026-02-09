@@ -92,7 +92,7 @@
                         }, 500);
                     } else {
                         log("Error al guardar la empresa","error");
-                        cargarBandeja();
+                        cargarTablaEmpresas();
                         return false;
                     }
                 }
@@ -135,7 +135,7 @@
                     label     : "<i class='fa fa-trash'></i> Eliminar",
                     className : "btn-danger",
                     callback  : function () {
-                        openLoader("Borrando...");
+                        var a = cargarLoader("Borrando...");
                         $.ajax({
                             type    : "POST",
                             url     : '${createLink(controller: 'empresa', action:'borrar_ajax')}',
@@ -143,7 +143,7 @@
                                 id : itemId
                             },
                             success : function (msg) {
-                                closeLoader();
+                                a.modal("hide");
                                 if (msg === "ok") {
                                     log("Bodega borrado correctamente","success");
                                     cargarTablaEmpresas();
