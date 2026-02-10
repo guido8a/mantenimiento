@@ -1,6 +1,6 @@
 <%@ page import="bitacora.Empresa" %>
 
-<g:form class="form-horizontal" name="frmPeriodo" role="form" action="save_ajax" method="POST" useToken="true">
+<g:form class="form-horizontal" name="frmPeriodo" role="form" action="save_ajax" method="POST">
     <g:hiddenField name="id" value="${periodo?.id}" />
 
     <div class="form-group ${hasErrors(bean: periodo, field: 'numero', 'error')} ">

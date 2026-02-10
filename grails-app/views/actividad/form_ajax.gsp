@@ -1,6 +1,6 @@
 <%@ page import="bitacora.ModuloSistema; bitacora.Empresa" %>
 
-<g:form class="form-horizontal" name="frmActividad" role="form" action="save_ajax" method="POST" useToken="true">
+<g:form class="form-horizontal" name="frmActividad" role="form" action="save_ajax" method="POST">
     <g:hiddenField name="id" value="${actividad?.id}" />
 
     <div class="form-group ${hasErrors(bean: actividad, field: 'usuario', 'error')} ">

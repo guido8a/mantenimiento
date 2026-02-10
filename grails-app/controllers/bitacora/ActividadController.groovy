@@ -110,7 +110,7 @@ class ActividadController {
 
         actividad.properties = params
 
-        if(!actividad.save()){
+        if(!actividad.save(flush:true)){
             println("Error al guardar la actividad " + actividad.errors)
             render "no_Error al guardar la actividad"
         }else{
