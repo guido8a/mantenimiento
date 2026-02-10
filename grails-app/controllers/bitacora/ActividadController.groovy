@@ -40,10 +40,10 @@ class ActividadController {
             tipoTx = " and actv.tpmt__id = ${tipo?.id} "
         }
 
-        def select  =  " select * from actv, prdo, tpmt, usro "
+        def select  =  " select * from actv "
         def txwh = " where actv__id is not null and ${bsca} ilike '%${params.criterio}%' ${usuarioTx} ${periodoTx} ${tipoTx} "
-        println("tx " + txwh)
         sqlTx = "${select} ${txwh} order by actvfcha limit 50 ".toString()
+        println("tx " + sqlTx)
         def cn = dbConnectionService.getConnection()
         datos = cn.rows(sqlTx)
         [data: datos, tipo: params.tipo]
