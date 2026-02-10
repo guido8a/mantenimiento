@@ -57,8 +57,14 @@ th, td {
         var cedula = $(this).data("cedula");
         var nombre = $(this).data("nombre");
         var apellido = $(this).data("apellido");
+        <g:if test="${tipo == '1'}">
+        $("#usuario").val(id);
+        $("#usuarioName").val(cedula + " - " + apellido + " " + nombre);
+        </g:if>
+        <g:else>
         $("#usuarioBusquedaId").val(id);
-        $("#usuarioBusquedaName").val(cedula + " - " + apellido + " " + nombre)
+        $("#usuarioBusquedaName").val(cedula + " - " + apellido + " " + nombre);
+        </g:else>
         cerrarBusquedaUsuario();
     })
     

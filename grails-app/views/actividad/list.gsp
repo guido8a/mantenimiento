@@ -85,45 +85,66 @@
 
     var mbu;
 
-    %{--$("#btnCrearActividad").clic(function () {--}%
-    %{--    createEditActividad();--}%
-    %{--});--}%
+    $(".btnCrearActividad").click(function () {
+        createEditActividad();
+    });
 
-    %{--function createEditActividad(id) {--}%
-    %{--    var title = id ? "Editar" : "Crear";--}%
-    %{--    var data = id ? { id: id } : {};--}%
-    %{--    $.ajax({--}%
-    %{--        type    : "POST",--}%
-    %{--        url     : "${createLink(controller: 'actividad', action:'form_ajax')}",--}%
-    %{--        data    : data,--}%
-    %{--        success : function (msg) {--}%
-    %{--            var b = bootbox.dialog({--}%
-    %{--                id      : "dlgCreateEdit",--}%
-    %{--                title   : title + " Actividad",--}%
-    %{--                message : msg,--}%
-    %{--                buttons : {--}%
-    %{--                    cancelar : {--}%
-    %{--                        label     : "<i class='fa fa-times'></i> Cancelar",--}%
-    %{--                        className : "btn-primary",--}%
-    %{--                        callback  : function () {--}%
-    %{--                        }--}%
-    %{--                    },--}%
-    %{--                    guardar  : {--}%
-    %{--                        id        : "btnSave",--}%
-    %{--                        label     : "<i class='fa fa-save'></i> Guardar",--}%
-    %{--                        className : "btn-success",--}%
-    %{--                        callback  : function () {--}%
-    %{--                            return submitFormActividad();--}%
-    %{--                        } //callback--}%
-    %{--                    } //guardar--}%
-    %{--                } //buttons--}%
-    %{--            }); //dialog--}%
-    %{--            setTimeout(function () {--}%
-    %{--                b.find(".form-control").first().focus()--}%
-    %{--            }, 500);--}%
-    %{--        } //success--}%
-    %{--    }); //ajax--}%
-    %{--} //createEdit--}%
+    function createEditActividad(id) {
+        var title = id ? "Editar" : "Crear";
+        var data = id ? { id: id } : {};
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'actividad', action:'form_ajax')}",
+            data    : data,
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgCreateEdit",
+                    title   : title + " Actividad",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "<i class='fa fa-times'></i> Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-save'></i> Guardar",
+                            className : "btn-success",
+                            callback  : function () {
+                                return submitFormActividad();
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    } //createEdit
+
+    function submitFormActividad() {
+        var $form = $("#frmActividad");
+        if ($form.valid()) {
+            $.ajax({
+                type    : "POST",
+                url     : '${createLink(controller: 'actividad', action:'save_ajax')}',
+                data    : $form.serialize(),
+                success : function (msg) {
+                    var parts = msg.split("_");
+                    if (parts[0]==="ok") {
+                        log(parts[1],"success");
+                        cargarActividades();
+                    } else {
+                        log(parts[1],"error");
+                        cargarActividades();
+                        return false;
+                    }
+                }
+            });
+        } else {
+            return false;
+        } //else
+    }
 
     $("#btnBuscarTodosUsuario").click(function () {
         $("#usuarioBusquedaId").val(null);
@@ -134,11 +155,12 @@
         buscarUsuario();
     });
 
-    function buscarUsuario(){
+    function buscarUsuario(tipo){
         $.ajax({
             type    : "POST",
             url     : "${createLink(controller: 'actividad', action: 'buscarUsuario_ajax')}",
             data    : {
+                tipo: tipo
             },
             success : function (msg) {
                 mbu = bootbox.dialog({

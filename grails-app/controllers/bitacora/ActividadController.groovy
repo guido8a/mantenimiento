@@ -58,7 +58,7 @@ class ActividadController {
     }
 
     def buscarUsuario_ajax(){
-
+        return [tipo: params.tipo]
     }
 
     def tablaBuscarUsuario_ajax(){
@@ -95,5 +95,26 @@ class ActividadController {
         }
 
         return [actividad: actividad]
+    }
+
+    def save_ajax(){
+
+        def actividad
+
+        if(params.id){
+            actividad = Actividad.get(params.id)
+        }else{
+            actividad = new Actividad()
+            actividad.fecha = new Date()
+        }
+
+        actividad.properties = params
+
+        if(!actividad.save()){
+            println("Error al guardar la actividad " + actividad.errors)
+            render "no_Error al guardar la actividad"
+        }else{
+            render "ok_Actividad guardada correctamente"
+        }
     }
 }

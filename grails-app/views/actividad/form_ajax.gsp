@@ -1,101 +1,103 @@
-<%@ page import="bitacora.Empresa" %>
+<%@ page import="bitacora.ModuloSistema; bitacora.Empresa" %>
 
 <g:form class="form-horizontal" name="frmActividad" role="form" action="save_ajax" method="POST" useToken="true">
     <g:hiddenField name="id" value="${actividad?.id}" />
 
-    <div class="form-group ${hasErrors(bean: empresa, field: 'ruc', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'usuario', 'error')} ">
         <span class="grupo">
-            <label for="ruc" class="col-md-2 control-label text-info">
-                RUC
+            <label for="usuarioName" class="col-md-2 control-label text-info">
+                Usuario
             </label>
-            <span class="col-md-4">
-                <g:textField name="ruc" minlength="10" maxlength="13" required="" class="form-control required" value="${empresa?.ruc}"/>
+            <span class="col-md-7">
+                <g:hiddenField name="usuario" value="${actividad?.usuario?.id}" />
+                <g:textField name="usuarioName" readonly="" required="" class="form-control required" value="${(actividad?.usuario?.apellido ?: '') + " " + (actividad?.usuario?.nombre ?: '')}"/>
+            </span>
+            <span class="col-md-1">
+                <g:if test="${!actividad?.id}">
+                    <a class="btn btn-info btnBuscarUsuarioActividad" href="#"  title="Seleccionar usuario">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </g:if>
             </span>
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: empresa, field: 'nombre', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'periodo', 'error')} required">
         <span class="grupo">
-            <label for="nombre" class="col-md-2 control-label text-info">
-                Nombre
+            <label for="periodo" class="col-md-2 control-label text-info">
+                Período
             </label>
-            <span class="col-md-8">
-                <g:textField name="nombre" maxlength="255" required="" class="form-control required" value="${empresa?.nombre}"/>
+            <span class="col-md-9">
+                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required="" class="form-control required" optionKey="id"
+                          optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" value="${actividad?.periodo?.id}"/>
             </span>
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: empresa, field: 'ruc', 'error')} ">
-
+    <div class="form-group ${hasErrors(bean: actividad, field: 'tipoMantenimiento', 'error')} ">
         <span class="grupo">
-            <label for="sigla" class="col-md-2 control-label text-info">
-                Sigla
+            <label for="tipoMantenimiento" class="col-md-2 control-label text-info">
+                Tipo de mantenimiento
             </label>
-            <span class="col-md-4">
-                <g:textField name="sigla" maxlength="7" class="form-control" value="${empresa?.sigla}"/>
-            </span>
-        </span>
-    </div>
-    <div class="form-group ${hasErrors(bean: empresa, field: 'direccion', 'error')} ">
-        <span class="grupo">
-            <label for="direccion" class="col-md-2 control-label text-info">
-                Dirección
-            </label>
-            <span class="col-md-8">
-                <g:textArea name="direccion" maxlength="255" required="" class="form-control" value="${empresa?.direccion}" style="resize: none;"/>
+            <span class="col-md-9">
+                <g:select name="tipoMantenimiento" from="${bitacora.TipoMantenimiento.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"
+                          optionValue="${{it.descripcion}}" value="${actividad?.tipoMantenimiento?.id}"/>
             </span>
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: empresa, field: 'telefono', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'moduloSistema', 'error')} ">
         <span class="grupo">
-            <label for="telefono" class="col-md-2 control-label text-info">
-                Teléfono
+            <label for="moduloSistema" class="col-md-2 control-label text-info">
+                Módulo del sistema
             </label>
-            <span class="col-md-8">
-                <g:textField name="telefono" minlength="3" maxlength="63" class="form-control number" value="${empresa?.telefono}"/>
+            <span class="col-md-9">
+                <g:select name="moduloSistema" from="${bitacora.ModuloSistema.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"
+                          optionValue="${{it.descripcion}}" value="${actividad?.moduloSistema?.id}"/>
             </span>
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: empresa, field: 'mail', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'requerimiento', 'error')} required">
         <span class="grupo">
-            <label for="mail" class="col-md-2 control-label text-info">
-                Mail
+            <label for="requerimiento" class="col-md-2 control-label text-info">
+                Requerimiento
             </label>
-            <span class="col-md-8">
-                <g:textField name="mail" minlength="5" maxlength="63"  class="form-control email" value="${empresa?.mail}"/>
+            <span class="col-md-9">
+                <g:textField name="requerimiento" minlength="3" maxlength="15" required="" class="form-control required" value="${actividad?.requerimiento}"/>
             </span>
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: empresa, field: 'observaciones', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'clave', 'error')} ">
         <span class="grupo">
-            <label for="observaciones" class="col-md-2 control-label text-info">
-                Observaciones
+            <label for="clave" class="col-md-2 control-label text-info">
+                Clave
             </label>
-            <span class="col-md-8">
-                <g:textArea name="observaciones" maxlength="255"  class="form-control" value="${empresa?.observaciones}"  style="resize: none;"/>
+            <span class="col-md-9">
+                <g:textField name="clave" minlength="3" maxlength="63"  class="form-control" value="${actividad?.clave}"/>
             </span>
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: empresa, field: 'fechaInicio', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'algoritmo', 'error')} ">
         <span class="grupo">
-            <label for="datetimepicker1" class="col-md-2 control-label text-info">
-                Fecha de inicio
+            <label for="algoritmo" class="col-md-2 control-label text-info">
+                Algoritmo
             </label>
-            <span class="col-md-4">
-                <input name="fechaInicio" id='datetimepicker1' type='text' class="form-control" value="${empresa?.fechaInicio?.format("dd-MM-yyyy")}"/>
+            <span class="col-md-9">
+                <g:textArea name="algoritmo" minlength="3" maxlength="1024"  class="form-control" value="${actividad?.algoritmo}"  style="resize: none; height: 100px"/>
             </span>
         </span>
+    </div>
 
+    <div class="form-group ${hasErrors(bean: actividad, field: 'descripcion', 'error')} ">
         <span class="grupo">
-            <label for="datetimepicker2" class="col-md-2 control-label text-info">
-                Fecha de finalización
+            <label for="descripcion" class="col-md-2 control-label text-info">
+                Descripción
             </label>
-            <span class="col-md-4" style="font-size: 14px">
-                <input name="fechaFin" id='datetimepicker2' type='text' class="form-control" value="${empresa?.fechaFin?.format("dd-MM-yyyy")}"/>
+            <span class="col-md-9">
+                <g:textArea name="descripcion" minlength="3" maxlength="1024"  class="form-control" value="${actividad?.descripcion}"  style="resize: none; height: 100px"/>
             </span>
         </span>
     </div>
@@ -104,51 +106,11 @@
 
 <script type="text/javascript">
 
-
-    function validarNum(ev) {
-        /*
-         48-57      -> numeros
-         96-105     -> teclado numerico
-         188        -> , (coma)
-         190        -> . (punto) teclado
-         110        -> . (punto) teclado numerico
-         8          -> backspace
-         46         -> delete
-         9          -> tab
-         37         -> flecha izq
-         39         -> flecha der
-         */
-        return ((ev.keyCode >= 48 && ev.keyCode <= 57) ||
-            (ev.keyCode >= 96 && ev.keyCode <= 105) ||
-            ev.keyCode === 8 || ev.keyCode === 46 || ev.keyCode === 9 ||
-            ev.keyCode === 37 || ev.keyCode === 39);
-    }
-
-    $("#ruc, #telefono").keydown(function (ev) {
-        return validarNum(ev);
+    $(".btnBuscarUsuarioActividad").click(function () {
+        buscarUsuario(1);
     });
 
-    $(function () {
-        $('#datetimepicker1').datetimepicker({
-            locale: 'es',
-            format: 'DD-MM-YYYY',
-            showClose: true,
-            icons: {
-                close: 'cerrar'
-            }
-        });
-
-        $('#datetimepicker2').datetimepicker({
-            locale: 'es',
-            format: 'DD-MM-YYYY',
-            showClose: true,
-            icons: {
-                close: 'cerrar'
-            }
-        });
-    });
-
-    var validator = $("#frmEmpresa").validate({
+    var validator = $("#frmActividad").validate({
         errorClass     : "help-block",
         errorPlacement : function (error, element) {
             if (element.parent().hasClass("input-group")) {

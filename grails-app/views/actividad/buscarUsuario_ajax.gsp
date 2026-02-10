@@ -46,7 +46,8 @@
             url: '${createLink(controller: 'actividad', action: 'tablaBuscarUsuario_ajax')}',
             data:{
                 criterio: criterio,
-                buscarPor: buscarPor
+                buscarPor: buscarPor,
+                tipo: '${tipo}'
             },
             success: function (msg){
                 d.modal("hide");
