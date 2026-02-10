@@ -28,15 +28,15 @@ th, td {
     <table class="table-bordered table-condensed table-striped table-hover" style="width: 100%; font-size: 14px">
         <g:if test="${data.size() > 0}">
             <g:each in="${data}" var="dt" status="i">
-                <g:set var="usuario" value="${dt.pcnt__id}"/>
-                <tr data-id="${dt.pcnt__id}" style="width: 100%">
-                    <td style="width: 15%">${bitacora.Usuario.get(dt.pcnt__id)?.empresa?.nombre}</td>
-                    <td style="width: 17%">${dt.pcntcdla}</td>
-                    <td style="width: 28%">${dt.pcntnmbr}</td>
-                    <td style="width: 30%">${dt.pcntapll}</td>
+                <g:set var="usuario" value="${dt.usro__id}"/>
+                <tr data-id="${dt.usro__id}" style="width: 100%">
+                    <td style="width: 15%">${bitacora.Usuario.get(dt.usro__id)?.empresa?.nombre}</td>
+                    <td style="width: 17%">${dt.usrocdla}</td>
+                    <td style="width: 28%">${dt.usronmbr}</td>
+                    <td style="width: 30%">${dt.usroapll}</td>
                     <td style="width: 9%; text-align: center">
                         <a class="btn btn-xs btnSeleccionarUsuario btn-success" href="#"  title="Seleccionar usuario"
-                           data-id="${dt.pcnt__id}" data-cedula="${dt.pcntcdla}" data-nombre="${dt.pcntnmbr}" data-apellido="${dt.pcntapll}">
+                           data-id="${dt.usro__id}" data-cedula="${dt.usrocdla}" data-nombre="${dt.usronmbr}" data-apellido="${dt.usroapll}">
                             <i class="fa fa-check"></i>
                         </a>
                     </td>

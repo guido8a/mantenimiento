@@ -21,18 +21,18 @@ class Usuario {
         version false
 
         columns {
-            id column: 'pcnt__id'
+            id column: 'usro__id'
             empresa column: 'empr__id'
-            cedula column: 'pcntcdla'
-            nombre column: 'pcntnmbr'
-            apellido column: 'pcntapll'
-            fechaInicio column: 'pcntfcin'
-            fechaFin column: 'pcntfcfn'
-            mail column: 'pcntmail'
-            telefono column: 'pcnttelf'
-            titulo column: 'pcnttitl'
-            activo column: 'pcntactv'
-            sexo column: 'pcntsexo'
+            cedula column: 'usrocdla'
+            nombre column: 'usronmbr'
+            apellido column: 'usroapll'
+            fechaInicio column: 'usrofcin'
+            fechaFin column: 'usrofcfn'
+            mail column: 'usromail'
+            telefono column: 'usrotelf'
+            titulo column: 'usrotitl'
+            activo column: 'usroactv'
+            sexo column: 'usrosexo'
         }
     }
     static constraints = {

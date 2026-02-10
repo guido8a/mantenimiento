@@ -21,7 +21,7 @@ class Actividad implements Auditable{
         version false
         columns {
             id column: 'actv__id'
-            usuario column: 'pcnt__id'
+            usuario column: 'usro__id'
             tipoMantenimiento column: 'tpmt__id'
             moduloSistema column: 'mdst__id'
             periodo column: 'prdo__id'

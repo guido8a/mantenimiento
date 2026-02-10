@@ -16,13 +16,13 @@
     <table class="table-bordered table-condensed table-striped table-hover" style="width: 100%; font-size: 14px">
         <g:if test="${data.size() > 0}">
             <g:each in="${data}" var="dt" status="i">
-                <g:set var="usuario" value="${dt.pcnt__id}"/>
-                <tr data-id="${dt.pcnt__id}" class="${dt.pcntactv == 0 ? 'inactivo' : 'activo'}">
-                    <td style="width: 10%">${dt.pcntcdla}</td>
-                    <td style="width: 20%">${dt.pcntnmbr}</td>
-                    <td style="width: 20%">${dt.pcntapll}</td>
+                <g:set var="usuario" value="${dt.usro__id}"/>
+                <tr data-id="${dt.usro__id}" class="${dt.usroactv == 0 ? 'inactivo' : 'activo'}">
+                    <td style="width: 10%">${dt.usrocdla}</td>
+                    <td style="width: 20%">${dt.usronmbr}</td>
+                    <td style="width: 20%">${dt.usroapll}</td>
                     <td style="width: 10%; text-align: center">
-                        <g:if test="${dt.pcntactv == '1'}">
+                        <g:if test="${dt.usroactv == '1'}">
                             <i class="fa fa-user text-success"></i> Activo
                         </g:if>
                         <g:else>
@@ -30,13 +30,13 @@
                         </g:else>
                     </td>
                     <td style="width: 15%; text-align: center">
-                        <a class="btn btn-xs btnVerUsuario btn-info" href="#"  title="Ver" data-id="${dt.pcnt__id}">
+                        <a class="btn btn-xs btnVerUsuario btn-info" href="#"  title="Ver" data-id="${dt.usro__id}">
                             <i class="fa fa-search"></i>
                         </a>
-                        <a class="btn btn-xs btnEditarUsuario btn-success" href="#" title="Editar" data-id="${dt.pcnt__id}">
+                        <a class="btn btn-xs btnEditarUsuario btn-success" href="#" title="Editar" data-id="${dt.usro__id}">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a class="btn btn-xs btnBorrarUsuario btn-danger" href="#" title="Eliminar" data-id="${dt.pcnt__id}">
+                        <a class="btn btn-xs btnBorrarUsuario btn-danger" href="#" title="Eliminar" data-id="${dt.usro__id}">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>

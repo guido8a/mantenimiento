@@ -27,7 +27,7 @@ class ActividadController {
 
         if(params.usuario && params.usuario != 'null'){
             def usuario = Usuario.get(params.usuario)
-            usuarioTx = " and actv.pcnt__id = ${usuario?.id} "
+            usuarioTx = " and actv.usro__id = ${usuario?.id} "
         }
 
         if(params.periodo && params.periodo != 'null'){
@@ -69,7 +69,7 @@ class ActividadController {
 
         def datos;
         def sqlTx = ""
-        def listaItems = ['pcntcdla', 'pcntnmbr', 'pcntapll' ]
+        def listaItems = ['usrocdla', 'usronmbr', 'usroapll' ]
         def bsca
         if(params.buscarPor){
             bsca = listaItems[params.buscarPor?.toInteger()-1]
@@ -77,8 +77,8 @@ class ActividadController {
             bsca = listaItems[0]
         }
         def select  =  " select * from usro "
-        def txwh = " where pcnt__id is not null and empr__id = '${empresa?.id}' and ${bsca} ilike '%${params.criterio}%'"
-        sqlTx = "${select} ${txwh} order by pcntapll limit 50 ".toString()
+        def txwh = " where usro__id is not null and empr__id = '${empresa?.id}' and ${bsca} ilike '%${params.criterio}%'"
+        sqlTx = "${select} ${txwh} order by usroapll limit 50 ".toString()
         def cn = dbConnectionService.getConnection()
         datos = cn.rows(sqlTx)
         [data: datos, tipo: params.tipo]

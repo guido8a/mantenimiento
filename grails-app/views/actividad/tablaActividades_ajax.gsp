@@ -31,7 +31,8 @@ th, td {
             <g:each in="${data}" var="actividad">
                 <g:set var="actividadId" value="${actividad?.actv__id}"/>
                 <tr data-id="${actividad.actv__id}" style="width: 100%">
-                    <td style="width: 15%">${bitacora.Usuario.get(actividad.pcnt__id)?.apellido + "  " + bitacora.Usuario.get(actividad.pcnt__id)?.nombre}</td>
+                    <td style="width: 15%">${bitacora.Usuario.get(actividad.usro__id)?.apellido + "  " +
+                            bitacora.Usuario.get(actividad.usro__id)?.nombre}</td>
                     <td style="width: 17%">${bitacora.TipoMantenimiento.get(actividad.tpmt__id)?.descripcion}</td>
                     <td style="width: 25%">${bitacora.Periodo.get(actividad.prdo__id)?.fechads?.format("dd-MM-yyyy") + " - " + bitacora.Periodo.get(actividad.prdo__id)?.fechahs?.format("dd-MM-yyyy")}</td>
                     <td style="width: 31%">${actividad.actvreqm}</td>
