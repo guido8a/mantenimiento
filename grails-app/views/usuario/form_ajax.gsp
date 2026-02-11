@@ -99,11 +99,11 @@
         <div class="form-group keeptogether ${hasErrors(bean: usuario, field: 'titulo', 'error')} ${hasErrors(bean: usuario, field: 'activo', 'error')}">
             <div class="col-md-6">
                 <span class="grupo">
-                    <label for="sigla" class="col-md-4 control-label">
+                    <label for="titulo" class="col-md-4 control-label">
                         Título
                     </label>
                     <span class="col-md-8">
-                        <g:textField name="sigla" minlength="1" maxlength="4" class="form-control input-sm" value="${usuario?.titulo}"/>
+                        <g:textField name="titulo" minlength="1" maxlength="4" class="form-control input-sm" value="${usuario?.titulo}"/>
                     </span>
                 </span>
             </div>

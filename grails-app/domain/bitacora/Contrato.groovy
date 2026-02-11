@@ -27,10 +27,10 @@ class Contrato {
     }
     static constraints = {
         empresa(blank: false, nullable: false)
-        numero(size: 1..20, blank: false)
-        fechaSubscripcion(blank: true)
-        fechaInicio(blank: true)
-        fechaFin(blank: true)
-        objeto(size: 0..255, blank: true)
+        numero(size: 1..20, blank: false, nullable: false)
+        fechaSubscripcion(blank: true, nullable: true)
+        fechaInicio(blank: true, nullable: true)
+        fechaFin(blank: true, nullable: true)
+        objeto(size: 0..255, blank: true, nullable: true)
     }
 }
