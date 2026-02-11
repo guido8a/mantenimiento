@@ -108,7 +108,7 @@ class ActividadController {
         }
 
         if(params.fecha){
-            params.fecha = new Date().parse("dd-MM-yyyy", params.fecha)
+            params.fecha = new Date().parse("dd-MM-yyyy HH:mm", params.fecha)
         }
 
         actividad.properties = params

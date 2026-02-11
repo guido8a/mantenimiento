@@ -76,7 +76,7 @@
             </label>
             <span class="col-md-9">
                 <span class="grupo">
-                    <input name="fecha" id='datetimepicker2' type='text' class="form-control" value="${actividad?.fecha?.format("dd-MM-yyyy") ?: new java.util.Date()?.format("dd-MM-yyyy")}"/>
+                    <input name="fecha" id='datetimepicker2' type='text' class="form-control" value="${actividad?.fecha?.format("dd-MM-yyyy HH:mm") ?: new java.util.Date()?.format("dd-MM-yyyy HH:mm")}"/>
                 </span>
             </span>
         </span>
@@ -122,7 +122,7 @@
     $(function () {
         $('#datetimepicker2').datetimepicker({
             locale: 'es',
-            format: 'DD-MM-YYYY',
+            format: 'DD-MM-YYYY HH:mm',
             showClose: true,
             icons: {
                 close: 'cerrar'
