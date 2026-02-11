@@ -25,7 +25,7 @@ th, td {
     </thead>
 </table>
 
-<div class="" style="width: 99.7%; height: 350px; overflow-y: auto;float: right;">
+<div class="" style="width: 99.7%; height: 450px; overflow-y: auto;float: right;">
     <table class="table-bordered table-condensed table-striped table-hover" style="width: 100%; font-size: 14px">
         <g:if test="${data.size() > 0}">
             <g:each in="${data}" var="actividad">
@@ -51,7 +51,8 @@ th, td {
             </g:each>
         </g:if>
         <g:else>
-            <div class="alert alert-warning" style="margin-top: 0px; text-align: center; font-size: 14px; font-weight: bold"><i class="fa fa-exclamation-triangle fa-2x text-info"></i> No se encontraron registros</div>
+            <div class="alert alert-warning" style="margin-top: 0px; text-align: center; font-size: 14px; font-weight: bold">
+                <i class="fa fa-exclamation-triangle fa-2x text-info"></i> No se encontraron registros</div>
         </g:else>
     </table>
 </div>

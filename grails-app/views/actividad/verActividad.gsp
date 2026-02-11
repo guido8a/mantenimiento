@@ -28,9 +28,9 @@
                     </div>
                     <div class="form-group">
                         <span class="grupo">
-                            <span class="col-md-12">
+                            <span class="col-md-12" style="margin-top: 10px">
                                 <label>Algoritmo</label>
-                                <g:textArea name="algoritmoVer" readonly="" class="form-control" value="${actividad?.algoritmo ?: ''}" style="resize: none; height: 150px"/>
+                                <g:textArea name="algoritmoVer" readonly="" class="form-control" value="${actividad?.algoritmo ?: ''}" style="resize: none; height: 120px"/>
                             </span>
                         </span>
                     </div>
