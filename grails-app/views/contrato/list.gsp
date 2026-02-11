@@ -19,11 +19,11 @@
     <table class="table table-bordered table-hover table-condensed" style="width: 100%; background-color: #a39e9e">
         <thead>
         <tr style="width: 100%">
-            <th class="alinear" style="width: 15%">RUC</th>
-            <th class="alinear"  style="width: 30%">Nombre</th>
-            <th class="alinear"  style="width: 25%">Dirección</th>
-            <th class="alinear"  style="width: 15%">Teléfono</th>
-            <th class="alinear" style="width: 10%">Acciones</th>
+            <th style="width: 15%">Empresa</th>
+            <th style="width: 30%">Número</th>
+            <th style="width: 25%">Objeto</th>
+            <th style="width: 15%">Fecha sub</th>
+            <th style="width: 10%">Acciones</th>
         </tr>
         </thead>
     </table>
@@ -34,23 +34,23 @@
 
 <script type="text/javascript">
 
-    cargarTablaEmpresas();
+    cargarTablaContratos();
 
-    $("#btnCrearEmpresa").click(function () {
-        createEditRow();
+    $("#btnCrearContrato").click(function () {
+        createEditContrato();
     });
 
-    function createEditRow(id) {
+    function createEditContrato(id) {
         var title = id ? "Editar" : "Crear";
         var data = id ? { id: id } : {};
         $.ajax({
             type    : "POST",
-            url     : "${createLink(controller: 'empresa', action:'form_ajax')}",
+            url     : "${createLink(controller: 'contrato', action:'form_ajax')}",
             data    : data,
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgCreateEdit",
-                    title   : title + " Empresa",
+                    title   : title + " Contrato",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -64,7 +64,7 @@
                             label     : "<i class='fa fa-save'></i> Guardar",
                             className : "btn-success",
                             callback  : function () {
-                                return submitForm();
+                                return submitFormContrato();
                             } //callback
                         } //guardar
                     } //buttons
@@ -77,22 +77,22 @@
     } //createEdit
 
 
-    function submitForm() {
-        var $form = $("#frmEmpresa");
+    function submitFormContrato() {
+        var $form = $("#frmContrato");
         if ($form.valid()) {
             $.ajax({
                 type    : "POST",
-                url     : '${createLink(controller: 'empresa', action:'save_ajax')}',
+                url     : '${createLink(controller: 'contrato', action:'save_ajax')}',
                 data    : $form.serialize(),
                 success : function (msg) {
                     if (msg==="ok") {
-                        log("Empresa guardada correctamente","success");
+                        log("Contrato guardado correctamente","success");
                         setTimeout(function () {
-                            cargarTablaEmpresas();
+                            cargarTablaContratos();
                         }, 500);
                     } else {
-                        log("Error al guardar la empresa","error");
-                        cargarTablaEmpresas();
+                        log("Error al guardar el contrato","error");
+                        cargarTablaContratos();
                         return false;
                     }
                 }
@@ -102,28 +102,28 @@
         } //else
     }
 
-    function cargarTablaEmpresas(){
+    function cargarTablaContratos(){
         var c = cargarLoader("Cargando...");
         $.ajax({
             type    : "POST",
-            url     : "${g.createLink(controller: 'empresa', action: 'tablaEmpresa_ajax')}",
+            url     : "${g.createLink(controller: 'contrato', action: 'tablaContratos_ajax')}",
             data    : {
             },
             success : function (msg) {
                 c.modal("hide");
-                $("#bandeja").html(msg);
+                $("#divContrato").html(msg);
             },
             error   : function (msg) {
                 c.modal("hide");
-                $("#bandeja").html("Ha ocurrido un error");
+                $("#divContrato").html("Ha ocurrido un error");
             }
         });
     }
 
-    function deleteRow(itemId) {
+    function deleteContrato(itemId) {
         bootbox.dialog({
             title   : "<i class='fa fa-trash fa-2x pull-left text-danger text-shadow'></i> Alerta",
-            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar la empresa seleccionada? </br> Esta acción no se puede deshacer.</p>",
+            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar el contrato seleccionado? </br> Esta acción no se puede deshacer.</p>",
             buttons : {
                 cancelar : {
                     label     : "<i class='fa fa-times'></i> Cancelar",
@@ -138,17 +138,17 @@
                         var a = cargarLoader("Borrando...");
                         $.ajax({
                             type    : "POST",
-                            url     : '${createLink(controller: 'empresa', action:'borrar_ajax')}',
+                            url     : '${createLink(controller: 'contrato', action:'borrar_ajax')}',
                             data    : {
                                 id : itemId
                             },
                             success : function (msg) {
                                 a.modal("hide");
                                 if (msg === "ok") {
-                                    log("Bodega borrado correctamente","success");
-                                    cargarTablaEmpresas();
+                                    log("Contrato borrado correctamente","success");
+                                    cargarTablaContratos();
                                 } else {
-                                    log("Error al borrar la bodega","error");
+                                    log("Error al borrar el contrato","error");
                                     return false;
                                 }
                             }
@@ -159,30 +159,30 @@
         });
     }
 
-    function verEmpresa(id) {
-        $.ajax({
-            type    : "POST",
-            url     : "${createLink(controller: 'empresa', action:'show_ajax')}",
-            data    : {
-                id:id
-            },
-            success : function (msg) {
-                var b = bootbox.dialog({
-                    id      : "dlgVer",
-                    title   : "Datos de la Empresa",
-                    message : msg,
-                    buttons : {
-                        cancelar : {
-                            label     : "<i class='fa fa-times'></i> Cerrar",
-                            className : "btn-primary",
-                            callback  : function () {
-                            }
-                        }
-                    } //buttons
-                }); //dialog
-            } //success
-        }); //ajax
-    }
+    %{--function verEmpresa(id) {--}%
+    %{--    $.ajax({--}%
+    %{--        type    : "POST",--}%
+    %{--        url     : "${createLink(controller: 'empresa', action:'show_ajax')}",--}%
+    %{--        data    : {--}%
+    %{--            id:id--}%
+    %{--        },--}%
+    %{--        success : function (msg) {--}%
+    %{--            var b = bootbox.dialog({--}%
+    %{--                id      : "dlgVer",--}%
+    %{--                title   : "Datos de la Empresa",--}%
+    %{--                message : msg,--}%
+    %{--                buttons : {--}%
+    %{--                    cancelar : {--}%
+    %{--                        label     : "<i class='fa fa-times'></i> Cerrar",--}%
+    %{--                        className : "btn-primary",--}%
+    %{--                        callback  : function () {--}%
+    %{--                        }--}%
+    %{--                    }--}%
+    %{--                } //buttons--}%
+    %{--            }); //dialog--}%
+    %{--        } //success--}%
+    %{--    }); //ajax--}%
+    %{--}--}%
 
 </script>
 

@@ -22,7 +22,7 @@ class Contrato {
             fechaSubscripcion column: 'cntrfcsb'
             fechaInicio column: 'cntrfcin'
             fechaFin column: 'cntrfcfn'
-            objeto column: 'cntrnobjt'
+            objeto column: 'cntrobjt'
         }
     }
     static constraints = {

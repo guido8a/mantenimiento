@@ -8,9 +8,18 @@ class ContratoController {
 
     def form_ajax(){
 
+        def contrato
+
+        if(params.id){
+            contrato = Contrato.get(params.id)
+        }else{
+            contrato = new Contrato()
+        }
+
+        return [contrato:contrato]
     }
 
-    def tablaContratos(){
+    def tablaContratos_ajax(){
 
     }
 
