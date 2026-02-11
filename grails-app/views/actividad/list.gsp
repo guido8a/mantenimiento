@@ -56,8 +56,8 @@
                 </span>
                 <span class="col-md-2">
                     <label class="control-label text-info">Buscar Por</label>
-                    <g:select name="buscarPor" class="buscarPor col-md-12 form-control" from="${[1: 'Requerimiento', 2: 'Clave']}" optionKey="key"
-                              optionValue="value"/>
+                    <g:select name="buscarPor" class="buscarPor col-md-12 form-control" from="${[1: 'Descripción', 2: 'Clave']}"
+                              optionKey="key" optionValue="value"/>
                 </span>
                 <span class="col-md-3">
                     <label class="control-label text-info">Criterio</label>

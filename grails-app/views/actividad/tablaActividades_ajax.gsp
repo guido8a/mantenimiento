@@ -15,11 +15,11 @@ th, td {
 <table class="table table-bordered table-striped table-hover table-condensed" id="tabla" style="width: 100%; background-color: #a39e9e">
     <thead>
     <tr style="text-align: center">
-        <th style="width: 18%">Usuario</th>
-        <th style="width: 22%">Tipo</th>
-        <th style="width: 25%">Período</th>
-        <th style="width: 20%">Requerimiento</th>
-        <th style="width: 14%"></th>
+        <th style="width: 10%">Usuario</th>
+        <th style="width: 5%">T</th>
+        <th style="width: 10%">Fecha</th>
+        <th style="width: 60%">Descripción</th>
+        <th style="width: 14%">Acciones</th>
         <th style="width: 1%"></th>
     </tr>
     </thead>
@@ -31,11 +31,10 @@ th, td {
             <g:each in="${data}" var="actividad">
                 <g:set var="actividadId" value="${actividad?.actv__id}"/>
                 <tr data-id="${actividad.actv__id}" style="width: 100%">
-                    <td style="width: 18%">${bitacora.Usuario.get(actividad.usro__id)?.apellido + "  " +
-                            bitacora.Usuario.get(actividad.usro__id)?.nombre}</td>
-                    <td style="width: 22%">${bitacora.TipoMantenimiento.get(actividad.tpmt__id)?.descripcion}</td>
-                    <td style="width: 25%">${bitacora.Periodo.get(actividad.prdo__id)?.fechads?.format("dd-MM-yyyy") + " - " + bitacora.Periodo.get(actividad.prdo__id)?.fechahs?.format("dd-MM-yyyy")}</td>
-                    <td style="width: 20%">${actividad.actvreqm}</td>
+                    <td style="width: 10%">${actividad.usuario}</td>
+                    <td style="width: 5%">${actividad.tpmtcdgo}</td>
+                    <td style="width: 10%">${actividad?.actvfcha?.format("dd-MM-yy HH:mm")}</td>
+                    <td style="width: 60%">${actividad.actvdscr}</td>
                     <td style="width: 14%; text-align: center">
                         <a class="btn btn-xs btn-success btnEditarActividad" href="#"  title="Editar actividad" data-id="${actividad.actv__id}">
                             <i class="fa fa-edit"></i>
