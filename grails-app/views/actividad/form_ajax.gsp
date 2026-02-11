@@ -69,13 +69,13 @@
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: actividad, field: 'clave', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'descripcion', 'error')} ">
         <span class="grupo">
-            <label for="clave" class="col-md-2 control-label text-info">
-                Clave
+            <label for="descripcion" class="col-md-2 control-label text-info">
+                Descripción
             </label>
             <span class="col-md-9">
-                <g:textField name="clave" minlength="3" maxlength="63"  class="form-control" value="${actividad?.clave}"/>
+                <g:textArea name="descripcion" minlength="3" maxlength="1024"  class="form-control" value="${actividad?.descripcion}"  style="resize: none; height: 100px"/>
             </span>
         </span>
     </div>
@@ -91,13 +91,13 @@
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: actividad, field: 'descripcion', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'clave', 'error')} ">
         <span class="grupo">
-            <label for="descripcion" class="col-md-2 control-label text-info">
-                Descripción
+            <label for="clave" class="col-md-2 control-label text-info">
+                Clave
             </label>
             <span class="col-md-9">
-                <g:textArea name="descripcion" minlength="3" maxlength="1024"  class="form-control" value="${actividad?.descripcion}"  style="resize: none; height: 100px"/>
+                <g:textField name="clave" minlength="3" maxlength="63"  class="form-control" value="${actividad?.clave}"/>
             </span>
         </span>
     </div>

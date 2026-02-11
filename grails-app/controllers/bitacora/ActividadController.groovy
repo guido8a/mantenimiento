@@ -117,4 +117,16 @@ class ActividadController {
             render "ok_Actividad guardada correctamente"
         }
     }
+
+    def borrar_ajax(){
+        def actividad = Actividad.get(params.id)
+
+        try{
+            actividad.delete(flush: true)
+            render "ok"
+        }catch(e){
+            println("error al borrar la actividad " + actividad.errors)
+            render "no"
+        }
+    }
 }

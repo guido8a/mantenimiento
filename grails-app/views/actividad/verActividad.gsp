@@ -13,16 +13,8 @@
                     <div class="form-group">
                         <span class="grupo">
                             <span class="col-md-12">
-                                <label>Requerimiento</label>
-                                <g:textField name="usuarioVer" readonly="" class="form-control" value="${actividad?.requerimiento}"/>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <span class="grupo">
-                            <span class="col-md-12">
-                                <label>Algoritmo</label>
-                                <g:textArea name="algoritmoVer" readonly="" class="form-control" value="${actividad?.algoritmo ?: ''}" style="resize: none; height: 150px"/>
+                                <label>Requerimiento:</label> <span class="alert-info">${actividad?.requerimiento}</span>
+%{--                                <g:textField name="usuarioVer" readonly="" class="form-control" value="${actividad?.requerimiento}"/>--}%
                             </span>
                         </span>
                     </div>
@@ -31,6 +23,14 @@
                             <span class="col-md-12">
                                 <label>Descripción</label>
                                 <g:textArea name="descripcionVer" readonly="" class="form-control" value="${actividad?.descripcion ?: ''}" style="resize: none; height: 150px"/>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <span class="grupo">
+                            <span class="col-md-12">
+                                <label>Algoritmo</label>
+                                <g:textArea name="algoritmoVer" readonly="" class="form-control" value="${actividad?.algoritmo ?: ''}" style="resize: none; height: 150px"/>
                             </span>
                         </span>
                     </div>

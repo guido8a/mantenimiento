@@ -30,7 +30,7 @@ th, td {
             <g:each in="${data}" var="dt" status="i">
                 <g:set var="usuario" value="${dt.usro__id}"/>
                 <tr data-id="${dt.usro__id}" style="width: 100%">
-                    <td style="width: 15%">${bitacora.Usuario.get(dt.usro__id)?.empresa?.nombre}</td>
+                    <td style="width: 15%">${bitacora.Usuario.get(dt.usro__id)?.empresa?.sigla}</td>
                     <td style="width: 17%">${dt.usrocdla}</td>
                     <td style="width: 28%">${dt.usronmbr}</td>
                     <td style="width: 30%">${dt.usroapll}</td>

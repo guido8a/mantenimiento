@@ -20,7 +20,7 @@
 
 <div class="btn-toolbar toolbar" style="margin-bottom: 15px">
     <div class="btn-group">
-        <a href="#" class="btn btn-info btnCrearActividad" ><i class="fa fa-user"></i>  Nueva actividad</a>
+        <a href="#" class="btn btn-info btnCrearActividad" ><i class="fa fa-file"></i>  Nueva actividad</a>
     </div>
 </div>
 
@@ -34,7 +34,7 @@
             <g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}" class="form-control" />
         </div>
         <div class="col-md-3">
-            <button class="btn btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i class="fa fa-user"></i> Buscar  </button>
+            <button class="btn btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i class="fa fa-user"></i> Usuario  </button>
             <button class="btn btn-warning" id="btnBuscarTodosUsuario" title="Seleccionar todos los usuarios"><i class="fa fa-users"></i> Todos  </button>
         </div>
     </div>
@@ -65,7 +65,7 @@
                 </span>
             </span>
             <div class="col-md-2" style="margin-top: 20px">
-                <button class="btn btn-info" id="btnBuscarActividad"><i class="fa fa-search"></i></button>
+                <button class="btn btn-info" id="btnBuscarActividad" title="Buscar actividad"><i class="fa fa-search"></i> Buscar</button>
                 <button class="btn btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i></button>
             </div>
         </div>
@@ -188,7 +188,8 @@
     $("#btnLimpiarBusquedaActividad").click(function () {
         $("#criterioCriterio").val("");
         $(".buscarPor").val(1);
-        $(".buscarPorTipo").val();
+        $(".buscarPorTipo").val('null');
+        $(".buscarPorPeriodo").val('null');
         cargarActividades();
     });
 
@@ -222,6 +223,44 @@
         })
     }
 
+    function deleteActividad(itemId) {
+        bootbox.dialog({
+            title   : "<i class='fa fa-trash fa-2x pull-left text-danger text-shadow'></i> Alerta",
+            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar la actividad seleccionada? </br> Esta acción no se puede deshacer.</p>",
+            buttons : {
+                cancelar : {
+                    label     : "<i class='fa fa-times'></i> Cancelar",
+                    className : "btn-primary",
+                    callback  : function () {
+                    }
+                },
+                eliminar : {
+                    label     : "<i class='fa fa-trash'></i> Eliminar",
+                    className : "btn-danger",
+                    callback  : function () {
+                        var a = cargarLoader("Borrando...");
+                        $.ajax({
+                            type    : "POST",
+                            url     : '${createLink(controller: 'actividad', action:'borrar_ajax')}',
+                            data    : {
+                                id : itemId
+                            },
+                            success : function (msg) {
+                                a.modal("hide");
+                                if (msg === "ok") {
+                                    log("Actividad borrada correctamente","success");
+                                    cargarActividades();
+                                } else {
+                                    log("Error al borrar la actvidad","error");
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
 
 </script>
 </body>

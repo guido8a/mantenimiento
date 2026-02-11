@@ -15,11 +15,11 @@ th, td {
 <table class="table table-bordered table-striped table-hover table-condensed" id="tabla" style="width: 100%; background-color: #a39e9e">
     <thead>
     <tr style="text-align: center">
-        <th style="width: 15%">Usuario</th>
-        <th style="width: 17%">Tipo</th>
+        <th style="width: 18%">Usuario</th>
+        <th style="width: 22%">Tipo</th>
         <th style="width: 25%">Período</th>
-        <th style="width: 31%">Requerimiento</th>
-        <th style="width: 11%"></th>
+        <th style="width: 20%">Requerimiento</th>
+        <th style="width: 14%"></th>
         <th style="width: 1%"></th>
     </tr>
     </thead>
@@ -31,17 +31,20 @@ th, td {
             <g:each in="${data}" var="actividad">
                 <g:set var="actividadId" value="${actividad?.actv__id}"/>
                 <tr data-id="${actividad.actv__id}" style="width: 100%">
-                    <td style="width: 15%">${bitacora.Usuario.get(actividad.usro__id)?.apellido + "  " +
+                    <td style="width: 18%">${bitacora.Usuario.get(actividad.usro__id)?.apellido + "  " +
                             bitacora.Usuario.get(actividad.usro__id)?.nombre}</td>
-                    <td style="width: 17%">${bitacora.TipoMantenimiento.get(actividad.tpmt__id)?.descripcion}</td>
+                    <td style="width: 22%">${bitacora.TipoMantenimiento.get(actividad.tpmt__id)?.descripcion}</td>
                     <td style="width: 25%">${bitacora.Periodo.get(actividad.prdo__id)?.fechads?.format("dd-MM-yyyy") + " - " + bitacora.Periodo.get(actividad.prdo__id)?.fechahs?.format("dd-MM-yyyy")}</td>
-                    <td style="width: 31%">${actividad.actvreqm}</td>
-                    <td style="width: 11%; text-align: center">
+                    <td style="width: 20%">${actividad.actvreqm}</td>
+                    <td style="width: 14%; text-align: center">
                         <a class="btn btn-xs btn-success btnEditarActividad" href="#"  title="Editar actividad" data-id="${actividad.actv__id}">
                             <i class="fa fa-edit"></i>
                         </a>
                         <a class="btn btn-xs btn-info btnVerActividad" href="#"  title="Ver actividad" data-id="${actividad.actv__id}">
                             <i class="fa fa-arrow-right"></i>
+                        </a>
+                        <a class="btn btn-xs btn-danger btnBorrarActividad" href="#"  title="Eliminar actividad" data-id="${actividad.actv__id}">
+                            <i class="fa fa-trash"></i>
                         </a>
                     </td>
                     <td style="width: 1%"></td>
@@ -56,6 +59,11 @@ th, td {
 
 
 <script type="text/javascript">
+
+    $(".btnBorrarActividad").click(function () {
+        var id = $(this).data("id");
+        deleteActividad(id)
+    });
 
     $(".btnEditarActividad").click(function () {
         var id = $(this).data("id");
@@ -83,5 +91,6 @@ th, td {
             }
         })
     }
+
 
 </script>
