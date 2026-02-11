@@ -105,7 +105,10 @@ class ActividadController {
             actividad = Actividad.get(params.id)
         }else{
             actividad = new Actividad()
-            actividad.fecha = new Date()
+        }
+
+        if(params.fecha){
+            params.fecha = new Date().parse("dd-MM-yyyy", params.fecha)
         }
 
         actividad.properties = params

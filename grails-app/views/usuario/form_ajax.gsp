@@ -5,13 +5,13 @@
         <g:hiddenField name="id" value="${usuario?.id}"/>
 
         <div class="form-group keeptogether ${hasErrors(bean: usuario, field: 'empresa', 'error')} required">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <span class="grupo">
-                    <label for="empresa" class="col-md-4 control-label">
+                    <label for="empresa" class="col-md-2 control-label">
                         Empresa
                     </label>
                 </span>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <g:select name="empresa" from="${bitacora.Empresa.list().sort{it.nombre}}" class="form-control" optionKey="id" optionValue="nombre" value="${usuario?.empresa?.id}"/>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                     Fecha de finalización
                 </label>
                 <span class="col-md-4" style="font-size: 14px">
-                    <input name="fechaFin" id='datetimepicker2' type='text' class="form-control" value="${usuario?.fechaFin?.format("dd-MM-yyyy") ?: new Date()?.format("dd-MM-yyyy")}"/>
+                    <input name="fechaFin" id='datetimepicker2' type='text' class="form-control" value="${usuario?.fechaFin?.format("dd-MM-yyyy")}"/>
                 </span>
             </span>
         </div>

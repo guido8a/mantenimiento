@@ -69,6 +69,19 @@
         </span>
     </div>
 
+    <div class="form-group ${hasErrors(bean: actividad, field: 'fecha', 'error')} required">
+        <span class="grupo">
+            <label for="datetimepicker2" class="col-md-2 control-label text-info">
+                Fecha
+            </label>
+            <span class="col-md-9">
+                <span class="grupo">
+                    <input name="fecha" id='datetimepicker2' type='text' class="form-control" value="${actividad?.fecha?.format("dd-MM-yyyy") ?: new java.util.Date()?.format("dd-MM-yyyy")}"/>
+                </span>
+            </span>
+        </span>
+    </div>
+
     <div class="form-group ${hasErrors(bean: actividad, field: 'descripcion', 'error')} ">
         <span class="grupo">
             <label for="descripcion" class="col-md-2 control-label text-info">
@@ -105,6 +118,17 @@
 </g:form>
 
 <script type="text/javascript">
+
+    $(function () {
+        $('#datetimepicker2').datetimepicker({
+            locale: 'es',
+            format: 'DD-MM-YYYY',
+            showClose: true,
+            icons: {
+                close: 'cerrar'
+            }
+        });
+    });
 
     $(".btnBuscarUsuarioActividad").click(function () {
         buscarUsuario(1);

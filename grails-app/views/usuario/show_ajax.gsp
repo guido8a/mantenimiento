@@ -52,7 +52,7 @@
                 Título
             </div>
             <div class="col-md-4 ">
-                ${usuario?.titulo}/>
+                ${usuario?.titulo}
             </div>
         </div>
     </g:if>

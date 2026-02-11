@@ -50,6 +50,8 @@ class UsuarioController {
 
         if(params.fechaFin){
             params.fechaFin = new Date().parse("dd-MM-yyyy", params.fechaFin)
+        }else{
+            params.fechaFin = null
         }
 
         if(params.activoName){
