@@ -18,58 +18,63 @@
 
 <body>
 
-<div class="btn-toolbar toolbar" style="margin-bottom: 15px">
-    <div class="btn-group">
-        <a href="#" class="btn btn-info btnCrearActividad" ><i class="fa fa-file"></i>  Nueva actividad</a>
-    </div>
-</div>
+%{--<div class="btn-toolbar toolbar" style="margin-bottom: 15px">--}%
+    %{--<div class="btn-group">--}%
+        %{--<a href="#" class="btn btn-info btnCrearActividad" ><i class="fa fa-file"></i>  Nueva actividad</a>--}%
+    %{--</div>--}%
+%{--</div>--}%
 
-<div class="col-md-12" style="margin-bottom: 10px">
+<div class="col-md-12" style="margin-bottom: 10px; margin-left: -40px">
     <div class="row-fluid">
-        <div class="col-md-1" style="font-size: 12px">
-            <label class="control-label text-info">Usuario</label>
+
+        <div class="btn-group col-md-2">
+            <a href="#" class="btn btn-info btnCrearActividad" ><i class="fa fa-file"></i>  Nueva actividad</a>
         </div>
-        <div class="col-md-7">
+
+
+        <div class="col-md-3">
+            <label class="control-label text-info">Usuario</label>
+            <span style="margin-left: 140px">
+            <button class="btn btn-xs btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i class="fa fa-user xs"></i></button>
+            <button class="btn btn-xs btn-warning" id="btnBuscarTodosUsuario" title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>
+            </span>
             <g:hiddenField name="usuarioBusquedaId" value="${null}"/>
             <g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}" class="form-control" />
         </div>
-        <div class="col-md-3">
-            <button class="btn btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i class="fa fa-user"></i> Usuario  </button>
-            <button class="btn btn-warning" id="btnBuscarTodosUsuario" title="Seleccionar todos los usuarios"><i class="fa fa-users"></i> Todos  </button>
-        </div>
-    </div>
-</div>
+    %{--</div>--}%
+%{--</div>--}%
 
-<div class="col-md-12" style="overflow: hidden">
-    <fieldset class="borde" style="border-radius: 4px">
-        <div class="row-fluid" style="margin-left: 10px">
+%{--<div class="col-md-12" style="overflow: hidden">--}%
+    %{--<fieldset class="borde" style="border-radius: 4px">--}%
+        %{--<div class="row-fluid" style="margin-left: 10px">--}%
             <span class="grupo">
                 <span class="col-md-2">
                     <label class="control-label text-info">Tipo de mantenimiento</label>
                     <g:select name="buscarPorTipo" class="buscarPorTipo col-md-12 form-control" from="${bitacora.TipoMantenimiento.list().sort{it.descripcion}}" optionKey="id"
                               optionValue="descripcion" noSelection="[ null: 'TODOS']"/>
                 </span>
-                <span class="col-md-3">
+                <span class="col-md-2">
                     <label class="control-label text-info">Período</label>
                     <g:select name="buscarPorPeriodo" class="buscarPorPeriodo col-md-12 form-control" from="${bitacora.Periodo.list().sort{it.numero}}" optionKey="id"
                               optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" noSelection="[ null: 'TODOS']"/>
                 </span>
-                <span class="col-md-2">
+                <span class="col-md-1">
                     <label class="control-label text-info">Buscar Por</label>
                     <g:select name="buscarPor" class="buscarPor col-md-12 form-control" from="${[1: 'Descripción', 2: 'Clave']}"
                               optionKey="key" optionValue="value"/>
                 </span>
-                <span class="col-md-3">
+                <span class="col-md-1">
                     <label class="control-label text-info">Criterio</label>
                     <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control"/>
                 </span>
             </span>
-            <div class="col-md-2" style="margin-top: 20px">
-                <button class="btn btn-info" id="btnBuscarActividad" title="Buscar actividad"><i class="fa fa-search"></i> Buscar</button>
-                <button class="btn btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i></button>
+            <div class="col-md-1" style="margin-top: 20px">
+                <button class="btn btn-xs btn-info" id="btnBuscarActividad" title="Buscar actividad"><i class="fa fa-search"></i></button>
+                <button class="btn btn-xs btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i></button>
             </div>
-        </div>
-    </fieldset>
+        %{--</div>--}%
+    %{--</fieldset>--}%
+</div>
 </div>
 
 <div class="col-md-12" style="margin-top: 20px">

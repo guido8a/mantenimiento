@@ -59,11 +59,13 @@ th, td {
         var apellido = $(this).data("apellido");
         <g:if test="${tipo == '1'}">
         $("#usuario").val(id);
-        $("#usuarioName").val(cedula + " - " + apellido + " " + nombre);
+//        $("#usuarioName").val(cedula + " - " + apellido + " " + nombre);
+        $("#usuarioName").val(apellido + " " + nombre);
         </g:if>
         <g:else>
         $("#usuarioBusquedaId").val(id);
-        $("#usuarioBusquedaName").val(cedula + " - " + apellido + " " + nombre);
+//        $("#usuarioBusquedaName").val(cedula + " - " + apellido + " " + nombre);
+        $("#usuarioBusquedaName").val(nombre + " " + apellido);
         </g:else>
         cerrarBusquedaUsuario();
     })
