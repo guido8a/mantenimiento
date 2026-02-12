@@ -62,7 +62,7 @@
     }
 
     .texto {
-        width: 90%;
+        width: 100%;
         height: 50px;
         padding-top: 0px;
         margin: auto;
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="texto">
-                    <span class="text-success"><strong>Mantenimeinto y Soporte Técnico</strong></span></div>
+                    <span class="text-success"><strong>Mantenimiento y Soporte Técnico</strong></span></div>
             </div>
         </div>
         </a>
