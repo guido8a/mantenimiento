@@ -38,13 +38,13 @@ class Responsable {
     static constraints = {
         contrato(blank: false, nullable: false)
         nombre(size: 3..31, blank: false, nullable: false)
-        apellido(size: 0..31, blank: true, nullable: true)
+        apellido(size: 3..31, blank: false, nullable: false)
         fechaInicio(blank: true, nullable: true)
         fechaFin(blank: true, nullable: true)
         mail(size: 0..63, blank: true, nullable: true)
         cargo(size: 0..127, blank: true, nullable: true)
         departamento(size: 0..127, blank: true, nullable: true)
-        titulo(size: 0..31, blank: true, nullable: true)
+        titulo(size: 0..31, blank: false, nullable: false)
         telefono(size: 0..31, blank: true, nullable: true)
         sexo(size: 0..1, blank: true, nullable: true)
     }

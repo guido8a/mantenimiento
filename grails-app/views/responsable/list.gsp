@@ -2,15 +2,15 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Lista de contratos</title>
+    <title>Lista de responsables</title>
 </head>
 
 <body>
 
 <div class="btn-toolbar toolbar" style="margin-bottom: 15px">
     <div class="btn-group">
-        <a href="#" class="btn btn-success" id="btnCrearContrato">
-            <i class="fa fa-file"></i> Nuevo contrato
+        <a href="#" class="btn btn-success" id="btnCrearResponsable">
+            <i class="fa fa-file"></i> Nuevo responsable
         </a>
     </div>
 </div>
@@ -19,10 +19,9 @@
     <table class="table table-bordered table-hover table-condensed" style="width: 100%; background-color: #a39e9e">
         <thead>
         <tr style="width: 100%">
-            <th style="width: 15%">Empresa</th>
-            <th style="width: 20%">Número</th>
-            <th style="width: 20%">Objeto</th>
-            <th style="width: 15%">Fecha Sub.</th>
+            <th style="width: 15%">Contrato</th>
+            <th style="width: 20%">Apellido</th>
+            <th style="width: 20%">Nombre</th>
             <th style="width: 15%">Fecha Inicio</th>
             <th style="width: 15%">Fecha Fin</th>
             <th style="width: 10%">Acciones</th>
@@ -30,24 +29,24 @@
         </thead>
     </table>
 
-    <div id="divContrato">
+    <div id="divResposanble">
     </div>
 </div>
 
 <script type="text/javascript">
 
-    cargarTablaContratos();
+    cargarTablaReponsables();
 
-    $("#btnCrearContrato").click(function () {
-        createEditContrato();
+    $("#btnCrearResponsable").click(function () {
+        createEditResponsable();
     });
 
-    function createEditContrato(id) {
+    function createEditResponsable(id) {
         var title = id ? "Editar" : "Crear";
         var data = id ? { id: id } : {};
         $.ajax({
             type    : "POST",
-            url     : "${createLink(controller: 'contrato', action:'form_ajax')}",
+            url     : "${createLink(controller: 'responsable', action:'form_ajax')}",
             data    : data,
             success : function (msg) {
                 var b = bootbox.dialog({
@@ -66,7 +65,7 @@
                             label     : "<i class='fa fa-save'></i> Guardar",
                             className : "btn-success",
                             callback  : function () {
-                                return submitFormContrato();
+                                return submitFormResponsable();
                             } //callback
                         } //guardar
                     } //buttons
@@ -78,21 +77,21 @@
         }); //ajax
     } //createEdit
 
-    function submitFormContrato() {
-        var $form = $("#frmContrato");
+    function submitFormResponsable() {
+        var $form = $("#frmResponsable");
         if ($form.valid()) {
             $.ajax({
                 type    : "POST",
-                url     : '${createLink(controller: 'contrato', action:'save_ajax')}',
+                url     : '${createLink(controller: 'responsable', action:'save_ajax')}',
                 data    : $form.serialize(),
                 success : function (msg) {
                     var parts = msg.split("_");
                     if (parts[0]==="ok") {
                         log(parts[1],"success");
-                        cargarTablaContratos();
+                        cargarTablaReponsables();
                     } else {
                         log(parts[1],"error");
-                        cargarTablaContratos();
+                        cargarTablaReponsables();
                         return false;
                     }
                 }
@@ -102,28 +101,28 @@
         } //else
     }
 
-    function cargarTablaContratos(){
+    function cargarTablaReponsables(){
         var c = cargarLoader("Cargando...");
         $.ajax({
             type    : "POST",
-            url     : "${g.createLink(controller: 'contrato', action: 'tablaContratos_ajax')}",
+            url     : "${g.createLink(controller: 'responsable', action: 'tablaResponsables_ajax')}",
             data    : {
             },
             success : function (msg) {
                 c.modal("hide");
-                $("#divContrato").html(msg);
+                $("#divResposanble").html(msg);
             },
             error   : function (msg) {
                 c.modal("hide");
-                $("#divContrato").html("Ha ocurrido un error");
+                $("#divResposanble").html("Ha ocurrido un error");
             }
         });
     }
 
-    function deleteContrato(itemId) {
+    function deleteResponsable(itemId) {
         bootbox.dialog({
             title   : "<i class='fa fa-trash fa-2x pull-left text-danger text-shadow'></i> Alerta",
-            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar el contrato seleccionado? </br> Esta acción no se puede deshacer.</p>",
+            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar el responsable seleccionado? </br> Esta acción no se puede deshacer.</p>",
             buttons : {
                 cancelar : {
                     label     : "<i class='fa fa-times'></i> Cancelar",
@@ -138,17 +137,17 @@
                         var a = cargarLoader("Borrando...");
                         $.ajax({
                             type    : "POST",
-                            url     : '${createLink(controller: 'contrato', action:'borrar_ajax')}',
+                            url     : '${createLink(controller: 'responsable', action:'borrar_ajax')}',
                             data    : {
                                 id : itemId
                             },
                             success : function (msg) {
                                 a.modal("hide");
                                 if (msg === "ok") {
-                                    log("Contrato borrado correctamente","success");
-                                    cargarTablaContratos();
+                                    log("Responsable borrado correctamente","success");
+                                    cargarTablaReponsables();
                                 } else {
-                                    log("Error al borrar el contrato","error");
+                                    log("Error al borrar el responsable","error");
                                     return false;
                                 }
                             }

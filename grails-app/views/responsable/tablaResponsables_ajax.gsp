@@ -12,32 +12,32 @@ th, td {
 
 <div class="" style="width: 99.7%;height: 390px; overflow-y: auto;float: right; margin-top: -20px">
     <table class="table-bordered table-condensed table-hover" style="width: 100%">
-        <g:if test="${contratos.size() > 0}">
-            <g:each in="${contratos}" var="contrato">
+        <g:if test="${responsables.size() > 0}">
+            <g:each in="${responsables}" var="responsable">
                 <tr style="width: 100%">
                     <td style="width: 15%">
-                        ${contrato?.empresa?.sigla}
+                        ${responsable?.contrato?.numero}
                     </td>
                     <td style="width: 20%">
-                        ${contrato?.numero}
+                        ${responsable?.apellido}
                     </td>
                     <td style="width: 20%">
-                        ${contrato?.objeto}
+                        ${responsable?.nombre}
                     </td>
                     <td style="width: 15%">
-                        ${contrato?.fechaSubscripcion?.format("dd-MM-yyyy")}
+                        ${responsable?.fechaInicio?.format("dd-MM-yyyy")}
                     </td>
                     <td style="width: 15%">
-                        ${contrato?.fechaInicio?.format("dd-MM-yyyy")}
-                    </td>
-                    <td style="width: 15%">
-                        ${contrato?.fechaFin?.format("dd-MM-yyyy")}
+                        ${responsable?.fechaFin?.format("dd-MM-yyyy")}
                     </td>
                     <td style="width: 10%; text-align: center">
-                        <a class="btn btn-xs btnEditarContrato btn-success" href="#"  title="Editar" data-id="${contrato.id}">
+                        <a class="btn btn-xs btnVerResponsable btn-info" href="#"  title="Editar" data-id="${responsable.id}">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <a class="btn btn-xs btnEditarResponsable btn-success" href="#"  title="Editar" data-id="${responsable.id}">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a class="btn btn-xs btnBorrarContrato btn-danger" href="#" title="Eliminar" data-id="${contrato.id}">
+                        <a class="btn btn-xs btnBorrarResponsable btn-danger" href="#" title="Eliminar" data-id="${responsable.id}">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
@@ -52,18 +52,18 @@ th, td {
 
 <script type="text/javascript">
 
-    $(".btnVerContrato").click(function () {
+    $(".btnVerResponsable").click(function () {
         var id = $(this).data("id");
-        verEmpresa(id);
+        verResponsable(id);
     });
 
-    $(".btnEditarContrato").click(function () {
+    $(".btnEditarResponsable").click(function () {
         var id = $(this).data("id");
-        createEditContrato(id);
+        createEditResponsable(id);
     });
-    $(".btnBorrarContrato").click(function () {
+    $(".btnBorrarResponsable").click(function () {
         var id = $(this).data("id");
-        deleteContrato(id);
+        deleteResponsable(id);
     });
 
 </script>
