@@ -24,57 +24,62 @@
     %{--</div>--}%
 %{--</div>--}%
 
-<div class="col-md-12" style="margin-bottom: 10px; margin-left: -40px">
+<div class="col-md-12" style="margin-bottom: 10px; margin-left: -20px">
     <div class="row-fluid">
 
-        <div class="btn-group col-md-2">
-            <a href="#" class="btn btn-info btnCrearActividad" ><i class="fa fa-file"></i>  Nueva actividad</a>
+        <div class="btn-group col-md-2" style="margin-top: 20px">
+            <a href="#" class="btn btn-info btnCrearActividad"><i class="fa fa-file"></i>  Nueva actividad</a>
         </div>
 
 
         <div class="col-md-3">
-            <label class="control-label text-info">Usuario</label>
-            <span style="margin-left: 140px">
-            <button class="btn btn-xs btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i class="fa fa-user xs"></i></button>
-            <button class="btn btn-xs btn-warning" id="btnBuscarTodosUsuario" title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>
+            <label class="control-label text-info">Buscar por usuario</label>
+            <span style="margin-left: 90px">
+                <button class="btn btn-xs btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i
+                        class="fa fa-user xs"></i></button>
+                <button class="btn btn-xs btn-warning" id="btnBuscarTodosUsuario"
+                        title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>
             </span>
             <g:hiddenField name="usuarioBusquedaId" value="${null}"/>
-            <g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}" class="form-control" />
+            <g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}"
+                         class="form-control"/>
         </div>
-    %{--</div>--}%
-%{--</div>--}%
 
-%{--<div class="col-md-12" style="overflow: hidden">--}%
-    %{--<fieldset class="borde" style="border-radius: 4px">--}%
-        %{--<div class="row-fluid" style="margin-left: 10px">--}%
-            <span class="grupo">
-                <span class="col-md-2">
-                    <label class="control-label text-info">Tipo de mantenimiento</label>
-                    <g:select name="buscarPorTipo" class="buscarPorTipo col-md-12 form-control" from="${bitacora.TipoMantenimiento.list().sort{it.descripcion}}" optionKey="id"
-                              optionValue="descripcion" noSelection="[ null: 'TODOS']"/>
-                </span>
-                <span class="col-md-2">
-                    <label class="control-label text-info">Período</label>
-                    <g:select name="buscarPorPeriodo" class="buscarPorPeriodo col-md-12 form-control" from="${bitacora.Periodo.list().sort{it.numero}}" optionKey="id"
-                              optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" noSelection="[ null: 'TODOS']"/>
-                </span>
-                <span class="col-md-1">
-                    <label class="control-label text-info">Buscar Por</label>
-                    <g:select name="buscarPor" class="buscarPor col-md-12 form-control" from="${[1: 'Descripción', 2: 'Clave']}"
-                              optionKey="key" optionValue="value"/>
-                </span>
-                <span class="col-md-1">
-                    <label class="control-label text-info">Criterio</label>
-                    <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control"/>
-                </span>
-            </span>
-            <div class="col-md-1" style="margin-top: 20px">
-                <button class="btn btn-xs btn-info" id="btnBuscarActividad" title="Buscar actividad"><i class="fa fa-search"></i></button>
-                <button class="btn btn-xs btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i></button>
-            </div>
+        <div class="col-md-2">
+            <label class="control-label text-info">Buscar por tipo</label>
+            <g:select name="buscarPorTipo" class="buscarPorTipo col-md-12 form-control"
+                      from="${bitacora.TipoMantenimiento.list().sort { it.descripcion }}" optionKey="id"
+                      optionValue="descripcion" noSelection="[null: 'TODOS']"/>
+        </div>
+
+        <div class="col-md-2" style="margin-left: -20px">
+            <label class="control-label text-info">Buscar por período</label>
+            <g:select name="buscarPorPeriodo" class="buscarPorPeriodo form-control"
+                      from="${bitacora.Periodo.list().sort { it.numero }}" optionKey="id"
+                      optionValue="${{ it.fechads?.format("dd-MM-yy") + " - " + it.fechahs?.format("dd-MM-yy") }}"
+                      noSelection="[null: 'TODOS']" style="width: 160px"/>
+        </div>
+
+        <div class="col-md-1" style="margin-left: -10px">
+            <label class="control-label text-info">Buscar Por</label>
+            <g:select name="buscarPor" class="buscarPor form-control" from="${[1: 'Descripción', 2: 'Clave']}"
+                      optionKey="key" optionValue="value" style="width: 80px"/>
+        </div>
+
+        <div class="col-md-1">
+            <label class="control-label text-info">Criterio</label>
+            <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control" style="width: 110px"/>
+        </div>
+        %{--</span>--}%
+        <div class="col-md-1" style="margin-top: 25px; margin-left: 25px">
+            <button class="btn btn-xs btn-info" id="btnBuscarActividad" title="Buscar actividad"><i
+                    class="fa fa-search"></i></button>
+            <button class="btn btn-xs btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i>
+            </button>
+        </div>
         %{--</div>--}%
-    %{--</fieldset>--}%
-</div>
+        %{--</fieldset>--}%
+    </div>
 </div>
 
 <div class="col-md-12" style="margin-top: 20px">
