@@ -81,11 +81,11 @@
 
     <div class="form-group ${hasErrors(bean: responsable, field: 'telefono', 'error')} ">
         <span class="grupo">
-            <label for="mail" class="col-md-2 control-label text-info">
+            <label for="telefono" class="col-md-2 control-label text-info">
                 Teléfono
             </label>
             <span class="col-md-10">
-                <g:textField name="mail" minlength="3" maxlength="31"  class="form-control email" value="${responsable?.telefono}"/>
+                <g:textField name="telefono" minlength="3" maxlength="31"  class="form-control" value="${responsable?.telefono}"/>
             </span>
         </span>
     </div>

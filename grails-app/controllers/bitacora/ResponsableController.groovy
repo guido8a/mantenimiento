@@ -62,4 +62,9 @@ class ResponsableController {
             render "no"
         }
     }
+
+    def show_ajax(){
+        def responsable = Responsable.get(params.id)
+        return [responsable: responsable]
+    }
 }

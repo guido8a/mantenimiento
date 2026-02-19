@@ -1,16 +1,16 @@
-<%@ page import="seguridad.Persona" contentType="text/html;charset=UTF-8" %>
+
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Lista de responsables</title>
+    <title>Lista de oficios</title>
 </head>
 
 <body>
 
 <div class="btn-toolbar toolbar" style="margin-bottom: 15px">
     <div class="btn-group">
-        <a href="#" class="btn btn-success" id="btnCrearResponsable">
-            <i class="fa fa-file"></i> Nuevo responsable
+        <a href="#" class="btn btn-success" id="btnCrearOficio">
+            <i class="fa fa-file"></i> Nuevo oficio
         </a>
     </div>
 </div>
@@ -20,38 +20,56 @@
         <thead>
         <tr style="width: 100%">
             <th style="width: 15%">Contrato</th>
-            <th style="width: 20%">Apellido</th>
-            <th style="width: 20%">Nombre</th>
-            <th style="width: 15%">Fecha Inicio</th>
-            <th style="width: 15%">Fecha Fin</th>
+            <th style="width: 20%">Período</th>
+            <th style="width: 20%">Número</th>
+            <th style="width: 15%">Fecha</th>
             <th style="width: 10%">Acciones</th>
         </tr>
         </thead>
     </table>
 
-    <div id="divResposanble">
+    <div id="divOficios">
     </div>
 </div>
 
 <script type="text/javascript">
 
-    cargarTablaReponsables();
+    cargarTablaOficios();
 
-    $("#btnCrearResponsable").click(function () {
-        createEditResponsable();
+    $("#btnCrearOficio").click(function () {
+        createEditOficio();
     });
 
-    function createEditResponsable(id) {
+    function cargarTablaOficios(){
+        var c = cargarLoader("Cargando...");
+        $.ajax({
+            type    : "POST",
+            url     : "${g.createLink(controller: 'oficio', action: 'tablaOficios_ajax')}",
+            data    : {
+            },
+            success : function (msg) {
+                c.modal("hide");
+                $("#divOficios").html(msg);
+            },
+            error   : function (msg) {
+                c.modal("hide");
+                $("#divOficios").html("Ha ocurrido un error");
+            }
+        });
+    }
+
+    function createEditOficio(id) {
         var title = id ? "Editar" : "Crear";
         var data = id ? { id: id } : {};
         $.ajax({
             type    : "POST",
-            url     : "${createLink(controller: 'responsable', action:'form_ajax')}",
+            url     : "${createLink(controller: 'oficio', action:'form_ajax')}",
             data    : data,
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgCreateEdit",
-                    title   : title + " Resposanble",
+                    title   : title + " Oficio",
+                    class   : "modal-lg",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -65,7 +83,7 @@
                             label     : "<i class='fa fa-save'></i> Guardar",
                             className : "btn-success",
                             callback  : function () {
-                                return submitFormResponsable();
+                                return submitFormOficio();
                             } //callback
                         } //guardar
                     } //buttons
@@ -77,21 +95,30 @@
         }); //ajax
     } //createEdit
 
-    function submitFormResponsable() {
-        var $form = $("#frmResponsable");
+    function submitFormOficio() {
+        var $form = $("#frmOficio");
         if ($form.valid()) {
+           var texto = CKEDITOR.instances.texto.getData();
             $.ajax({
                 type    : "POST",
-                url     : '${createLink(controller: 'responsable', action:'save_ajax')}',
-                data    : $form.serialize(),
+                url     : '${createLink(controller: 'oficio', action:'save_ajax')}',
+                // data    : $form.serialize(),
+                data    : {
+                    id: $("#id").val(),
+                    contrato: $("#contrato").val(),
+                    periodo: $("#periodo").val(),
+                    numero: $("#numero").val(),
+                    fecha: $("#datetimepicker1").val(),
+                    texto: texto
+                },
                 success : function (msg) {
                     var parts = msg.split("_");
                     if (parts[0]==="ok") {
                         log(parts[1],"success");
-                        cargarTablaReponsables();
+                        cargarTablaOficios();
                     } else {
                         log(parts[1],"error");
-                        cargarTablaReponsables();
+                        cargarTablaOficios();
                         return false;
                     }
                 }
@@ -101,28 +128,10 @@
         } //else
     }
 
-    function cargarTablaReponsables(){
-        var c = cargarLoader("Cargando...");
-        $.ajax({
-            type    : "POST",
-            url     : "${g.createLink(controller: 'responsable', action: 'tablaResponsables_ajax')}",
-            data    : {
-            },
-            success : function (msg) {
-                c.modal("hide");
-                $("#divResposanble").html(msg);
-            },
-            error   : function (msg) {
-                c.modal("hide");
-                $("#divResposanble").html("Ha ocurrido un error");
-            }
-        });
-    }
-
-    function deleteResponsable(itemId) {
+    function deleteOficio(itemId) {
         bootbox.dialog({
             title   : "<i class='fa fa-trash fa-2x pull-left text-danger text-shadow'></i> Alerta",
-            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar el responsable seleccionado? </br> Esta acción no se puede deshacer.</p>",
+            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar el oficio seleccionado? </br> Esta acción no se puede deshacer.</p>",
             buttons : {
                 cancelar : {
                     label     : "<i class='fa fa-times'></i> Cancelar",
@@ -137,17 +146,17 @@
                         var a = cargarLoader("Borrando...");
                         $.ajax({
                             type    : "POST",
-                            url     : '${createLink(controller: 'responsable', action:'borrar_ajax')}',
+                            url     : '${createLink(controller: 'oficio', action:'borrar_ajax')}',
                             data    : {
                                 id : itemId
                             },
                             success : function (msg) {
                                 a.modal("hide");
                                 if (msg === "ok") {
-                                    log("Responsable borrado correctamente","success");
-                                    cargarTablaReponsables();
+                                    log("Oficio borrado correctamente","success");
+                                    cargarTablaOficios();
                                 } else {
-                                    log("Error al borrar el responsable","error");
+                                    log("Error al borrar el oficio","error");
                                     return false;
                                 }
                             }
@@ -158,16 +167,16 @@
         });
     }
 
-    function verResponsable(id){
+    function verOficio(id){
         $.ajax({
             type    : "POST",
-            url     : "${createLink(controller: 'responsable', action:'show_ajax')}",
+            url     : "${createLink(controller: 'oficio', action:'show_ajax')}",
             data    : {
                 id : id
             },
             success : function (msg) {
                 bootbox.dialog({
-                    title   : "Ver Responsable",
+                    title   : "Ver Oficio",
                     message : msg,
                     buttons : {
                         ok : {
