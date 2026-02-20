@@ -10,12 +10,16 @@
             </label>
             <span class="col-md-7">
                 <g:hiddenField name="usuario" value="${actividad?.usuario?.id}" />
-                <g:textField name="usuarioName" readonly="" required="" class="form-control required" value="${(actividad?.usuario?.apellido ?: '') + " " + (actividad?.usuario?.nombre ?: '')}"/>
+                <g:textField name="usuarioName" readonly="" required="" class="form-control required"
+                             value="${(actividad?.usuario?.apellido ?: '') + " " + (actividad?.usuario?.nombre ?: '')}"/>
             </span>
-            <span class="col-md-1">
+            <span class="col-md-3">
                 <g:if test="${!actividad?.id}">
                     <a class="btn btn-info btnBuscarUsuarioActividad" href="#"  title="Seleccionar usuario">
                         <i class="fa fa-search"></i>
+                    </a>
+                    <a class="btn btn-warning btnCrearUsuarioActividad" href="#"  title="Crear usuario">
+                        <i class="fa fa-edit"></i>
                     </a>
                 </g:if>
             </span>
@@ -27,7 +31,7 @@
             <label for="periodo" class="col-md-2 control-label text-info">
                 Período
             </label>
-            <span class="col-md-9">
+            <span class="col-md-5">
                 <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required="" class="form-control required" optionKey="id"
                           optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" value="${actividad?.periodo?.id}"/>
             </span>
@@ -39,47 +43,59 @@
             <label for="tipoMantenimiento" class="col-md-2 control-label text-info">
                 Tipo de mantenimiento
             </label>
-            <span class="col-md-9">
-                <g:select name="tipoMantenimiento" from="${bitacora.TipoMantenimiento.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"
+            <span class="col-md-4">
+                <g:select name="tipoMantenimiento" from="${bitacora.TipoMantenimiento.list().sort{it.descripcion}}"
+                          required="" class="form-control required" optionKey="id"
                           optionValue="${{it.descripcion}}" value="${actividad?.tipoMantenimiento?.id}"/>
             </span>
         </span>
-    </div>
-
-    <div class="form-group ${hasErrors(bean: actividad, field: 'moduloSistema', 'error')} ">
         <span class="grupo">
             <label for="moduloSistema" class="col-md-2 control-label text-info">
                 Módulo del sistema
             </label>
-            <span class="col-md-9">
+            <span class="col-md-4">
                 <g:select name="moduloSistema" from="${bitacora.ModuloSistema.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"
                           optionValue="${{it.descripcion}}" value="${actividad?.moduloSistema?.id}"/>
             </span>
         </span>
     </div>
 
+    %{--<div class="form-group ${hasErrors(bean: actividad, field: 'moduloSistema', 'error')} ">--}%
+        %{--<span class="grupo">--}%
+            %{--<label for="moduloSistema" class="col-md-2 control-label text-info">--}%
+                %{--Módulo del sistema--}%
+            %{--</label>--}%
+            %{--<span class="col-md-9">--}%
+                %{--<g:select name="moduloSistema" from="${bitacora.ModuloSistema.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"--}%
+                          %{--optionValue="${{it.descripcion}}" value="${actividad?.moduloSistema?.id}"/>--}%
+            %{--</span>--}%
+        %{--</span>--}%
+    %{--</div>--}%
+
     <div class="form-group ${hasErrors(bean: actividad, field: 'requerimiento', 'error')} required">
         <span class="grupo">
             <label for="requerimiento" class="col-md-2 control-label text-info">
-                Requerimiento
+                Requerimiento número
             </label>
-            <span class="col-md-9">
-                <g:textField name="requerimiento" minlength="3" maxlength="15" required="" class="form-control required" value="${actividad?.requerimiento}"/>
+            <span class="col-md-4">
+                <g:textField name="requerimiento" minlength="3" maxlength="15" required="" class="form-control
+                required" value="${actividad?.requerimiento}"/>
+            </span>
+        </span>
+        <span class="grupo">
+            <label for="datetimepicker2" class="col-md-2 control-label text-info">
+                Fecha
+            </label>
+            <span class="col-md-4">
+                <span class="grupo">
+                    <input name="fecha" id='datetimepicker2' type='text' class="form-control"
+                           value="${actividad?.fecha?.format("dd-MM-yyyy HH:mm") ?: new java.util.Date()?.format("dd-MM-yyyy HH:mm")}"/>
+                </span>
             </span>
         </span>
     </div>
 
     <div class="form-group ${hasErrors(bean: actividad, field: 'fecha', 'error')} required">
-        <span class="grupo">
-            <label for="datetimepicker2" class="col-md-2 control-label text-info">
-                Fecha
-            </label>
-            <span class="col-md-9">
-                <span class="grupo">
-                    <input name="fecha" id='datetimepicker2' type='text' class="form-control" value="${actividad?.fecha?.format("dd-MM-yyyy HH:mm") ?: new java.util.Date()?.format("dd-MM-yyyy HH:mm")}"/>
-                </span>
-            </span>
-        </span>
     </div>
 
     <div class="form-group ${hasErrors(bean: actividad, field: 'descripcion', 'error')} ">
@@ -88,7 +104,8 @@
                 Descripción
             </label>
             <span class="col-md-9">
-                <g:textArea name="descripcion" minlength="3" maxlength="1024"  class="form-control" value="${actividad?.descripcion}"  style="resize: none; height: 100px"/>
+                <g:textArea name="descripcion" minlength="3" maxlength="1024"  class="form-control"
+                            value="${actividad?.descripcion}"  style="resize: none; height: 100px"/>
             </span>
         </span>
     </div>

@@ -35,8 +35,8 @@
     }
 
     .item3 {
-        width: 660px;
-        height: 40px;
+        width: 320px;
+        height: 110px;
         float: left;
         margin: 4px;
         font-family: 'open sans condensed';
@@ -53,8 +53,8 @@
         margin-top: 10px;
     }
     .imagen2 {
-        width: 180px;
-        height: 130px;
+        width: 90px;
+        height: 75px;
         margin: auto;
         margin-top: 10px;
         margin-right: 40px;
@@ -120,12 +120,26 @@
         <div class="ui-corner-all item fuera">
             <div class="ui-corner-all item">
                 <div class="imagen">
-                    <asset:image src="apli/agenda.png" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
+                    <asset:image src="apli/reporte.jpeg" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
 %{--                    <img src="${resource(dir: 'images', file: 'agenda.png')}" width="100%" height="100%"/>--}%
                 </div>
 
                 <div class="texto">
                     <span class="text-success"><strong>Informes y Oficios</strong></span></div>
+            </div>
+        </div>
+        </a>
+
+        <a href= "${createLink(controller:'usuario', action: 'list')}" style="text-decoration: none">
+        <div class="ui-corner-all item3 fuera">
+            <div class="ui-corner-all item3">
+                <div class="imagen2">
+                    <asset:image src="apli/usuarios.png" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
+                </div>
+
+                <div class="texto">
+                    <span class="text-success"><strong>Usuarios del sistema</strong><br/>Soporte técnico</span>
+                </div>
             </div>
         </div>
         </a>
