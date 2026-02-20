@@ -554,16 +554,19 @@ class ReportesController {
         com.lowagie.text.Font titleFont3Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
         com.lowagie.text.Font titleFont2 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 16, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font font10 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font10Bold= new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font font11 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font11Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.NORMAL);
 
         def paramsHead = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE]
         def prmsCellLeft = [border: Color.WHITE, valign: Element.ALIGN_MIDDLE]
+        def prmsCellLeftAT = [border: Color.WHITE, valign: Element.ALIGN_TOP]
         def prmsCellRight = [border: Color.BLACK, align : Element.ALIGN_RIGHT, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
         def prmsCellCenter = [border: Color.BLACK, align : Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
 
         Document document
         document = new Document(PageSize.A4);
-        document.setMargins(70, 70, 20, 25);
+        document.setMargins(70, 70, 130, 50);
         def pdfw = PdfWriter.getInstance(document, baos);
 
         document.open();
@@ -574,68 +577,60 @@ class ReportesController {
         document.addCreator("Tedein SA");
 
         Paragraph headersTitulo = new Paragraph();
-        addEmptyLine(headersTitulo, 5)
+//        addEmptyLine(headersTitulo, 1)
         headersTitulo.setAlignment(Element.ALIGN_CENTER);
-        headersTitulo.add(new Paragraph( '', titleFont2));
-        addEmptyLine(headersTitulo, 2);
-        headersTitulo.add(new Paragraph("INFORME TÉCNICO N° " + (oficio?.numero ?: ''), titleFont));
+//        headersTitulo.add(new Paragraph( '', titleFont2));
+//        addEmptyLine(headersTitulo, 2);
+        headersTitulo.add(new Paragraph("INFORME TÉCNICO N° " + (oficio?.periodo?.numero ?: ''), titleFont));
         addEmptyLine(headersTitulo, 1);
         headersTitulo.add(new Paragraph("Contrato N°: " + (oficio?.contrato?.numero ?: ''), titleFont3));
 //        headersTitulo.add(new Paragraph("Quito, " + fechaConFormato(new Date(), "dd MMMM yyyy").toUpperCase(), titleFont3));
         addEmptyLine(headersTitulo, 1);
-        headersTitulo.add(new Paragraph("Servicio de mantenimiento, soporte técnico y mejoras para el Sistema de control de Proyectos, Contratación, Ejecución, y Seguimiento de Obras del GADPP (SEP-GADPP) ", titleFont3Normal));
+        headersTitulo.add(new Paragraph(oficio?.contrato?.objeto, titleFont3Normal));
         addEmptyLine(headersTitulo, 1);
         headersTitulo.add(new Paragraph("Informe técnico del período del " + fechaConFormato(oficio?.periodo?.fechads, "dd MMMM yyyy") + " al " + fechaConFormato(oficio?.periodo?.fechahs, "dd MMMM yyyy"), font11));
         addEmptyLine(headersTitulo, 1);
 
         document.add(headersTitulo)
 
-        def tablaModulos = new PdfPTable(1);
+        def tablaModulos = new PdfPTable(2);
         tablaModulos.setWidthPercentage(100);
-        tablaModulos.setWidths(arregloEnteros([100]))
+        tablaModulos.setWidths(arregloEnteros([1, 99]))
 
+        addCellTabla(tablaModulos, new Paragraph("", font10), prmsCellLeft)
         addCellTabla(tablaModulos, new Paragraph("Soporte a usuarios en el uso de módulos de", font10), prmsCellLeft)
-        actividades.each { actidad->
-            modulos.add(actidad?.moduloSistema)
+        actividades.each { a->
+            modulos.add(a?.moduloSistema)
+        }
+        modulos.unique().each {
+            addCellTabla(tablaModulos, new Paragraph("", font10), prmsCellLeft)
+            addCellTabla(tablaModulos, new Paragraph("          * " + (it?.descripcion ?: ''), font10), prmsCellLeft)
         }
 
+        def tablaTexto = new PdfPTable(1);
+        tablaTexto.setWidthPercentage(100);
+        tablaTexto.setWidths(arregloEnteros([100]))
+        tablaTexto.setSpacingBefore(20)
+        addCellTabla(tablaTexto, new Paragraph("Actividades realizadas de soporte", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
 
+        def tablaActividades = new PdfPTable(2);
+        tablaActividades.setWidthPercentage(100f);
+        tablaActividades.setWidths(arregloEnteros([5, 95]))
 
-//        addCellTabla(tablaModulos, new Paragraph("* " + actidad?.moduloSistema?.descripcion, font10), prmsCellLeft)
-
-        def cn = dbConnectionService.getConnection()
-//        def obras = cn.rows(sql)
-
-        def tablaDatos = new PdfPTable(10);
-        tablaDatos.setWidthPercentage(100);
-        tablaDatos.setWidths(arregloEnteros([9, 21, 14, 9, 11, 7, 9, 6, 5, 5]))
-
-//        addCellTabla(tablaDatos, new Paragraph("Código", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("Nombre", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("Cantón-Parroquia-Comunidad", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("Núm. Contrato", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("Contratista", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("Monto", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("Fecha suscripción", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("Plazo", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("% Avance", fontTh8), paramsHead)
-//        addCellTabla(tablaDatos, new Paragraph("Avance Físico", fontTh8), paramsHead)
-
-//        obras.each { fila ->
-//            addCellTabla(tablaDatos, new Paragraph(fila.obracdgo, fontTd), prmsCellLeft)
-//            addCellTabla(tablaDatos, new Paragraph(fila.obranmbr, fontTd), prmsCellLeft)
-//            addCellTabla(tablaDatos, new Paragraph(fila.cntnnmbr + " - " + fila.parrnmbr + " - " + fila.cmndnmbr, times7normal), prmsCellLeft)
-//            addCellTabla(tablaDatos, new Paragraph(fila.cntrcdgo, fontTd), prmsCellLeft)
-//            addCellTabla(tablaDatos, new Paragraph(fila.prvenmbr, times7normal), prmsCellLeft)
-//            addCellTabla(tablaDatos, new Paragraph(numero(fila.cntrmnto, 2), fontTd), prmsCellRight)
-//            addCellTabla(tablaDatos, new Paragraph(fila.cntrfcsb.format("dd-MM-yyyy"), fontTd), prmsCellCenter)
-//            addCellTabla(tablaDatos, new Paragraph(numero(fila.cntrplzo, 0) + " días", fontTd), prmsCellCenter)
-//            addCellTabla(tablaDatos, new Paragraph(numero( (fila.av_economico) * 100, 2) + "%", fontTd), prmsCellCenter)
-//            addCellTabla(tablaDatos, new Paragraph(numero(fila.av_fisico, 2), fontTd), prmsCellCenter)
-//        }
+        actividades.eachWithIndex { actividad, q->
+            addCellTabla(tablaActividades, new Paragraph((q + 1)?.toString() + ".", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " + ( (actividad?.usuario?.apellido ?: '') + " " +  (actividad?.usuario?.nombre ?: '')), font10Bold), prmsCellLeftAT)
+        }
 
         document.add(tablaModulos)
-//        document.add(tablaDatos)
+        document.add(tablaTexto)
+        document.add(tablaActividades)
 
         document.close();
         pdfw.close()
@@ -796,7 +791,7 @@ class ReportesController {
         def path = "/var/medico/empresa/emp_${1}/logo.jpeg"
         Image logo = Image.getInstance(path);
         def longitud = logo.getHeight()
-        logo.scalePercent( (100/longitud * 100).toInteger() )
+        logo.scalePercent( (90/longitud * 90).toInteger() )
         logo.setAlignment(Image.MIDDLE | Image.TEXTWRAP)
 
         def baos = new ByteArrayOutputStream()
@@ -805,21 +800,21 @@ class ReportesController {
         tablaFooter.setWidthPercentage(100);
         tablaFooter.setWidths(arregloEnteros([45, 10, 45]))
 
-        addCellTabla(tablaFooter, new Paragraph(textoFooter, fontTitulo8), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE])
-        addCellTabla(tablaFooter, new Paragraph(" ", fontTitulo8), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_RIGHT, valign: Element.ALIGN_MIDDLE])
-        addCellTabla(tablaFooter, new Paragraph(textoFooter, fontTitulo8), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE])
-
+        addCellTabla(tablaFooter, new Paragraph("", fontTitulo8), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE])
+        addCellTabla(tablaFooter, new Paragraph(textoFooter, fontTitulo8), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_RIGHT, valign: Element.ALIGN_MIDDLE])
+        addCellTabla(tablaFooter, new Paragraph("", fontTitulo8), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE])
 
         com.lowagie.text.Document document = new com.lowagie.text.Document(com.lowagie.text.PageSize.A4);
 //        document.setMargins(36, 36, 36, 100)
 
         def pdfw = com.lowagie.text.pdf.PdfWriter.getInstance(document, baos);
 
-//        com.lowagie.text.HeaderFooter footer1 = new com.lowagie.text.HeaderFooter( new com.lowagie.text.Phrase(textoFooter + "                  " + textoFooter, new com.lowagie.text.Font(fontTitulo8)), false);
+//        com.lowagie.text.HeaderFooter footer1 = new com.lowagie.text.HeaderFooter( new com.lowagie.text.Phrase(textoFooter, new com.lowagie.text.Font(fontTitulo8)), false);
 //        footer1.setBorder(com.lowagie.text.Rectangle.NO_BORDER);
 //        footer1.setBorder(com.lowagie.text.Rectangle.TOP);
 //        footer1.setAlignment(com.lowagie.text.Element.ALIGN_CENTER);
 //        document.setFooter(footer1);
+
         document.open();
 
         com.lowagie.text.pdf.PdfContentByte cb = pdfw.getDirectContent();
@@ -849,6 +844,7 @@ class ReportesController {
             document.add(ed)
         }
 
+//        document.add(tablaFooter)
         document.close();
         byte[] b = baos.toByteArray();
 
@@ -864,11 +860,15 @@ class ReportesController {
 
         PdfPTable table = new PdfPTable(3)
         table.setWidthPercentage(100);
-        table.setWidths(arregloEnteros([30,40,30]))
+        table.setWidths(arregloEnteros([10,80,10]))
         table.setTotalWidth(600);
         table.getDefaultCell().setFixedHeight(50);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.getDefaultCell().setVerticalAlignment(Element.ALIGN_TOP);
+        addCellTabla(table, new Paragraph("", fontTd08), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_TOP])
+        addCellTabla(table, new Paragraph("Mz#2924, Sol#30, Mucho Lote#2, PB-Pascuales. Guayaquil - Rio Coca E8-138 y los Shyris, Telf: 02-5019108, Quito. Email: informacion@tedein.com.ec", fontTd08), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_CENTER, valign: Element.ALIGN_TOP])
+        addCellTabla(table, new Paragraph("", fontTd08), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_TOP])
+
         addCellTabla(table, new Paragraph("", fontTd08), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_TOP])
         addCellTabla(table, new Paragraph(String.format("Página %d de %d", x, y), fontTd09), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_CENTER, valign: Element.ALIGN_TOP])
         addCellTabla(table, new Paragraph("", fontTd08), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_TOP])
@@ -889,9 +889,9 @@ class ReportesController {
 
         PdfPTable tablaImagen = new PdfPTable(3);
         tablaImagen.setWidthPercentage(100);
-        tablaImagen.setWidths(arregloEnteros([15,55,30]))
+        tablaImagen.setWidths(arregloEnteros([20,55,25]))
         addCellTabla(tablaImagen, new Paragraph("", fontThTiny), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE])
-        addCellTabla(tablaImagen, logo, [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE])
+        addCellTabla(tablaImagen, logo, [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_MIDDLE, valign: Element.ALIGN_MIDDLE])
         addCellTabla(tablaImagen, new Paragraph("", fontThTiny), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE])
 
         addCellTabla(tablaDetalles, tablaImagen, [border: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE, colspan: 3, pl: 0])
