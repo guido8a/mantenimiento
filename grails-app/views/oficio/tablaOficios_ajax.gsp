@@ -18,13 +18,13 @@ th, td {
                     <td style="width: 15%">
                         ${oficio.contrato?.numero}
                     </td>
-                    <td style="width: 20%">
+                    <td style="width: 15%">
                         ${(oficio?.periodo?.fechads?.format("dd-MM-yyyy") ?: '') + " - " + (oficio?.periodo?.fechads?.format("dd-MM-yyyy") ?: '')}
                     </td>
                     <td style="width: 20%">
                         ${oficio?.numero}
                     </td>
-                    <td style="width: 15%">
+                    <td style="width: 10%">
                         ${oficio?.fecha?.format("dd-MM-yyyy")}
                     </td>
                     <td style="width: 10%; text-align: center">
@@ -38,6 +38,14 @@ th, td {
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
+                    <td style="width: 10%; text-align: center">
+                        <a class="btn btn-xs btnImprimirOficio btn-info" href="#"  title="Imprimir oficio" data-id="${oficio.id}">
+                            <i class="fa fa-print"></i>
+                        </a>
+                        <a class="btn btn-xs btnImprimirInforme btn-warning" href="#"  title="Imprimir informe" data-id="${oficio.id}">
+                            <i class="fa fa-print"></i>
+                        </a>
+                    </td>
                 </tr>
             </g:each>
         </g:if>
@@ -48,6 +56,11 @@ th, td {
 </div>
 
 <script type="text/javascript">
+
+    $(".btnImprimirOficio").click(function () {
+        var id = $(this).data("id");
+        location.href = "${g.createLink(controller:'reportes', action: 'reporteInforme')}?id=" + id
+    });
 
     $(".btnVerOficio").click(function () {
         var id = $(this).data("id");

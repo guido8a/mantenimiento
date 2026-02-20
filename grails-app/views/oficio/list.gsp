@@ -20,10 +20,11 @@
         <thead>
         <tr style="width: 100%">
             <th style="width: 15%">Contrato</th>
-            <th style="width: 20%">Período</th>
+            <th style="width: 15%">Período</th>
             <th style="width: 20%">Número</th>
-            <th style="width: 15%">Fecha</th>
+            <th style="width: 10%">Fecha</th>
             <th style="width: 10%">Acciones</th>
+            <th style="width: 10%">Documentos</th>
         </tr>
         </thead>
     </table>

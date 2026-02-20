@@ -49,13 +49,14 @@ dependencies {
     compile "org.hibernate:hibernate-core:5.1.16.Final"
     compile "org.grails.plugins:gsp"
     compile fileTree(dir: 'lib', include: '*.jar')
-    compile group: 'com.itextpdf', name: 'itext7-core', version: '7.0.4', ext: 'pom'
+//    compile group: 'com.itextpdf', name: 'itext7-core', version: '7.0.4', ext: 'pom'
+//    compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13'
     
     
 //    compile fileTree(dir: 'lib/', include: '*.jar')
     compile files('iText-2.0.8.jar')
 //    runtime 'com.lowagie:itext:2.0.8'
-//    runtime group: 'com.lowagie', name: 'itext', version: '2.0.8'
+//    compile group: 'com.lowagie', name: 'itext', version: '2.0.8'
 
 //    compile 'org.grails.plugins:postgresql-extensions:4.8.0'
     runtime "org.postgresql:postgresql:42.2.5"
