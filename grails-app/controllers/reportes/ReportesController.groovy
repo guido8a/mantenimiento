@@ -2,6 +2,7 @@ package reportes
 
 import bitacora.Actividad
 import bitacora.Oficio
+import bitacora.Responsable
 import com.lowagie.text.Document
 import com.lowagie.text.Element
 import com.lowagie.text.Image
@@ -923,6 +924,7 @@ class ReportesController {
 
         def paramsHead = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE]
         def prmsCellLeft = [border: Color.WHITE, valign: Element.ALIGN_MIDDLE]
+        def prmsCellJustificado = [border: Color.WHITE, valign: Element.ALIGN_TOP, align: Element.ALIGN_JUSTIFIED]
         def prmsCellLeftAT = [border: Color.WHITE, valign: Element.ALIGN_TOP]
         def prmsCellRightTT = [border: Color.WHITE, align : Element.ALIGN_RIGHT, valign: Element.ALIGN_MIDDLE]
         def prmsCellLeftTT = [border: Color.WHITE, align : Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE]
@@ -964,45 +966,40 @@ class ReportesController {
         def tablaCabecera = new PdfPTable(1);
         tablaCabecera.setWidthPercentage(100);
         tablaCabecera.setWidths(arregloEnteros([100]))
+        addCellTabla(tablaCabecera, new Paragraph("Señor " + ((Responsable.findByContrato(oficio?.contrato)?.titulo ?: '')), font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph(( (Responsable.findByContrato(oficio?.contrato)?.apellido ?: '')  +  " "  + (Responsable.findByContrato(oficio?.contrato)?.nombre ?: '')), font10Bold), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("Administrador del contrato N° ${oficio?.contrato?.numero} : " + ' "' + oficio?.contrato?.objeto + '" ', font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("Presente,", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("De mi consideración:", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+//        addCellTabla(tablaCabecera, new Paragraph( oficio?.texto?.encodeAsHTML(), font10), prmsCellJustificado)
+        addCellTabla(tablaCabecera, new Paragraph( "${raw(oficio?.texto)}", font10), prmsCellJustificado)
+//        addCellTabla(tablaCabecera, new Paragraph( "${util.renderHTML(html:  oficio?.texto)}", font10), prmsCellJustificado)
+//        addCellTabla(tablaCabecera, new Paragraph( oficio?.texto?.decodeHTML(), font10), prmsCellJustificado)
+//        addCellTabla(tablaCabecera, new Paragraph( "${oficio?.texto?.encodeAsHTML()}", font10), prmsCellJustificado)
+        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+        addCellTabla(tablaCabecera, new Paragraph("Atentamente,", font10), prmsCellLeft)
 
-//        addCellTabla(tablaModulos, new Paragraph("Señor " + (oficio?.), font10), prmsCellLeft)
-
-
-        def tablaTexto = new PdfPTable(1);
-        tablaTexto.setWidthPercentage(100);
-        tablaTexto.setWidths(arregloEnteros([100]))
-        tablaTexto.setSpacingBefore(20)
-        addCellTabla(tablaTexto, new Paragraph("Actividades realizadas de soporte", font11Normal), prmsCellLeft)
-        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
-        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
-
-        def tablaActividades = new PdfPTable(2);
-        tablaActividades.setWidthPercentage(100f);
-        tablaActividades.setWidths(arregloEnteros([5, 95]))
-
-        actividades.eachWithIndex { actividad, q->
-            addCellTabla(tablaActividades, new Paragraph((q + 1)?.toString() + ".", font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font10Bold), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " + ( (actividad?.usuario?.apellido ?: '') + " " +  (actividad?.usuario?.nombre ?: '')), font10Bold), prmsCellLeftAT)
-        }
+        def tablaFirma = new PdfPTable(1);
+        tablaFirma.setWidthPercentage(100);
+        tablaFirma.setWidths(arregloEnteros([100]))
 
         document.add(tablaTitulo)
         document.add(tablaCabecera)
-        document.add(tablaTexto)
-        document.add(tablaActividades)
-
+        document.add(tablaFirma)
         document.close();
+
         pdfw.close()
         byte[] b = baos.toByteArray();
-//        response.setContentType("application/pdf")
-//        response.setHeader("Content-disposition", "attachment; filename=" + name)
-//        response.setContentLength(b.length)
-//        response.getOutputStream().write(b)
 
         encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
     }
+
 
 }
