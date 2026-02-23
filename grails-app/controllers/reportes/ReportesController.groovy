@@ -560,13 +560,13 @@ class ReportesController {
 
         def paramsHead = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE]
         def prmsCellLeft = [border: Color.WHITE, valign: Element.ALIGN_MIDDLE]
-        def prmsCellLeftAT = [border: Color.WHITE, valign: Element.ALIGN_TOP]
+        def prmsCellLeftAT = [border: Color.WHITE, align : Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_TOP]
         def prmsCellRight = [border: Color.BLACK, align : Element.ALIGN_RIGHT, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
         def prmsCellCenter = [border: Color.BLACK, align : Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
 
         Document document
         document = new Document(PageSize.A4);
-        document.setMargins(70, 70, 130, 50);
+        document.setMargins(70, 70, 100, 50);
         def pdfw = PdfWriter.getInstance(document, baos);
 
         document.open();
@@ -626,6 +626,8 @@ class ReportesController {
             addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font10Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " + ( (actividad?.usuario?.apellido ?: '') + " " +  (actividad?.usuario?.nombre ?: '')), font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "", font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "", font10Bold), prmsCellLeftAT)
         }
 
         document.add(tablaModulos)
@@ -788,10 +790,10 @@ class ReportesController {
         com.lowagie.text.Font fontTitulo8 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 8, com.lowagie.text.Font.NORMAL, titulo);
         com.lowagie.text.Font fontTitulo8d = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 8, com.lowagie.text.Font.NORMAL, titulo);
 
-        def path = "/var/medico/empresa/emp_${1}/logo.jpeg"
+        def path = "/var/mantenimiento/logo.jpeg"
         Image logo = Image.getInstance(path);
         def longitud = logo.getHeight()
-        logo.scalePercent( (90/longitud * 90).toInteger() )
+        logo.scalePercent( (70/longitud * 75).toInteger() )
         logo.setAlignment(Image.MIDDLE | Image.TEXTWRAP)
 
         def baos = new ByteArrayOutputStream()
@@ -889,7 +891,7 @@ class ReportesController {
 
         PdfPTable tablaImagen = new PdfPTable(3);
         tablaImagen.setWidthPercentage(100);
-        tablaImagen.setWidths(arregloEnteros([20,55,25]))
+        tablaImagen.setWidths(arregloEnteros([1,98,1]))
         addCellTabla(tablaImagen, new Paragraph("", fontThTiny), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE])
         addCellTabla(tablaImagen, logo, [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_MIDDLE, valign: Element.ALIGN_MIDDLE])
         addCellTabla(tablaImagen, new Paragraph("", fontThTiny), [border: java.awt.Color.WHITE, bwb: 0.1, bcb: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE])
@@ -897,6 +899,110 @@ class ReportesController {
         addCellTabla(tablaDetalles, tablaImagen, [border: java.awt.Color.WHITE, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE, colspan: 3, pl: 0])
 
         return tablaDetalles
+    }
+
+    def reporteOficio() {
+
+        def oficio = Oficio.get(params.id)
+        def actividades = Actividad.findAllByPeriodo(oficio?.periodo)
+        def modulos = []
+
+        def baos = new ByteArrayOutputStream()
+        def name = "oficio_" + new Date().format("dd_MM_yyyy_hhmm") ;
+        com.lowagie.text.Font titleFont = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 14, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font titleFont3 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font titleFont3Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font titleFont2 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 16, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font10 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font10Bold= new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font11 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font11Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font12 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font12Bold = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
+
+
+        def paramsHead = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE]
+        def prmsCellLeft = [border: Color.WHITE, valign: Element.ALIGN_MIDDLE]
+        def prmsCellLeftAT = [border: Color.WHITE, valign: Element.ALIGN_TOP]
+        def prmsCellRightTT = [border: Color.WHITE, align : Element.ALIGN_RIGHT, valign: Element.ALIGN_MIDDLE]
+        def prmsCellLeftTT = [border: Color.WHITE, align : Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE]
+        def prmsCellCenter = [border: Color.BLACK, align : Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
+
+        Document document
+        document = new Document(PageSize.A4);
+        document.setMargins(70, 70, 100, 50);
+        def pdfw = PdfWriter.getInstance(document, baos);
+
+        document.open();
+        document.addTitle("oficio_" + new Date().format("dd_MM_yyyy"));
+        document.addSubject("Generado por el sistema Mantenimiento");
+        document.addKeywords("reporte, mantenimiento ,oficio");
+        document.addAuthor("Mantenimiento");
+        document.addCreator("Tedein SA");
+
+//        Paragraph headersTitulo = new Paragraph();
+//        headersTitulo.setAlignment(Element.ALIGN_CENTER);
+//        headersTitulo.add(new Paragraph("Oficio N°: " + (oficio?.numero ?: ''), titleFont));
+//        addEmptyLine(headersTitulo, 1);
+//        headersTitulo.add(new Paragraph("Quito, " + fechaConFormato(new Date(), "dd MMMM yyyy").toUpperCase(), titleFont3));
+//        addEmptyLine(headersTitulo, 1);
+//        headersTitulo.add(new Paragraph(oficio?.contrato?.objeto, titleFont3Normal));
+//        addEmptyLine(headersTitulo, 1);
+//        headersTitulo.add(new Paragraph("Informe técnico del período del " + fechaConFormato(oficio?.periodo?.fechads, "dd MMMM yyyy") + " al " + fechaConFormato(oficio?.periodo?.fechahs, "dd MMMM yyyy"), font11));
+//        addEmptyLine(headersTitulo, 1);
+//
+//        document.add(headersTitulo)
+
+        def tablaTitulo = new PdfPTable(2);
+        tablaTitulo.setWidthPercentage(100);
+        tablaTitulo.setWidths(arregloEnteros([12,88]))
+        addCellTabla(tablaTitulo, new Paragraph("Oficio N°: ", font12), prmsCellLeftTT)
+        addCellTabla(tablaTitulo, new Paragraph(oficio?.numero ?: '', font12Bold), prmsCellLeftTT)
+        addCellTabla(tablaTitulo, new Paragraph("", font12Bold), prmsCellLeftTT)
+        addCellTabla(tablaTitulo, new Paragraph("Quito, " + fechaConFormato(new Date(), "dd MMMM yyyy"), font12), prmsCellRightTT)
+
+        def tablaCabecera = new PdfPTable(1);
+        tablaCabecera.setWidthPercentage(100);
+        tablaCabecera.setWidths(arregloEnteros([100]))
+
+//        addCellTabla(tablaModulos, new Paragraph("Señor " + (oficio?.), font10), prmsCellLeft)
+
+
+        def tablaTexto = new PdfPTable(1);
+        tablaTexto.setWidthPercentage(100);
+        tablaTexto.setWidths(arregloEnteros([100]))
+        tablaTexto.setSpacingBefore(20)
+        addCellTabla(tablaTexto, new Paragraph("Actividades realizadas de soporte", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+
+        def tablaActividades = new PdfPTable(2);
+        tablaActividades.setWidthPercentage(100f);
+        tablaActividades.setWidths(arregloEnteros([5, 95]))
+
+        actividades.eachWithIndex { actividad, q->
+            addCellTabla(tablaActividades, new Paragraph((q + 1)?.toString() + ".", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " + ( (actividad?.usuario?.apellido ?: '') + " " +  (actividad?.usuario?.nombre ?: '')), font10Bold), prmsCellLeftAT)
+        }
+
+        document.add(tablaTitulo)
+        document.add(tablaCabecera)
+        document.add(tablaTexto)
+        document.add(tablaActividades)
+
+        document.close();
+        pdfw.close()
+        byte[] b = baos.toByteArray();
+//        response.setContentType("application/pdf")
+//        response.setHeader("Content-disposition", "attachment; filename=" + name)
+//        response.setContentLength(b.length)
+//        response.getOutputStream().write(b)
+
+        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
     }
 
 }

@@ -57,6 +57,11 @@ th, td {
 
 <script type="text/javascript">
 
+    $(".btnImprimirOficio").click(function () {
+        var id = $(this).data("id");
+        location.href = "${g.createLink(controller:'reportes', action: 'reporteOficio')}?id=" + id
+    });
+
     $(".btnImprimirInforme").click(function () {
         var id = $(this).data("id");
         location.href = "${g.createLink(controller:'reportes', action: 'reporteInforme')}?id=" + id
