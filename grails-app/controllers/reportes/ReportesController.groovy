@@ -1014,13 +1014,13 @@ class ReportesController {
 
 //        HtmlConverter.convertToElements(oficio?.texto)
 
-        StringReader strReader = new StringReader(oficio?.texto);
-        def a = HTMLWorker.parseToList(strReader, null)
-
-        a.each {
-            println("it " + it)
-            addCellTabla(tablaCabecera, it, prmsCellLeft)
-        }
+//        StringReader strReader = new StringReader(oficio?.texto);
+//        def a = HTMLWorker.parseToList(strReader, null)
+//
+//        a.each {
+//            println("it " + it)
+//            addCellTabla(tablaCabecera, it, prmsCellLeft)
+//        }
 
 
         def tablaFirma = new PdfPTable(1);
