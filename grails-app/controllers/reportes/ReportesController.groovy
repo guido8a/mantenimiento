@@ -3,11 +3,13 @@ package reportes
 import bitacora.Actividad
 import bitacora.Oficio
 import bitacora.Responsable
+import com.itextpdf.html2pdf.HtmlConverter
 import com.lowagie.text.Document
 import com.lowagie.text.Element
 import com.lowagie.text.Image
 import com.lowagie.text.PageSize
 import com.lowagie.text.Paragraph
+import com.lowagie.text.html.simpleparser.HTMLWorker
 import com.lowagie.text.pdf.PdfImportedPage
 import com.lowagie.text.pdf.PdfPCell
 import com.lowagie.text.pdf.PdfPTable
@@ -548,7 +550,9 @@ class ReportesController {
         def actividades = Actividad.findAllByPeriodo(oficio?.periodo)
         def modulos = []
 
-        def baos = new ByteArrayOutputStream()
+//        def baos = new ByteArrayOutputStream()
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
         def name = "informe_" + new Date().format("dd_MM_yyyy_hhmm") ;
         com.lowagie.text.Font titleFont = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 14, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font titleFont3 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
@@ -643,6 +647,7 @@ class ReportesController {
 //        response.setContentLength(b.length)
 //        response.getOutputStream().write(b)
 
+//        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
         encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
     }
 
@@ -847,7 +852,6 @@ class ReportesController {
             document.add(ed)
         }
 
-//        document.add(tablaFooter)
         document.close();
         byte[] b = baos.toByteArray();
 
@@ -855,6 +859,27 @@ class ReportesController {
         response.setHeader("Content-disposition", "attachment; filename=" + nombreReporte)
         response.setContentLength(b.length)
         response.getOutputStream().write(b)
+
+//        ITextRenderer renderer = new ITextRenderer();
+//        renderer.setDocumentFromString(content);
+//        renderer.layout();
+//        renderer.createPDF(baos);
+
+//        ITextRenderer renderer = new ITextRenderer();
+//        renderer.setDocumentFromString(content);
+//        renderer.layout();
+//        renderer.createPDF(baos);
+//        byte[] data = baos.toByteArray();
+//
+//        response.setHeader("Content-disposition", "attachment;filename=report.pdf")
+//        response.setContentType("application/pdf")
+//        OutputStream out = response.getOutputStream();
+//
+//        out.write(b);
+//        out.flush();
+//        out.close()
+
+
     }
 
     def numeracion(x, y) {
@@ -977,14 +1002,26 @@ class ReportesController {
         addCellTabla(tablaCabecera, new Paragraph("De mi consideración:", font10), prmsCellLeft)
         addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
         addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+//        addCellTabla(tablaCabecera, new Paragraph(HtmlConverter.convertToElements(oficio?.texto), font10), prmsCellLeft)
 //        addCellTabla(tablaCabecera, new Paragraph( oficio?.texto?.encodeAsHTML(), font10), prmsCellJustificado)
-        addCellTabla(tablaCabecera, new Paragraph( "${raw(oficio?.texto)}", font10), prmsCellJustificado)
+//        addCellTabla(tablaCabecera, new Paragraph( "${raw(oficio?.texto)}", font10), prmsCellJustificado)
 //        addCellTabla(tablaCabecera, new Paragraph( "${util.renderHTML(html:  oficio?.texto)}", font10), prmsCellJustificado)
 //        addCellTabla(tablaCabecera, new Paragraph( oficio?.texto?.decodeHTML(), font10), prmsCellJustificado)
 //        addCellTabla(tablaCabecera, new Paragraph( "${oficio?.texto?.encodeAsHTML()}", font10), prmsCellJustificado)
         addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
         addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
         addCellTabla(tablaCabecera, new Paragraph("Atentamente,", font10), prmsCellLeft)
+
+//        HtmlConverter.convertToElements(oficio?.texto)
+
+        StringReader strReader = new StringReader(oficio?.texto);
+        def a = HTMLWorker.parseToList(strReader, null)
+
+        a.each {
+            println("it " + it)
+            addCellTabla(tablaCabecera, it, prmsCellLeft)
+        }
+
 
         def tablaFirma = new PdfPTable(1);
         tablaFirma.setWidthPercentage(100);
