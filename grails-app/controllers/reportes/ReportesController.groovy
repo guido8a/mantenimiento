@@ -27,6 +27,8 @@ import seguridad.Sesn
 import java.awt.Color
 import java.text.SimpleDateFormat
 
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
 class ReportesController {
     def dbConnectionService
 
@@ -1014,13 +1016,13 @@ class ReportesController {
 
 //        HtmlConverter.convertToElements(oficio?.texto)
 
-//        StringReader strReader = new StringReader(oficio?.texto);
-//        def a = HTMLWorker.parseToList(strReader, null)
-//
-//        a.each {
-//            println("it " + it)
-//            addCellTabla(tablaCabecera, it, prmsCellLeft)
-//        }
+        StringReader strReader = new StringReader(oficio?.texto);
+        def a = HTMLWorker.parseToList(strReader, null)
+
+        a.each {
+            println("it " + it)
+            addCellTabla(tablaCabecera, it, prmsCellLeft)
+        }
 
 
         def tablaFirma = new PdfPTable(1);
@@ -1036,6 +1038,183 @@ class ReportesController {
         byte[] b = baos.toByteArray();
 
         encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
+    }
+
+
+    def oficio2() {
+        println "oficio2 $params"
+        def of = Oficio.get(1)
+//        def resp = crearPdf(of, '/var/mantenimiento', "mensaje" )
+//        render "ok"
+
+        def baos = crearPdf(of, '/var/mantenimiento', "mensaje" )
+
+        byte[] b = baos.toByteArray();
+        response.setContentType("application/pdf")
+        response.setHeader("Content-disposition", "attachment; filename=tramite")
+        response.setContentLength(b.length)
+        response.getOutputStream().write(b)
+
+        return
+
+    }
+
+    def crearPdf(Oficio oficio, String realPath, String mensaje) {
+//        println "crearPdf ${usuario.login} ${oficio.codigo} ${oficio.texto?.size()}b -> ${new Date().format('dd HH:mm')}"
+        def dirBase = ""
+        def conMembrete = "0"
+
+        def leyenda = "GAD de la provincia de Los Ríos"
+
+        oficio.refresh()
+
+        def pathImages = realPath + "/"
+        def path = pathImages
+        def membrete = pathImages + "logo_reportes.png"
+
+        new File(path).mkdirs()
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        def text = (oficio?.texto ?: '')
+
+        text = text.replaceAll("&lt;", "*lt*")
+        text = text.replaceAll("&gt;", "*gt*")
+        text = text.replaceAll("&amp;", "*amp*")
+        text = text.replaceAll("<p>&nbsp;</p>", "<br/>")
+        text = text.replaceAll("&nbsp;", " ")
+        text = text.decodeHTML()
+
+        text = text.replaceAll("\\*lt\\*", "&lt;")
+        text = text.replaceAll("\\*gt\\*", "&gt;")
+        text = text.replaceAll("\\*amp\\*", "&amp;")
+        text = text.replaceAll("\\*nbsp\\*", " ")
+        text = text.replaceAll(/<tr>\s*<\/tr>/, / /)    //2 <tr> seguidos <tr>espacios</tr>
+
+        text = text.replaceAll(~"\\?\\_debugResources=y\\&n=[0-9]*", "")
+        text = text.replaceAll(mensaje, pathImages)
+
+
+        def marginTop = "4.5cm"
+        if (conMembrete == "1") {
+            marginTop = "2.5cm"
+        }
+
+        /* ************** todo: poner dirBase en tabla prmt *************** */
+        if (grails.util.Environment.getCurrent().name == 'development') {
+            dirBase = '/tramiteImagenes/getImage'
+        } else {
+            dirBase = '/oficio/tramiteImagenes/getImage'
+        }
+
+        def content = "<!DOCTYPE HTML>\n<html>\n"
+        content += "<head>\n"
+        content += "<style language='text/css'>\n"
+        content += "" +
+                " div.header {\n" +
+                "   display    : block;\n" +
+                "   text-align : center;\n" +
+                "   position   : running(header);\n" +
+                "}\n" +
+                "div.footer {\n" +
+                "   display    : block;\n" +
+                "   text-align : center;\n" +
+                "   font-size  : 9pt;\n" +
+                "   position   : running(footer);\n" +
+                "} " +
+                " @page {\n" +
+                "   size   : 21cm 29.7cm;  /*width height */\n" +
+                "   margin : ${marginTop} 2.5cm 2.5cm 3cm;\n" +
+                "}\n" +
+                "@page {\n" +
+                "   @top-center {\n" +
+                "       content : element(header)\n" +
+                "   }\n" +
+                "}" +
+                "@page {\n" +
+                "   @bottom-center {\n" +
+                "       content : element(footer)\n" +
+                "   }\n" +
+                "}" +
+                ".hoja {\n" +
+                "   width       : 15.3cm; /*21-2.5-3*/\n" +
+                "   font-family : arial;\n" +
+                "   font-size   : 12pt;\n" +
+                "}\n" +
+                ".titulo-horizontal {\n" +
+                "    padding-bottom : 15px;\n" +
+                "    border-bottom  : 1px solid #000000;\n" +
+                "    text-align     : center;\n" +
+                "    width          : 105%;\n" +
+                "}\n" +
+                ".titulo-azul {\n" +
+                "    white-space : nowrap;\n" +
+                "    display     : block;\n" +
+                "    width       : 98%;\n" +
+                "    height      : 30px;\n" +
+                "    font-weight : bold;\n" +
+                "    font-size   : 25px;\n" +
+                "    margin-top  : 10px;\n" +
+                "    line-height : 20px;\n" +
+                "}\n" +
+                ".tramiteHeader {\n" +
+                "   width        : 100%;\n" +
+                "   border-bottom: solid 1px black;\n" +
+                "}\n" +
+                "p{\n" +
+                "   text-align: justify;\n" +
+                "   margin-bottom: 0;\n" +
+                "}\n" +
+                "\n" +
+                ".membrete {\n" +
+                "    text-align  : center;\n" +
+                "    font-size   : 14pt;\n" +
+                "    font-weight : bold;\n" +
+                "}\n" +
+                "img {position: relative; top: 30px;}" +
+                "th {\n" +
+                "   padding-right: 10px;\n" +
+                "}\n"
+        content += "</style>\n"
+        content += "</head>\n"
+        content += "<body>\n"
+        if (conMembrete == "1") {
+            content += "<div class=\"header membrete\">"
+            content += "<table border='0'>"
+            content += "<tr>"
+            content += "<td width='15%'>"
+            content += "<img alt='' src='${membrete}' height='100' width='100' margin-top='15px'/>"
+            content += "</td>"
+            content += "<td width='85%' style='text-align:center'>"
+            content += leyenda
+            content += "</td>"
+            content += "</tr>"
+            content += "</table>"
+            content += "</div>"
+
+            content += "<div class='footer'>" +
+                    "Av. Universitaria (4ta) y Clemente Baquerizo (calle 35) #0401 • Telf. (593-5) 3701625 • " +
+                    "<strong>www.losrios.gob.ec</strong><br/>Los Ríos - Ecuador" +
+                    "</div>"
+        }
+        content += "<div class='hoja'>\n"
+        content +=  new Elementos2TagLib().headerTramite(oficio: oficio, pdf: true)
+
+//        def nuevoTexto = text.replaceAll("/tramiteImagenes/getImage", "/var/tramites/images")
+        def nuevoTexto = text.replaceAll(dirBase, "/var/tramites/images")
+
+        content += nuevoTexto
+//        content += '<p><img alt="" src="/var/tramites/images/gatos_6.jpg" style="height:395px; width:400px" /></p>'
+        content += "</div>\n"
+        content += "</body>\n"
+        content += "</html>"
+
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.setDocumentFromString(content);
+        renderer.layout();
+        renderer.createPDF(baos);
+        byte[] b = baos.toByteArray();
+        return baos
     }
 
 

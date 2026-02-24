@@ -1,11 +1,13 @@
-//import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
+import org.grails.core.artefact.DomainClassArtefactHandler
 import org.springframework.beans.SimpleTypeConverter
 import org.springframework.context.MessageSourceResolvable
 import org.springframework.web.servlet.support.RequestContextUtils
-import seguridad.Departamento
 import seguridad.Persona
+//import tramites.PersonaDocumentoTramite
+//import tramites.RolPersonaTramite
+//import tramites.TipoDocumento
 
-class ElementosTagLib {
+class Elementos2TagLib {
 
     static namespace = "elm"
 
@@ -47,7 +49,7 @@ class ElementosTagLib {
                 html += "<i class=\"${attrs.icon} fa-2x pull-left iconMargin\"></i> "
             } else {
                 if (attrs.tipo?.toLowerCase() == 'error') {
-                    html += "<i class=\"fa fa-warning fa-2x pull-left iconMargin\"></i> "
+                    html += "<i class=\"fa fa-exclamation-triangle fa-2x pull-left iconMargin\"></i> "
                 } else if (attrs.tipo?.toLowerCase() == 'success') {
                     html += "<i class=\"fa fa-check-square fa-2x pull-left iconMargin\"></i> "
                 } else if (attrs.tipo?.toLowerCase() == 'notfound') {
@@ -70,7 +72,6 @@ class ElementosTagLib {
         html += "<link rel=\"apple-touch-icon\" sizes=\"114x114\" href=\"${assetPath(src: 'apple-touch-icon-retina.png')}\">"
         out << html
     }
-
 
     def bootstrapCss = { attrs ->
         def html = "<link href=\"${resource(dir: 'bootstrap-3.1.1/css', file: 'bootstrap.css')}\" rel=\"stylesheet\">"
@@ -132,22 +133,15 @@ class ElementosTagLib {
     def comboTipoDoc = { attrs ->
         def persona = Persona.get(session.usuario.id)
         def depar = persona.departamento
-
-//        def tipos = TipoDocumentoDepartamento.findAllByDepartamentoAndEstado(depar, 1).tipo
-//        tipos.sort { it.descripcion }
         def tipos = session.usuario.tiposDocumento
 
         if (!attrs.id) {
             attrs.id = attrs.name
         }
 
-//        if (!attrs.tramite || !attrs.tramite.padre) {
-//            tipos.remove(TipoDocumento.findByCodigo("SUM"))
-//        } else {
         if (attrs.esRespuesta?.toInteger() == 1) {
             tipos.remove(TipoDocumento.findByCodigo("DEX"))
         }
-//        }
 
         if (attrs.tipo && (attrs.tipo.toLowerCase() == "pers" || attrs.tipo.toLowerCase() == "personal")) {
             tipos.remove(TipoDocumento.findByCodigo("DEX"))
@@ -156,7 +150,6 @@ class ElementosTagLib {
         if (!session.usuario.puedeTramitar) {
             tipos.remove(TipoDocumento.findByCodigo("OFI"))
         }
-
 
         def params = [id         : attrs.id,
                       name       : attrs.name,
@@ -184,15 +177,9 @@ class ElementosTagLib {
         def html
         def persona = Persona.get(session.usuario.id)
         def esTriangulo = session.usuario.esTriangulo
-
-//        println "persona " + persona
-//        println "persona.id " + persona.id
-//        println "esTriangulo " + esTriangulo
-
         def disp, disponibles = []
         def depar = ["depar", "departamento", "dpto", "ofi", "oficina"]
         def esDepartamento = (attrs.tipo && (depar.contains(attrs.tipo.toLowerCase())))
-//        println "esDepartamento: " + esDepartamento
         def disp2 = []
         def todos = []
         def users = []
@@ -202,53 +189,34 @@ class ElementosTagLib {
         def arreglo = []
         def arreglo2 = []
 
-//        println "AQUI"
-
         if (attrs.tipoDoc.codigo == "DEX") {
             if (esDepartamento) {
                 todos = [[id: persona.departamento.id * -1, label: persona.departamento.descripcion, obj: persona.departamento]]
             }
         } else {
             if (session.usuario.puedeTramitar) {
-//                println "1"
                 disp = Departamento.list([sort: 'descripcion'])
             } else {
-//                println "2"
                 disp = [persona.departamento]
             }
-//            println "DISP::: " + disp
             disp.each { dep ->
 //                println "dep.id: " + dep.id + "    persona.dep: " + persona.departamento.id + "     " + (dep.id == persona.departamento.id)
                 if (dep.id == persona.departamento.id) {
                     def usuarios = Persona.findAllByDepartamento(dep, [sort: 'nombre'])
                     usuarios.each { usu ->
                         if ((((!esTriangulo && usu.id != persona.id) || (esTriangulo && usu.id != persona.id) || (esTriangulo && usu.id == persona.id))) && usu.estaActivo && usu.puedeRecibirOff) {
-//                            users += it
                             disponibles.add([id     : usu.id,
                                              label  : usu.toString(),
                                              obj    : usu,
                                              externo: "interno"])
                         }
                     }
-//                    for (int i = users.size() - 1; i > -1; i--) {
-//                        if (users[i].estaActivo && users[i].puedeRecibir) {
-//                            disponibles.add([id: users[i].id, label: users[i].toString(), obj: users[i]])
-//                        } else {
-//                            users.remove(i)
-//                        }
-//                    }
-//                    disponibles = disponibles.reverse(
                 }
             }
 
             disp.each { dep ->
-//                println "DEP:: " + dep
-//                println "dep.triangulos: " + dep.triangulos
-//                println "dep.triangulos: " + dep.triangulos.size()
                 if (dep.triangulos.size() > 0) {
-//                    println "dep.id " + dep.id + "    " + persona.departamento.id
-//                    println "esDep " + esDepartamento
-//                    println "IF " + (dep.id.toLong() != persona.departamento.id.toLong() || (dep.id.toLong() == persona.departamento.id.toLong() && !esDepartamento))
+
                     if (dep.id.toLong() != persona.departamento.id.toLong() || (dep.id.toLong() == persona.departamento.id.toLong() && !esDepartamento)) {
                         disp2.add([id     : dep.id * -1,
                                    label  : dep.descripcion,
@@ -270,261 +238,199 @@ class ElementosTagLib {
         out << html
     }
 
-//    def headerTramite = { attrs ->
-//        def tramite = attrs.tramite
-//        def rolPara = RolPersonaTramite.findByCodigo('R001')
-//        def rolCC = RolPersonaTramite.findByCodigo('R002')
-//
-//        def para = PersonaDocumentoTramite.findAllByTramiteAndRolPersonaTramite(tramite, rolPara)
-//        def cc = PersonaDocumentoTramite.findAllByTramiteAndRolPersonaTramite(tramite, rolCC)
-//
-//        def strPara = ""
-//        def strDepa = ""
-//        def strCopia = ""
-//        para.each { p ->
-//            if (p.persona) {
-//                if (strPara != "") {
-//                    strPara += ", "
-//                }
-//                strPara += util.nombrePersona(persona: p.persona)
-//                strDepa += p.persona.departamento.descripcion
-//            }
-//            if (p.departamento) {
-//                if (strPara != "") {
-//                    strPara += ", "
-//                }
-//                strPara += p.departamento.descripcion
-//            }
-//        }
-//
-//        cc.each { c ->
-//            if (c.persona) {
-//                if (strCopia != "") {
-//                    strCopia += ", "
-//                }
-//                strCopia += util.nombrePersona(persona: c.persona)
-//                strCopia += c.persona.departamento.descripcion
-//            }
-//            if (c.departamento) {
-//                if (strCopia != "") {
-//                    strCopia += ", "
-//                }
-//                strCopia += "(" + c.departamento.descripcion + ")"
-//            }
-//        }
-//
-//        def html
-//
-//        if (!attrs.pdf) {
-//            html = "<div style=\"margin-top: 30px;padding-bottom: 10px\" class=\"vertical-container header-tramite\">"
-//            html += "            <div class=\"titulo-azul titulo-horizontal\" style=\"margin-left: -50px\">"
-//            html += "                ${tramite.tipoDocumento?.descripcion} ${attrs.extraTitulo ?: ''}"
-//            html += "            </div>"
-//            //No. documento
-//            html += "            <div class=\"row row-low-margin-top\" style=\"margin-top: 5px;\">"
-//            html += "                <div class=\"col-xs-1  negrilla negrilla-puntos\">"
-//            html += "                    No."
-//            html += "                </div>"
-//            html += "                <div class=\"col-xs-10  col-buen-height\">"
-//            html += "                    ${tramite.codigo}"
-//            html += "                </div>"
-//            html += "            </div>"
-//            if (para || tramite.paraExterno) {
-//                html += "                <div class=\"row row-low-margin-top\">"
-//                html += "                    <div class=\"col-xs-1  negrilla negrilla-puntos\">"
-//                html += "                        Para:"
-//                html += "                    </div>"
-//                html += ""
-//                html += "                    <div class=\"col-xs-10  col-buen-height\">"
-//                if (tramite.tipoDocumento.codigo != "DEX") {
-//                    if (tramite.paraExterno) {
-//                        strPara = tramite.paraExterno
-//                    }
-//                }
-//
-//                if (tramite?.textoPara) {
-//                    html += (strPara + " - " + tramite?.textoPara)
-//                } else {
-//                    html += strPara
-//                }
-//
-//                html += "                    </div>"
-//                html += "                </div>"
-//            }
-//
-//            html += "            <div class=\"row row-low-margin-top\">"
-//            html += "                <div class=\"col-xs-1  negrilla negrilla-puntos\">"
-//            html += "                    De:"
-//            html += "                </div>"
-//            html += "                <div class=\"col-xs-10  col-buen-height\">"
-//            if (tramite.tipoDocumento.codigo == "DEX") {
-//                html += "                    ${tramite.paraExterno} (ext.)"
-//            } else {
-//                if (tramite?.tipoDocumento?.codigo == 'OFI') {
-//                    if (tramite.de) {
-//                        html += "                    ${tramite?.de?.departamento.descripcion}"
-//                    } else {
-//                        html += "                    ${tramite.deDepartamento.descripcion}"
-//                    }
-//                } else {
-//                    if (tramite.de) {
-//                        html += "                    ${tramite?.de?.departamento.descripcion}"
-//                    } else {
-//                        html += "                    ${tramite.deDepartamento.descripcion}"
-//                    }
-//                }
-//            }
-//            html += "                </div>"
-//            html += "            </div>"
-//            //fecha
-//            html += "            <div class=\"row row-low-margin-top\">"
-//            html += "                <div class=\"col-xs-1  negrilla negrilla-puntos\">"
-//            html += "                    Fecha:"
-//            html += "                </div>"
-//
-//            html += "                <div class=\"col-xs-10  col-buen-height\">"
-//            html += util.fechaConFormato(fecha: tramite.fechaCreacion, ciudad: "Quito")
-//            html += "                </div>"
-//            html += "            </div>"
-//
-//            def asunto = (tramite?.asunto ?: '')
-//            asunto = asunto.replaceAll("&nbsp;", " ")
-//            asunto = asunto.replaceAll("&lt;", "*lt*")
-//            asunto = asunto.replaceAll("&gt;", "*gt*")
-//            asunto = asunto.replaceAll("&amp;", "*amp*")
-//            asunto = asunto.replaceAll("<", "*lt*")
-//            asunto = asunto.replaceAll(">", "*gt*")
-//            asunto = asunto.replaceAll("&", "*amp*")
-//            asunto = asunto.decodeHTML()
-//            asunto = asunto.replaceAll("\\*lt\\*", "&lt;")
-//            asunto = asunto.replaceAll("\\*gt\\*", "&gt;")
-//            asunto = asunto.replaceAll("\\*amp\\*", "&amp;")
-//
-//            html += "            <div class=\"row row-low-margin-top\">"
-//            html += "                <div class=\"col-xs-1  negrilla negrilla-puntos\">"
-//            html += "                    Asunto:"
-//            html += "                </div>"
-//            html += ""
-//            html += "                <div class=\"col-xs-10  col-buen-height\">"
-//            html += "                    ${asunto}"
-//            html += "                </div>"
-//            html += "            </div>"
-//            html += "        </div>"
-//        } else {
-//            //tipo documento
-//            if (tramite?.tipoDocumento?.codigo != 'OFI') {
-//
-//                def cadenaCodigo = tramite.codigo.toString()
-//                def nuevaCadena
-//                nuevaCadena = cadenaCodigo.split('-')[1] + "-" + cadenaCodigo.split('-')[2] + "-" + cadenaCodigo.split('-')[3]
-//
-//                html = "<div class=\"titulo-azul titulo-horizontal\">"
-//                html += tramite.tipoDocumento?.descripcion + "-" + nuevaCadena
-//                html += "</div>"
-//                html += "<table class='tramiteHeader'>"
-//
-//                html += "<tr>"
-//                html += "<th>DE:</th>"
-//                if (tramite.tipoDocumento.codigo == "DEX") {
-//                    html += "<td>${tramite.paraExterno.toUpperCase()} (ext.)</td>"
-//                } else {
-//                    if(tramite.de) {
-//                        html += "<td>${tramite.de.departamento.descripcion.toUpperCase()}</td>"
-//                    } else {
-//                        html += "<td>${tramite.deDepartamento.descripcion.toUpperCase()}</td>"
-//                    }
-//                }
-//                html += "</tr>"
-//
-//                if (para || tramite.paraExterno) {
-//                    html += "<tr style='vertical-align: top'>"
-//                    html += "<th>PARA:</th>"
-//                    html += "<td>"
-//                    if (tramite.tipoDocumento.codigo != "DEX") {
-//                        if (tramite.paraExterno) {
-//                            strPara = tramite.paraExterno.toUpperCase()
-//                        }
-//                    }
-//                    if (strDepa != '') {
-//                        if (tramite?.textoPara) {
-//                            html += strPara.toUpperCase() + " (" + strDepa.toUpperCase() + ")" + " - " + tramite?.textoPara?.toUpperCase()
-//                        } else {
-//                            html += strPara.toUpperCase() + " (" + strDepa.toUpperCase() + ")"
-//                        }
-//
-//                    } else {
-//                        if (tramite?.textoPara) {
-//                            html += strPara.toUpperCase() + " - " + tramite?.textoPara?.toUpperCase()
-//                        } else {
-//                            html += strPara.toUpperCase()
-//                        }
-//
-//                    }
-//
-//                    html += "</td>"
-//                    html += "</tr>"
-//                }
-//
-//                html += "<tr>"
-//                html += "<th>FECHA:</th>"
-//                html += "<td>"
-//                html += util.fechaConFormatoMayusculas(fecha: tramite.fechaCreacion, ciudad: "QUITO").toUpperCase()
-//                html += "</td>"
-//                html += "</tr>"
-//
-//                def asunto = (tramite?.asunto ? tramite.asunto.toUpperCase() : '')
-//                asunto = asunto.replaceAll("&nbsp;", " ")
-//                asunto = asunto.replaceAll("&lt;", "*lt*")
-//                asunto = asunto.replaceAll("&gt;", "*gt*")
-//                asunto = asunto.replaceAll("&amp;", "*amp*")
-//                asunto = asunto.replaceAll("<", "*lt*")
-//                asunto = asunto.replaceAll(">", "*gt*")
-//                asunto = asunto.replaceAll("&", "*amp*")
-//                asunto = asunto.decodeHTML()
-//                asunto = asunto.replaceAll("\\*lt\\*", "&lt;")
-//                asunto = asunto.replaceAll("\\*gt\\*", "&gt;")
-//                asunto = asunto.replaceAll("\\*amp\\*", "&amp;")
-//
-//                html += "<tr style='vertical-align: top'>"
-//                html += "<th>ASUNTO:</th>"
-//                html += "<td align='justify'>${asunto ?: ''}</td>"
-//                html += "</tr>"
-//                html += "</table>"
-//            } else {
-//
-//
-//                html = "<div>"
-//                html += "</div>"
-//                //fecha
-//                html += "<tr>"
-//                html += "<td>"
+    def headerTramite = { attrs ->
+//        println "HEADER: " + attrs
+        def oficio = attrs.oficio
+
+        def para = 'Destinatario'
+        def cc = "con copia"
+
+//        println("tramite " + tramite?.id)
+//        println "copiasf " + cc
+
+        def strPara = para
+        def strDepa = "Departamento"
+        def strCopia = "CC"
+
+        def html
+
+        if (!attrs.pdf) {
+            html = "<div style=\"margin-top: 30px;padding-bottom: 10px\" class=\"vertical-container header-tramite\">"
+            //tipo de documento
+            html += "            <div class=\"titulo-azul titulo-horizontal\" style=\"margin-left: -50px\">"
+            html += "                ${tramite.tipoDocumento?.descripcion} ${attrs.extraTitulo ?: ''}"
+            html += "            </div>"
+            //No. documento
+            html += "            <div class=\"row row-low-margin-top\" style=\"margin-top: 5px;\">"
+            html += "                <div class=\"col-xs-1  negrilla negrilla-puntos\">"
+            html += "                    No."
+            html += "                </div>"
+            html += "                <div class=\"col-xs-10  col-buen-height\">"
+            html += "                    ${tramite.codigo}"
+            html += "                </div>"
+            html += "            </div>"
+            //para
+            if (para || tramite.paraExterno) {
+                html += "                <div class=\"row row-low-margin-top\">"
+                html += "                    <div class=\"col-xs-1  negrilla negrilla-puntos\">"
+                html += "                        Para:"
+                html += "                    </div>"
+                html += ""
+                html += "                    <div class=\"col-xs-10  col-buen-height\">"
+                if (tramite.tipoDocumento.codigo != "DEX") {
+                    if (tramite.paraExterno) {
+                        strPara = tramite.paraExterno
+                    }
+                }
+
+                if (tramite?.textoPara) {
+                    html += (strPara + " - " + tramite?.textoPara)
+                } else {
+                    html += strPara
+                }
+
+                html += "                    </div>"
+                html += "                </div>"
+            }
+//            //copias
+            html += "            <div class=\"row row-low-margin-top\">"
+            html += "                <div class=\"col-xs-1  negrilla negrilla-puntos\">"
+            html += "                    De:"
+            html += "                </div>"
+            html += "                <div class=\"col-xs-10  col-buen-height\">"
+            if (tramite.tipoDocumento.codigo == "DEX") {
+                html += "                    ${tramite.paraExterno} (ext.)"
+            } else {
+                if (tramite?.tipoDocumento?.codigo == 'OFI') {
+                    if (tramite.de) {
+                        html += "                    ${tramite?.de?.departamento.descripcion}"
+                    } else {
+                        html += "                    ${tramite.deDepartamento.descripcion}"
+                    }
+                } else {
+                    if (tramite.de) {
+                        html += "                    ${tramite?.de?.departamento.descripcion}"
+                    } else {
+                        html += "                    ${tramite.deDepartamento.descripcion}"
+                    }
+                }
+            }
+            html += "                </div>"
+            html += "            </div>"
+            //fecha
+            html += "            <div class=\"row row-low-margin-top\">"
+            html += "                <div class=\"col-xs-1  negrilla negrilla-puntos\">"
+            html += "                    Fecha:"
+            html += "                </div>"
+
+            /** todo: posible edición del para -- nuevo campo en trmt y manejo de la "ciudad y fecha" */
+/*
+            def paraYFecha = util.fechaConFormato(fecha: tramite.fechaCreacion, ciudad: "Quito")
+            html += "<input type='text' name='nuevoPara' class='form-control' id='nuevoPara' maxlength='63'\n" +
+                    "style='width: 350px;display: inline' value='${paraYFecha}'/>"
+*/
+
+
+            html += "                <div class=\"col-xs-10  col-buen-height\">"
+            html += util.fechaConFormato(fecha: tramite.fechaCreacion, ciudad: "Quito")
+            html += "                </div>"
+            html += "            </div>"
+            //asunto
+            def asunto = (tramite?.asunto ?: '')
+            asunto = asunto.replaceAll("&nbsp;", " ")
+            asunto = asunto.replaceAll("&lt;", "*lt*")
+            asunto = asunto.replaceAll("&gt;", "*gt*")
+            asunto = asunto.replaceAll("&amp;", "*amp*")
+            asunto = asunto.replaceAll("<", "*lt*")
+            asunto = asunto.replaceAll(">", "*gt*")
+            asunto = asunto.replaceAll("&", "*amp*")
+            asunto = asunto.decodeHTML()
+            asunto = asunto.replaceAll("\\*lt\\*", "&lt;")
+            asunto = asunto.replaceAll("\\*gt\\*", "&gt;")
+            asunto = asunto.replaceAll("\\*amp\\*", "&amp;")
+
+            html += "            <div class=\"row row-low-margin-top\">"
+            html += "                <div class=\"col-xs-1  negrilla negrilla-puntos\">"
+            html += "                    Asunto:"
+            html += "                </div>"
+            html += ""
+            html += "                <div class=\"col-xs-10  col-buen-height\">"
+            html += "                    ${asunto}"
+            html += "                </div>"
+            html += "            </div>"
+            html += "        </div>"
+        } else {
+//            DecimalFormatSymbols decimalSymbols = DecimalFormatSymbols.getInstance();
+//            decimalSymbols.setDecimalSeparator(".");
+
+            //tipo documento
+
+
+                html = "<div>"
+                html += "</div>"
+                //fecha
+                html += "<tr>"
+                html += "<td>"
 //                html += util.fechaConFormatoMayusculas(fecha: tramite.fechaCreacion, ciudad: "Quito")
-//                html += "</td>"
-//                html += "</tr>"
-//                //no. documento
-//                html += "<tr>"
-//                html += "<td>Oficio N°: ${tramite.codigo[4..-1]}</td>"
-//                html += "</tr>"
-//                //espacios
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//                html += "<tr><td></td></tr>"
-//            }
-//
-//        }
-//        out << html
-//    }
+                html += "fecha: hoy .. Quito"
+                html += "</td>"
+                html += "</tr>"
+                //no. documento
+                html += "<tr>"
+                html += "<td>Oficio N°: NNN___1111</td>"
+                html += "</tr>"
+                //espacios
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+                html += "<tr><td></td></tr>"
+
+        }
+        out << html
+    }
+
+    /**
+     * pone un contenedor vertical u horizontal
+     * Ejemplo de como usar en asignacion/asignacionProyectov2
+     * @param tipo es el tipo de container, puede ser vertica u horizontal
+     * @param border indica si el container debe tener borde
+     * @param style cualqueir estilo para el container
+     * @param linea indica si debe llevar o no linea bajo el título
+     * @param color es el color del título
+     * @param titulo un String con el título del container
+     */
+
+    def container = { attrs, body ->
+        def tipo = attrs.tipo
+        def clase = ""
+        def titulo = ""
+
+        if (tipo == "vertical") {
+            clase = "vertical-container ${attrs.border ? 'bordered ui-corner-all' : ''}"
+            titulo = '<div class="css-vertical-text" style="color:' + attrs.color + '">' + attrs.titulo + '</div>'
+            if (!attrs.linea) {
+                titulo += '<div class="linea"></div>'
+            }
+        } else {
+            clase = "horizontal-container ${attrs.border ? 'bordered ui-corner-all' : ''}"
+            titulo = '<div class="titulo-azul"  style="color:' + attrs.color + '">' + attrs.titulo + '</div>'
+        }
+
+        def html = ""
+        html += '<div class="' + clase + '" style="' + attrs.style + ';padding-bottom: 10px">'
+        html += titulo
+        out << html << body() + "</div>"
+    }
 
 
 /*
@@ -1479,7 +1385,7 @@ class ElementosTagLib {
                         clase += " alert-info"
                         break;
                     case "warning":
-                        icono = "fa fa-warning"
+                        icono = "fa fa-exclamation-triangle"
                         clase += " alert-warning"
                         break;
                     case "info":
@@ -1645,6 +1551,82 @@ class ElementosTagLib {
         out << js
     }
 
+/**
+ * crea un modal, al modal hay que agregarle el modal-body y el modal-footer
+ */
+    def modal = { attrs, body ->
+        def id = attrs.id
+        def html = '<div class="modal fade ' + attrs.clase + ' " id="' + id + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel' + attrs.id + '" aria-hidden="true" style="' + attrs.style + '">'
+        html += '<div class="modal-dialog">\n' +
+                '    <div class="modal-content">\n' +
+                '      <div class="modal-header">'
+        html += ' <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+        html += ' <h4 class="modal-title" id="myModalLabel-' + attrs.id + '">' + attrs.titulo + '</h4></div>'
+        out << html << body() << '</div></div></div>'
+    }
 
+    def poneHtml = { attrs ->
+//        println "funcion: ${attrs.funcion}"
+        def html = attrs.textoHtml
+        out << html
+    }
+
+    /**
+     * pone un field segun el standar rapido rapido
+     */
+    def fieldRapido = { attrs, body ->
+        def html = ""
+        def claseField = (attrs.claseField ? attrs.claseField : 'col-md-3')
+        def claseLabel = (attrs.claseLabel ? attrs.claseLabel : 'col-md-2')
+        html += '<div class="form-group keeptogether">'
+        html += '<span class="grupo">'
+        html += '<label class="' + claseLabel + ' control-label">'
+        html += attrs.label
+        html += '</label>'
+        html += '<div class="' + claseField + '">'
+        html += body()
+        html += '</div>'
+        html += '</span>'
+        html += '</div>'
+        out << html
+    }
+
+
+
+
+
+    /**
+     * Imprime el número del aval o de la solicidud con el formato '003'
+     * @param aval (opcional) el id del aval
+     * @param solicitud (opcional) el id de la solicitud
+     */
+    def imprimeNumero = { attrs ->
+//        println("imprimeNumero " + attrs)
+        def aval = null
+        def sol = null
+        if (attrs.aval) {
+            aval = Aval.get(attrs.aval)
+        }
+        if (attrs.solicitud) {
+            sol = SolicitudAval.get(attrs.solicitud)
+        }
+        def num = null
+        def uno = 1
+        def output = ""
+        if (aval) {
+            num = aval.numeroAval.toString()
+        }
+        if (sol) {
+            num = sol.numero.toString()
+        }
+
+        num = num.toString().padLeft(3, '0')
+//        println("num1 " + num)
+        if (!num || num == "null") {
+            num = "000"
+        }
+        output += num
+        out << output
+    }
 
 }
