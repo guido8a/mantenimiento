@@ -7,6 +7,7 @@ import com.itextpdf.html2pdf.HtmlConverter
 import com.lowagie.text.Document
 import com.lowagie.text.Element
 import com.lowagie.text.Image
+import com.lowagie.text.List
 import com.lowagie.text.PageSize
 import com.lowagie.text.Paragraph
 import com.lowagie.text.html.simpleparser.HTMLWorker
@@ -1001,10 +1002,10 @@ class ReportesController {
         addCellTabla(tablaCabecera, new Paragraph("Presente,", font10), prmsCellLeft)
         addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
         addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
-        addCellTabla(tablaCabecera, new Paragraph("De mi consideración:", font10), prmsCellLeft)
-        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
-        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
-//        addCellTabla(tablaCabecera, new Paragraph(HtmlConverter.convertToElements(oficio?.texto), font10), prmsCellLeft)
+//        addCellTabla(tablaCabecera, new Paragraph("De mi consideración:", font10), prmsCellLeft)
+//        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+//        addCellTabla(tablaCabecera, new Paragraph("", font10), prmsCellLeft)
+//        addCellTabla(tablaCabecera, new Paragraph(cambiarHtml(oficio?.texto), font10), prmsCellLeft)
 //        addCellTabla(tablaCabecera, new Paragraph( oficio?.texto?.encodeAsHTML(), font10), prmsCellJustificado)
 //        addCellTabla(tablaCabecera, new Paragraph( "${raw(oficio?.texto)}", font10), prmsCellJustificado)
 //        addCellTabla(tablaCabecera, new Paragraph( "${util.renderHTML(html:  oficio?.texto)}", font10), prmsCellJustificado)
@@ -1020,10 +1021,42 @@ class ReportesController {
         def a = HTMLWorker.parseToList(strReader, null)
 
         a.each {
-            println("it " + it)
-            addCellTabla(tablaCabecera, it, prmsCellLeft)
+            println("it " + it.class)
+
+            if(it.class == com.lowagie.text.Paragraph){
+                addCellTabla(tablaCabecera, it, prmsCellLeft)
+            }else{
+                if(it.class == com.lowagie.text.List){
+
+
+//                    StringReader strReader2 = new StringReader();
+//                    def a = HTMLWorker.parseToList(strReader2, null)
+
+                    it.getItems().eachWithIndex { pedazo, r->
+                        println("nnnnn " + pedazo)
+//                        println("aaaaa " + aaaa.getChunks())
+                        pedazo.each { bb->
+                            addCellTabla(tablaCabecera, new Paragraph(bb.toString()), prmsCellLeft)
+                        }
+
+                    }
+//                    addCellTabla(tablaCabecera, it.getItems(), prmsCellLeft)
+                }
+            }
+
+
+//            addCellTabla(tablaCabecera, it, prmsCellLeft)
         }
 
+//        StringReader strReader = new StringReader(oficio?.texto);
+//        ArrayList p=new ArrayList();
+//        p = HTMLWorker.parseToList(strReader, null);
+//        Paragraph paragraph=new Paragraph();
+//        for (int k = 0; k < p.size(); ++k){
+////            paragraph.add((com.lowagie.text.Element)p.get(k));
+//            println("--- "  + (com.lowagie.text.Element)p.get(k).get)
+//            addCellTabla(tablaCabecera,  paragraph.add((com.lowagie.text.Element)p.get(k)), prmsCellLeft)
+//        }
 
         def tablaFirma = new PdfPTable(1);
         tablaFirma.setWidthPercentage(100);
@@ -1039,6 +1072,54 @@ class ReportesController {
 
         encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
     }
+
+    def cambiarHtml(texto){
+
+        println("te " + texto)
+
+        String gt = ''
+        ArrayList p2 = new ArrayList()
+        StringReader sh2 = new StringReader(texto)
+        p2 = HTMLWorker.parseToList(sh2, null)
+        println("p2" + p2)
+
+        Paragraph htmlPiece= new Paragraph();
+        java.util.List<Element> list2 = HTMLWorker.parseToList(sh2, null);
+
+        for (Element element : p2) {
+//            println("ele " + element.class)
+
+            gt += element.getChunks()
+
+//            if(element.class == com.lowagie.text.Paragraph){
+//                gt += element
+//            }else{
+//                if(element.class == com.lowagie.text.List){
+//                    element.getChunks()
+//                    gt += element.getChunks()
+//                }
+//            }
+
+//            htmlPiece.add(element);
+//            gt += element
+        }
+//
+//        println("aaa " + htmlPiece)
+
+//
+//        for (int k = 0; k < p2.size(); ++k){
+//            println("hhh " + p2[k].get(k))
+//            gt += p2[k].get(k)
+//        }
+//
+//        println("gt " + gt)
+//
+
+
+        return gt
+
+    }
+
 
 
     def oficio2() {
@@ -1198,7 +1279,7 @@ class ReportesController {
                     "</div>"
         }
         content += "<div class='hoja'>\n"
-        content +=  new Elementos2TagLib().headerTramite(oficio: oficio, pdf: true)
+//        content +=  new Elementos2TagLib().headerTramite(oficio: oficio, pdf: true)
 
 //        def nuevoTexto = text.replaceAll("/tramiteImagenes/getImage", "/var/tramites/images")
         def nuevoTexto = text.replaceAll(dirBase, "/var/tramites/images")
