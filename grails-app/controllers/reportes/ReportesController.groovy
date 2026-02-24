@@ -1282,7 +1282,11 @@ class ReportesController {
 //        content +=  new Elementos2TagLib().headerTramite(oficio: oficio, pdf: true)
 
 //        def nuevoTexto = text.replaceAll("/tramiteImagenes/getImage", "/var/tramites/images")
+        println "--> $content "
+
         def nuevoTexto = text.replaceAll(dirBase, "/var/tramites/images")
+
+        println "nTexto $nuevoTexto"
 
         content += nuevoTexto
 //        content += '<p><img alt="" src="/var/tramites/images/gatos_6.jpg" style="height:395px; width:400px" /></p>'

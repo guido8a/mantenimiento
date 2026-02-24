@@ -9,7 +9,7 @@ import seguridad.Persona
 
 class Elementos2TagLib {
 
-    static namespace = "elm"
+    static namespace = "elm2"
 
     /**
      * crea un div para el not found (con el fantasmita)
@@ -239,7 +239,7 @@ class Elementos2TagLib {
     }
 
     def headerTramite = { attrs ->
-//        println "HEADER: " + attrs
+        println "HEADER: " + attrs
         def oficio = attrs.oficio
 
         def para = 'Destinatario'
