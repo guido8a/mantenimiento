@@ -116,7 +116,7 @@
         </div>
         </a>
 
-        <a href= "${createLink(controller:'buscarActividad', action: 'busquedaActividad')}" style="text-decoration: none">
+        <a href= "${createLink(controller:'oficio', action: 'list')}" style="text-decoration: none">
         <div class="ui-corner-all item fuera">
             <div class="ui-corner-all item">
                 <div class="imagen">
