@@ -637,14 +637,31 @@ class ReportesController {
             addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font10Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Requerimiento: " + ( actividad?.requerimiento  ?: ''), font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " + ( (actividad?.usuario?.apellido ?: '') + " " +  (actividad?.usuario?.nombre ?: '')), font10Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "", font10Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "", font10Bold), prmsCellLeftAT)
         }
 
+        addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+        addCellTabla(tablaActividades, new Paragraph( "Atentamente, ", font10), prmsCellLeftAT)
+
+        def tablaFirma = new PdfPTable(2);
+        tablaFirma.setWidthPercentage(100);
+        tablaFirma.setWidths(arregloEnteros([5,95]))
+        tablaFirma.setSpacingBefore(70)
+        addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("Ingeniero Guido Ochoa Moreno Msc.", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("Gerente General", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("TEDEIN S.A.", font11Normal), prmsCellLeft)
+
         document.add(tablaModulos)
         document.add(tablaTexto)
         document.add(tablaActividades)
+        document.add(tablaFirma)
 
         document.close();
         pdfw.close()
@@ -1185,8 +1202,15 @@ class ReportesController {
                 "}\n" +
                 "\n" +
                 ".tm{\n" +
+                "    display     : block;\n" +
                 "   text-align: left;\n" +
-                "   margin-top: 200;\n" +
+                "   margin-top: 100px;\n" +
+                "}\n" +
+                "\n" +
+                ".tm2{\n" +
+                "    display     : block;\n" +
+                "   text-align: left;\n" +
+                "   margin-top: 100px;\n" +
                 "}\n" +
                 "\n" +
                 ".membrete {\n" +
@@ -1207,7 +1231,22 @@ class ReportesController {
         content += "<table width='100%' border='0'>"
         content += "<tr>"
         content += "<td width='100%' style='text-align:center'>"
-        content += "<img alt='' src='${membrete}' height='100%' width='100%' margin-top='5px'/>"
+        content += "<img alt='' src='${membrete}' height='100%' width='100%' margin-top='1px'/>"
+        content += "</td>"
+        content += "</tr>"
+        content += "</table>"
+        content += "</div>"
+
+        content += "<div class=\"tm2\" >"
+        content += "<table width='100%' border='0'>"
+        content += "<tr width='100%' style='text-align:left;'>"
+        content += "<td width='100%'>"
+        content += "Oficio N°: <strong> ${oficio?.numero} </strong>"
+        content += "</td>"
+        content += "</tr>"
+        content += "<tr width='100%' style='text-align:right;'>"
+        content += "<td width='100%'>"
+        content += "${ "Quito," + fechaConFormato(oficio?.fecha,"dd MMMM yyyy")}"
         content += "</td>"
         content += "</tr>"
         content += "</table>"
@@ -1215,14 +1254,33 @@ class ReportesController {
 
         content += "<div class=\"\" >"
         content += "<table  width='100%' border='0'>"
+        if(Responsable.findByContrato(oficio?.contrato)){
+            content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
+            content += "<td width='100%'>"
+            content += "Señor ${Responsable.findByContrato(oficio?.contrato)?.titulo ?: ''}"
+            content += "</td>"
+            content += "</tr>"
+            content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
+            content += "<td width='100%'>"
+            content += "<strong> ${(Responsable.findByContrato(oficio?.contrato)?.nombre ?: '')  +  " "  + (Responsable.findByContrato(oficio?.contrato)?.apellido ?: '')} </strong>"
+            content += "</td>"
+            content += "</tr>"
+
+        }else{
+            content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
+            content += "<td width='100%'>"
+            content += "<strong> Sin responsable asignado al contrato </strong>"
+            content += "</td>"
+            content += "</tr>"
+        }
+        content += "</table>"
+        content += "</div>"
+
+        content += "<div class=\"\" >"
+        content += "<table  width='100%' border='0'>"
         content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
         content += "<td width='100%'>"
-        content += "Oficio N°: <strong> ${oficio?.numero} </strong>"
-        content += "</td>"
-        content += "</tr>"
-        content += "<tr width='100%' style='text-align:right; margin-top: 1px'>"
-        content += "<td width='100%'>"
-        content += "${ "Quito," + fechaConFormato(oficio?.fecha,"dd MMMM yyyy")}"
+        content += "Administrador del contrato N° <strong> ${oficio?.contrato?.numero} </strong> : " + ' "' + "${oficio?.contrato?.objeto}" + '"'
         content += "</td>"
         content += "</tr>"
         content += "</table>"
@@ -1244,14 +1302,18 @@ class ReportesController {
 
         content += nuevoTexto
 
+        content += "<div class=\"\" >"
+        content += "<table  width='100%' border='0'>"
+        content += "<tr width='100%'  style='text-align:left;' >"
+        content += "<td width='100%'>"
+        content += "Atentamente,"
+        content += "</td>"
+        content += "</tr>"
+        content += "</table>"
+        content += "</div>"
 
         content += "<div class=\"tm\" >"
         content += "<table  width='100%' border='0'>"
-        content += "<tr width='100%'  style='text-align:left; margin-bottom: 200px' >"
-        content += "<td width='100%'>"
-        content += "${""}"
-        content += "</td>"
-        content += "</tr>"
         content += "<tr width='100%'  style='text-align:left;' >"
         content += "<td width='100%'>"
         content += "<strong> ${"Ingeniero Guido Ochoa Moreno Msc."} </strong>"
