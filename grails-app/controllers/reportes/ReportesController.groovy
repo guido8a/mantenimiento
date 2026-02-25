@@ -1060,7 +1060,7 @@ class ReportesController {
 
     def oficio2() {
         println "oficio2 $params"
-        def of = Oficio.get(1)
+        def of = Oficio.get(params.id)
 //        def resp = crearPdf(of, '/var/mantenimiento', "mensaje" )
 //        render "ok"
 
@@ -1085,9 +1085,10 @@ class ReportesController {
 
         oficio.refresh()
 
-        def pathImages = realPath + "/"
+        def pathImages = "/var/mantenimiento/"
         def path = pathImages
-        def membrete = pathImages + "logo_reportes.png"
+//        def membrete = pathImages + "logo_reportes.png"
+        def membrete = "/var/mantenimiento/logo.jpeg"
 
         new File(path).mkdirs()
 
@@ -1183,48 +1184,95 @@ class ReportesController {
                 "   margin-bottom: 0;\n" +
                 "}\n" +
                 "\n" +
+                ".tm{\n" +
+                "   text-align: left;\n" +
+                "   margin-top: 200;\n" +
+                "}\n" +
+                "\n" +
                 ".membrete {\n" +
                 "    text-align  : center;\n" +
                 "    font-size   : 14pt;\n" +
                 "    font-weight : bold;\n" +
                 "}\n" +
-                "img {position: relative; top: 30px;}" +
+
+                "img {position: relative; top: 10px;}" +
                 "th {\n" +
                 "   padding-right: 10px;\n" +
                 "}\n"
         content += "</style>\n"
         content += "</head>\n"
         content += "<body>\n"
-        if (conMembrete == "1") {
-            content += "<div class=\"header membrete\">"
-            content += "<table border='0'>"
-            content += "<tr>"
-            content += "<td width='15%'>"
-            content += "<img alt='' src='${membrete}' height='100' width='100' margin-top='15px'/>"
-            content += "</td>"
-            content += "<td width='85%' style='text-align:center'>"
-            content += leyenda
-            content += "</td>"
-            content += "</tr>"
-            content += "</table>"
-            content += "</div>"
 
-            content += "<div class='footer'>" +
-                    "Av. Universitaria (4ta) y Clemente Baquerizo (calle 35) #0401 • Telf. (593-5) 3701625 • " +
-                    "<strong>www.losrios.gob.ec</strong><br/>Los Ríos - Ecuador" +
-                    "</div>"
-        }
+        content += "<div class=\"header membrete\">"
+        content += "<table width='100%' border='0'>"
+        content += "<tr>"
+        content += "<td width='100%' style='text-align:center'>"
+        content += "<img alt='' src='${membrete}' height='100%' width='100%' margin-top='5px'/>"
+        content += "</td>"
+        content += "</tr>"
+        content += "</table>"
+        content += "</div>"
+
+        content += "<div class=\"\" >"
+        content += "<table  width='100%' border='0'>"
+        content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
+        content += "<td width='100%'>"
+        content += "Oficio N°: <strong> ${oficio?.numero} </strong>"
+        content += "</td>"
+        content += "</tr>"
+        content += "<tr width='100%' style='text-align:right; margin-top: 1px'>"
+        content += "<td width='100%'>"
+        content += "${ "Quito," + fechaConFormato(oficio?.fecha,"dd MMMM yyyy")}"
+        content += "</td>"
+        content += "</tr>"
+        content += "</table>"
+        content += "</div>"
+
+        content += "<div class='footer'>" +
+                "Mz#2924, Sol#30, Mucho Lote#2, PB-Pascuales. Guayaquil - Rio Coca E8-138 y los Shyris, Telf: 02-5019108, Quito. Email: informacion@tedein.com.ec" +
+                "</div>"
         content += "<div class='hoja'>\n"
 //        content +=  new Elementos2TagLib().headerTramite(oficio: oficio, pdf: true)
 
 //        def nuevoTexto = text.replaceAll("/tramiteImagenes/getImage", "/var/tramites/images")
         println "--> $content "
 
-        def nuevoTexto = text.replaceAll(dirBase, "/var/tramites/images")
+//        def nuevoTexto = text.replaceAll(dirBase, "/var/tramites/images")
+        def nuevoTexto = text.replaceAll(dirBase, "/var/mantenimiento")
 
         println "nTexto $nuevoTexto"
 
         content += nuevoTexto
+
+
+        content += "<div class=\"tm\" >"
+        content += "<table  width='100%' border='0'>"
+        content += "<tr width='100%'  style='text-align:left; margin-bottom: 200px' >"
+        content += "<td width='100%'>"
+        content += "${""}"
+        content += "</td>"
+        content += "</tr>"
+        content += "<tr width='100%'  style='text-align:left;' >"
+        content += "<td width='100%'>"
+        content += "<strong> ${"Ingeniero Guido Ochoa Moreno Msc."} </strong>"
+        content += "</td>"
+        content += "</tr>"
+        content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
+        content += "<td width='100%'>"
+        content += "<strong> ${"Gerente General"} </strong>"
+        content += "</td>"
+        content += "</tr>"
+        content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
+        content += "<td width='100%'>"
+        content += "${"TEDEIN S.A."}"
+        content += "</td>"
+        content += "</tr>"
+        content += "</table>"
+        content += "</div>"
+
+
+
+
 //        content += '<p><img alt="" src="/var/tramites/images/gatos_6.jpg" style="height:395px; width:400px" /></p>'
         content += "</div>\n"
         content += "</body>\n"
