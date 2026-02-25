@@ -1100,7 +1100,7 @@ class ReportesController {
         text = text.replaceAll("&gt;", "*gt*")
         text = text.replaceAll("&amp;", "*amp*")
         text = text.replaceAll("<p>&nbsp;</p>", "<br/>")
-        text = text.replaceAll("&nbsp;", " ")
+//        text = text.replaceAll("&nbsp;", "<br/>")
         text = text.decodeHTML()
 
         text = text.replaceAll("\\*lt\\*", "&lt;")
