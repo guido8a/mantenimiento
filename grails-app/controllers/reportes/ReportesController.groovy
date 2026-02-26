@@ -1301,7 +1301,8 @@ class ReportesController {
         println "--> $content "
 
 //        def nuevoTexto = text.replaceAll(dirBase, "/var/tramites/images")
-        def nuevoTexto = text.replaceAll(dirBase, "/var/mantenimiento")
+//        def nuevoTexto = text.replaceAll(dirBase, "/var/mantenimiento")
+        def nuevoTexto = text
 
         println "nTexto $nuevoTexto"
 
