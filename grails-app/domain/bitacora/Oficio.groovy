@@ -7,6 +7,7 @@ class Oficio {
     String numero
     Date fecha
     String texto
+    String lineas
 
     static mapping = {
         table 'ofco'
@@ -21,6 +22,7 @@ class Oficio {
             numero column: 'ofconmro'
             fecha column: 'ofcofcha'
             texto column: 'ofcotxto'
+            lineas column: 'ofcolnas'
         }
     }
     static constraints = {
@@ -29,5 +31,6 @@ class Oficio {
         numero(size: 0..31, blank: true, nullable: true)
         fecha(blank: true, nullable: true)
         texto(blank: true, nullable: true)
+        lineas(blank: true, nullable: true)
     }
 }

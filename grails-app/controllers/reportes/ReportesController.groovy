@@ -1212,6 +1212,11 @@ class ReportesController {
                 "   text-align: left;\n" +
                 "   margin-top: 100px;\n" +
                 "}\n" +
+                ".tm3{\n" +
+                "    display     : block;\n" +
+                "   text-align: left;\n" +
+                "   margin-bottom: 150px;\n" +
+                "}\n" +
                 "\n" +
                 ".membrete {\n" +
                 "    text-align  : center;\n" +
@@ -1302,15 +1307,27 @@ class ReportesController {
 
         content += nuevoTexto
 
-        content += "<div class=\"\" >"
-        content += "<table  width='100%' border='0'>"
-        content += "<tr width='100%'  style='text-align:left;' >"
-        content += "<td width='100%'>"
-        content += "Atentamente,"
-        content += "</td>"
-        content += "</tr>"
-        content += "</table>"
-        content += "</div>"
+        if(oficio?.lineas?.toInteger() > 17 && oficio?.lineas?.toInteger() <= 22){
+            content += "<div class=\"tm3\" >"
+            content += "<table  width='100%' border='0'>"
+            content += "<tr width='100%'  style='text-align:left;' >"
+            content += "<td width='100%'>"
+            content += "Atentamente,"
+            content += "</td>"
+            content += "</tr>"
+            content += "</table>"
+            content += "</div>"
+        }else{
+            content += "<div class=\"\" >"
+            content += "<table  width='100%' border='0'>"
+            content += "<tr width='100%'  style='text-align:left;' >"
+            content += "<td width='100%'>"
+            content += "Atentamente,"
+            content += "</td>"
+            content += "</tr>"
+            content += "</table>"
+            content += "</div>"
+        }
 
         content += "<div class=\"tm\" >"
         content += "<table  width='100%' border='0'>"
@@ -1331,10 +1348,6 @@ class ReportesController {
         content += "</tr>"
         content += "</table>"
         content += "</div>"
-
-
-
-
 //        content += '<p><img alt="" src="/var/tramites/images/gatos_6.jpg" style="height:395px; width:400px" /></p>'
         content += "</div>\n"
         content += "</body>\n"

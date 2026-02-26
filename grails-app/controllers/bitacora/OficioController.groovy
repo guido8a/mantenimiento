@@ -26,6 +26,8 @@ class OficioController {
 
     def save_ajax(){
 
+        println("params  " + params)
+
         def oficio
 
         if(params.id){

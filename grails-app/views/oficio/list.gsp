@@ -100,6 +100,7 @@
         var $form = $("#frmOficio");
         if ($form.valid()) {
            var texto = CKEDITOR.instances.texto.getData();
+            var lineBreaksCount = (texto.match(/<br[^>]*>/g) || []).length + (texto.split('\n').length + 1);
             $.ajax({
                 type    : "POST",
                 url     : '${createLink(controller: 'oficio', action:'save_ajax')}',
@@ -110,7 +111,8 @@
                     periodo: $("#periodo").val(),
                     numero: $("#numero").val(),
                     fecha: $("#datetimepicker1").val(),
-                    texto: texto
+                    texto: texto,
+                    lineas: lineBreaksCount
                 },
                 success : function (msg) {
                     var parts = msg.split("_");
