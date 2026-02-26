@@ -67,4 +67,23 @@ class OficioController {
         }
     }
 
+    def lineas_ajax(){
+        def oficio = Oficio.get(params.id)
+        def lineas = oficio?.periodo?.lineas
+        return [lineas: lineas]
+    }
+
+    def saveLineas_ajax(){
+        def oficio = Oficio.get(params.id)
+        def periodo = Periodo.get( oficio?.periodo?.id)
+        periodo.lineas = (params.lineas ? params.lineas?.toInteger() : 0)
+
+        if(!periodo.save(flush: true)){
+            println("error al guardar las líneas " + periodo.errors)
+            render "no_Error al guardar las líneas"
+        }else{
+            render "ok_Guardado correctamente"
+        }
+    }
+
 }

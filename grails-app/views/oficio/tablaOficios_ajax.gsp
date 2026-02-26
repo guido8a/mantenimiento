@@ -45,6 +45,9 @@ th, td {
                         <a class="btn btn-xs btnImprimirInforme btn-warning" href="#"  title="Imprimir informe" data-id="${oficio.id}">
                             <i class="fa fa-print"></i>
                         </a>
+                        <a class="btn btn-xs btnLineas btn-success" href="#"  title="Líneas de impresión" data-id="${oficio.id}">
+                            <i class="fa fa-bookmark"></i>
+                        </a>
                     </td>
                 </tr>
             </g:each>
@@ -57,9 +60,59 @@ th, td {
 
 <script type="text/javascript">
 
+    $(".btnLineas").click(function (){
+        var id = $(this).data("id");
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'oficio', action:'lineas_ajax')}",
+            data    : {
+                id: id
+            },
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgLineas",
+                    title   : "Ingresar líneas adicionales",
+                    class   : "modal-sm",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "<i class='fa fa-times'></i> Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-save'></i> Guardar",
+                            className : "btn-success",
+                            callback  : function () {
+                                $.ajax({
+                                    type    : "POST",
+                                    url     : '${createLink(controller: 'oficio', action:'saveLineas_ajax')}',
+                                    data    : {
+                                        id: id,
+                                        lineas: $("#lineas").val()
+                                    },
+                                    success : function (msg) {
+                                        var parts = msg.split("_");
+                                        if (parts[0]==="ok") {
+                                            log(parts[1],"success");
+                                        } else {
+                                            log(parts[1],"error");
+                                            return false;
+                                        }
+                                    }
+                                });
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    });
+
     $(".btnImprimirOficio").click(function () {
         var id = $(this).data("id");
-        %{--location.href = "${g.createLink(controller:'reportes', action: 'reporteOficio')}?id=" + id--}%
         location.href = "${g.createLink(controller:'reportes', action: 'oficio2')}?id=" + id
     });
 
