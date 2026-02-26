@@ -560,7 +560,8 @@ class ReportesController {
 //        def baos = new ByteArrayOutputStream()
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        def name = "informe_" + new Date().format("dd_MM_yyyy_hhmm") ;
+        def name = "informe ${oficio?.periodo?.fechads.format('dd-MM-yy')} al ${oficio?.periodo?.fechahs.format('dd-MM-yy')}"
+//        def name = "informe_${oficio?.periodo?.numero}"
         com.lowagie.text.Font titleFont = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 14, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font titleFont3 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font titleFont3Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
@@ -650,7 +651,8 @@ class ReportesController {
             addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Requerimiento: " + ( actividad?.requerimiento  ?: ''), font10Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " + ( (actividad?.usuario?.apellido ?: '') + " " +  (actividad?.usuario?.nombre ?: '')), font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " +
+                    ( (actividad?.usuario?.titulo ?: '') + " " +  (actividad?.usuario?.nombre ?: '') + " " +  (actividad?.usuario?.apellido ?: '')), font10Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
         }
@@ -673,9 +675,9 @@ class ReportesController {
         def tablaFirma = new PdfPTable(2);
         tablaFirma.setWidthPercentage(100);
         tablaFirma.setWidths(arregloEnteros([5,95]))
-        tablaFirma.setSpacingBefore(70)
+        tablaFirma.setSpacingBefore(60)
         addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
-        addCellTabla(tablaFirma, new Paragraph("Ingeniero Guido Ochoa Moreno Msc.", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("Ing. Guido Ochoa Moreno Msc.", font11), prmsCellLeft)
         addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
         addCellTabla(tablaFirma, new Paragraph("Gerente General", font11), prmsCellLeft)
         addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
@@ -1012,7 +1014,7 @@ class ReportesController {
         addCellTabla(tablaTitulo, new Paragraph("Oficio N°: ", font12), prmsCellLeftTT)
         addCellTabla(tablaTitulo, new Paragraph(oficio?.numero ?: '', font12Bold), prmsCellLeftTT)
         addCellTabla(tablaTitulo, new Paragraph("", font12Bold), prmsCellLeftTT)
-        addCellTabla(tablaTitulo, new Paragraph("Quito, " + fechaConFormato(new Date(), "dd MMMM yyyy"), font12), prmsCellRightTT)
+        addCellTabla(tablaTitulo, new Paragraph("Quito, xx" + fechaConFormato(new Date(), "dd MMMM yyyy"), font12), prmsCellRightTT)
 
         def tablaCabecera = new PdfPTable(1);
         tablaCabecera.setWidthPercentage(100);
@@ -1108,7 +1110,7 @@ class ReportesController {
 
         byte[] b = baos.toByteArray();
         response.setContentType("application/pdf")
-        response.setHeader("Content-disposition", "attachment; filename=tramite")
+        response.setHeader("Content-disposition", "attachment; filename=oficio ${of.numero}")
         response.setContentLength(b.length)
         response.getOutputStream().write(b)
 
@@ -1153,10 +1155,12 @@ class ReportesController {
         text = text.replaceAll(mensaje, pathImages)
 
 
-        def marginTop = "4.5cm"
+        def marginTop = "2.5cm"
         if (conMembrete == "1") {
             marginTop = "2.5cm"
         }
+
+        println "margin top: $marginTop"
 
         /* ************** todo: poner dirBase en tabla prmt *************** */
         if (grails.util.Environment.getCurrent().name == 'development') {
@@ -1173,6 +1177,8 @@ class ReportesController {
                 "   display    : block;\n" +
                 "   text-align : center;\n" +
                 "   position   : running(header);\n" +
+                "   height     : 120px;\n" +
+                "   margin-top : 40px;\n" +
                 "}\n" +
                 "div.footer {\n" +
                 "   display    : block;\n" +
@@ -1182,7 +1188,8 @@ class ReportesController {
                 "} " +
                 " @page {\n" +
                 "   size   : 21cm 29.7cm;  /*width height */\n" +
-                "   margin : ${marginTop} 2.5cm 2.5cm 3cm;\n" +
+//                "   margin : ${marginTop} 2.0cm 2.5cm 3cm;\n" +
+                "   margin : 3.0cm 2.0cm 2.5cm 3cm;\n" +
                 "}\n" +
                 "@page {\n" +
                 "   @top-center {\n" +
@@ -1227,13 +1234,13 @@ class ReportesController {
                 ".tm{\n" +
                 "    display     : block;\n" +
                 "   text-align: left;\n" +
-                "   margin-top: 100px;\n" +
+                "   margin-top: 80px;\n" +
                 "}\n" +
                 "\n" +
                 ".tm2{\n" +
                 "    display     : block;\n" +
                 "   text-align: left;\n" +
-                "   margin-top: 100px;\n" +
+                "   margin-top: 0px;\n" +
                 "}\n" +
                 ".tm3{\n" +
                 "    display     : block;\n" +
@@ -1255,7 +1262,7 @@ class ReportesController {
         content += "</head>\n"
         content += "<body>\n"
 
-        content += "<div class=\"header membrete\">"
+        content += "<div class='header'>"
         content += "<table width='100%' border='0'>"
         content += "<tr>"
         content += "<td width='100%' style='text-align:center'>"
@@ -1265,8 +1272,8 @@ class ReportesController {
         content += "</table>"
         content += "</div>"
 
-        content += "<div class=\"tm2\" >"
-        content += "<table width='100%' border='0'>"
+//        content += "<div class=\"tm2\" >"
+        content += "<table width='100%' border='0' margin-top='-30px'>"
         content += "<tr width='100%' style='text-align:left;'>"
         content += "<td width='100%'>"
         content += "Oficio N°: <strong> ${oficio?.numero} </strong>"
@@ -1278,9 +1285,11 @@ class ReportesController {
         content += "</td>"
         content += "</tr>"
         content += "</table>"
-        content += "</div>"
+//        content += "</div>"
 
-        content += "<div class=\"\" >"
+        content += "<div style='height:40px'>"
+        content += "</div>"
+        content += "<div>"
         content += "<table  width='100%' border='0'>"
         if(Responsable.findByContrato(oficio?.contrato)){
             content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
@@ -1417,7 +1426,7 @@ class ReportesController {
         content += "<table  width='100%' border='0'>"
         content += "<tr width='100%'  style='text-align:left;' >"
         content += "<td width='100%'>"
-        content += "<strong> ${"Ingeniero Guido Ochoa Moreno Msc."} </strong>"
+        content += "<strong> ${"Ing. Guido Ochoa Moreno Msc."} </strong>"
         content += "</td>"
         content += "</tr>"
         content += "<tr width='100%' style='text-align:left; margin-top: 1px'>"
