@@ -610,7 +610,12 @@ class ReportesController {
         tablaModulos.setWidths(arregloEnteros([1, 99]))
 
         addCellTabla(tablaModulos, new Paragraph("", font10), prmsCellLeft)
-        addCellTabla(tablaModulos, new Paragraph("Soporte a usuarios en el uso de módulos de", font10), prmsCellLeft)
+        def lineasVacias = oficio?.periodo.lineas
+        if(lineasVacias > 0) {
+            tablaModulos.setSpacingBefore(20*(lineasVacias/2))
+        }
+
+        addCellTabla(tablaModulos, new Paragraph("Soporte a usuarios en el uso de módulos de:", font10), prmsCellLeft)
         actividades.each { a->
             modulos.add(a?.moduloSistema)
         }
@@ -622,8 +627,14 @@ class ReportesController {
         def tablaTexto = new PdfPTable(1);
         tablaTexto.setWidthPercentage(100);
         tablaTexto.setWidths(arregloEnteros([100]))
-        tablaTexto.setSpacingBefore(20)
-        addCellTabla(tablaTexto, new Paragraph("Actividades realizadas de soporte", font11Normal), prmsCellLeft)
+
+        if(lineasVacias > 0) {
+            tablaTexto.setSpacingBefore(20*(lineasVacias/2))
+        } else {
+            tablaTexto.setSpacingBefore(20)
+        }
+
+        addCellTabla(tablaTexto, new Paragraph("Actividades realizadas de soporte:", font11Normal), prmsCellLeft)
         addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
 
@@ -631,21 +642,33 @@ class ReportesController {
         tablaActividades.setWidthPercentage(100f);
         tablaActividades.setWidths(arregloEnteros([5, 95]))
 
-        actividades.eachWithIndex { actividad, q->
+        actividades.eachWithIndex { actividad, q ->
             addCellTabla(tablaActividades, new Paragraph((q + 1)?.toString() + ".", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font10Bold), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Requerimiento: " + ( actividad?.requerimiento  ?: ''), font10Bold), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " + ( (actividad?.usuario?.apellido ?: '') + " " +  (actividad?.usuario?.nombre ?: '')), font10Bold), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "", font10Bold), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "", font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
         }
 
-        addCellTabla(tablaActividades, new Paragraph( "", font10), prmsCellLeftAT)
+        println "lineas vacías: $lineasVacias"
+        if(lineasVacias > 0) {
+            lineasVacias.times {
+                addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+                addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+            }
+        } else {
+            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+        }
+
+        addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
         addCellTabla(tablaActividades, new Paragraph( "Atentamente, ", font10), prmsCellLeftAT)
+
 
         def tablaFirma = new PdfPTable(2);
         tablaFirma.setWidthPercentage(100);

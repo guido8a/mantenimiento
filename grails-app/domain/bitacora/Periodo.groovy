@@ -5,6 +5,7 @@ class Periodo {
     String numero
     Date fechads
     Date fechahs
+    int lineas = 0
 
     static mapping = {
         table 'prdo'
@@ -17,6 +18,7 @@ class Periodo {
             numero column: 'prdonmro'
             fechads column: 'prdofcds'
             fechahs column: 'prdofchs'
+            lineas column: 'prdolnea'
         }
     }
     static constraints = {
