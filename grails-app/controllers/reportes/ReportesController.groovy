@@ -1350,13 +1350,13 @@ class ReportesController {
 //        content +=  new Elementos2TagLib().headerTramite(oficio: oficio, pdf: true)
 
 //        def nuevoTexto = text.replaceAll("/tramiteImagenes/getImage", "/var/tramites/images")
-        println "--> $content "
+//        println "--> $content "
 
 //        def nuevoTexto = text.replaceAll(dirBase, "/var/tramites/images")
 //        def nuevoTexto = text.replaceAll(dirBase, "/var/mantenimiento")
         def nuevoTexto = text
 
-        println "nTexto $nuevoTexto"
+//        println "nTexto $nuevoTexto"
 
         content += nuevoTexto
 
