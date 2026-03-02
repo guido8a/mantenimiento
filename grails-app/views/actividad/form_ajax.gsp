@@ -28,23 +28,20 @@
 
     <div class="form-group ${hasErrors(bean: actividad, field: 'periodo', 'error')} required">
         <span class="grupo">
-            <label for="periodo" class="col-md-2 control-label text-info">
+            <label for="contrato" class="col-md-2 control-label text-info">
                 Contrato
             </label>
             <span class="col-md-4">
-                <g:select name="periodo" from="${contratos}" required="" class="form-control required" optionKey="id"
+                <g:select name="contrato" from="${contratos}" required="" class="form-control required" optionKey="id"
                           optionValue="numero" value="${actividad?.periodo?.contrato?.id?:contrato}"/>
             </span>
         </span>
         <span class="grupo">
-            <label for="periodo" class="col-md-2 control-label text-info">
+            <label class="col-md-2 control-label text-info">
                 Período
             </label>
-            <span class="col-md-4">
-                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required=""
-                          class="form-control required" optionKey="id"
-                          optionValue="${{it.fechads?.format("dd-MMM-yy") + " - " + it.fechahs?.format("dd-MMM-yy")}}"
-                          value="${actividad?.periodo?.id}"/>
+            <span class="col-md-4" id="divPeriodo">
+
             </span>
         </span>
     </div>
@@ -146,6 +143,26 @@
 </g:form>
 
 <script type="text/javascript">
+
+    cargarPeriodos();
+
+    $("#contrato").change(function () {
+       cargarPeriodos()
+    });
+
+    function cargarPeriodos(){
+        $.ajax({
+           type: 'POST',
+           url :'${createLink(controller: 'actividad', action: 'periodo_ajax')}',
+           data: {
+               contrato: $("#contrato option:selected").val(),
+               actividad: '${actividad?.id}'
+           },
+           success: function (msg) {
+               $("#divPeriodo").html(msg)
+           }
+        });
+    }
 
     $(function () {
         $('#datetimepicker2').datetimepicker({

@@ -18,19 +18,12 @@
 
 <body>
 
-%{--<div class="btn-toolbar toolbar" style="margin-bottom: 15px">--}%
-    %{--<div class="btn-group">--}%
-        %{--<a href="#" class="btn btn-info btnCrearActividad" ><i class="fa fa-file"></i>  Nueva actividad</a>--}%
-    %{--</div>--}%
-%{--</div>--}%
-
 <div class="col-md-12" style="margin-bottom: 10px; margin-left: -20px">
     <div class="row-fluid">
 
         <div class="btn-group col-md-2" style="margin-top: 20px">
             <a href="#" class="btn btn-info btnCrearActividad"><i class="fa fa-file"></i>  Nueva actividad</a>
         </div>
-
 
         <div class="col-md-3">
             <label class="control-label text-info">Buscar por usuario</label>
@@ -70,15 +63,13 @@
             <label class="control-label text-info">Criterio</label>
             <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control" style="width: 110px"/>
         </div>
-        %{--</span>--}%
         <div class="col-md-1" style="margin-top: 25px; margin-left: 25px">
             <button class="btn btn-xs btn-info" id="btnBuscarActividad" title="Buscar actividad"><i
                     class="fa fa-search"></i></button>
             <button class="btn btn-xs btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i>
             </button>
         </div>
-        %{--</div>--}%
-        %{--</fieldset>--}%
+
     </div>
 </div>
 

@@ -7,7 +7,17 @@ class PeriodoController {
     }
 
     def tablaPeriodos_ajax(){
-        def periodos = Periodo.list().sort{it.numero}
+
+        def contrato
+        def periodos
+
+        if(params.contrato != 'null'){
+            contrato = Contrato.get(params.contrato)
+            periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
+        }else{
+            periodos = Periodo.list().sort{it.numero}
+        }
+
         return [periodos: periodos]
     }
 

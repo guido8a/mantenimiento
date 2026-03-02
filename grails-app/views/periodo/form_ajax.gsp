@@ -3,6 +3,17 @@
 <g:form class="form-horizontal" name="frmPeriodo" role="form" action="save_ajax" method="POST">
     <g:hiddenField name="id" value="${periodo?.id}" />
 
+    <div class="form-group ${hasErrors(bean: periodo, field: 'contrato', 'error')} ">
+        <span class="grupo">
+            <label for="contrato" class="col-md-3 control-label text-info">
+                Contrato
+            </label>
+            <span class="col-md-8">
+                <g:select name="contrato" from="${bitacora.Contrato.list().sort{it.numero}}" value="${periodo?.contrato?.id}" optionValue="numero" optionKey="id" class="form-control required" required=""/>
+            </span>
+        </span>
+    </div>
+
     <div class="form-group ${hasErrors(bean: periodo, field: 'numero', 'error')} ">
         <span class="grupo">
             <label for="numero" class="col-md-3 control-label text-info">

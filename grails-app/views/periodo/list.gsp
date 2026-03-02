@@ -15,13 +15,30 @@
     </div>
 </div>
 
-<div style="margin-top: 30px; min-height: 400px">
+<div style="overflow: hidden">
+    <fieldset class="borde" style="border-radius: 4px">
+        <div class="row-fluid" style="margin-left: 10px">
+            <span class="grupo">
+                <span class="col-md-1">
+                    <label class="control-label text-info" style="font-size: 14px">Contrato</label>
+                </span>
+                <span class="col-md-3">
+                    <g:select name="contrato" class="col-md-12 form-control" from="${bitacora.Contrato.list().sort{it.numero}}" optionKey="id"
+                              optionValue="numero" noSelection="[null : 'TODOS']"/>
+                </span>
+            </span>
+        </div>
+    </fieldset>
+</div>
+
+<div style="margin-top: 10px; min-height: 400px">
     <table class="table table-bordered table-hover table-condensed" style="width: 100%; background-color: #a39e9e">
         <thead>
         <tr style="width: 100%">
+            <th class="alinear" style="width: 15%">Contrato</th>
             <th class="alinear" style="width: 15%">Número</th>
             <th class="alinear"  style="width: 35%">Fecha Inicio</th>
-            <th class="alinear"  style="width: 35%">Fecha Fin</th>
+            <th class="alinear"  style="width: 30%">Fecha Fin</th>
             <th class="alinear" style="width: 15%">Acciones</th>
         </tr>
         </thead>
@@ -32,6 +49,10 @@
 </div>
 
 <script type="text/javascript">
+
+    $("#contrato").change(function () {
+        cargarTablaPeriodos();
+    });
 
     cargarTablaPeriodos();
 
@@ -108,6 +129,7 @@
             type    : "POST",
             url     : "${g.createLink(controller: 'periodo', action: 'tablaPeriodos_ajax')}",
             data    : {
+                contrato: $("#contrato option:selected").val()
             },
             success : function (msg) {
                 c.modal("hide");
@@ -135,7 +157,7 @@
                     label     : "<i class='fa fa-trash'></i> Eliminar",
                     className : "btn-danger",
                     callback  : function () {
-                       var a=  cargarLoader("Borrando...");
+                        var a=  cargarLoader("Borrando...");
                         $.ajax({
                             type    : "POST",
                             url     : '${createLink(controller: 'periodo', action:'borrar_ajax')}',

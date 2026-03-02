@@ -16,12 +16,15 @@ th, td {
             <g:each in="${periodos}" var="periodo">
                 <tr id="${periodo?.id}" data-id="${periodo?.id}" style="width: 100%">
                     <td style="width: 15%">
+                        ${periodo?.contrato?.numero}
+                    </td>
+                    <td style="width: 15%">
                         ${periodo?.numero}
                     </td>
                     <td style="width: 35%">
                         ${periodo?.fechads?.format("dd-MM-yyyy")}
                     </td>
-                    <td style="width: 35%">
+                    <td style="width: 30%">
                         ${periodo?.fechahs?.format("dd-MM-yyyy")}
                     </td>
                     <td style="width: 15%; text-align: center">
