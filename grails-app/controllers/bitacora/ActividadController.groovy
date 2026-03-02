@@ -152,4 +152,23 @@ class ActividadController {
 
         return [periodos: periodos, actividad: actividad]
     }
+
+    def buscarContrato_ajax(){
+
+    }
+
+    def tablaPeriodos_ajax(){
+
+        def contrato
+        def periodos
+
+        if(params.contrato != 'null'){
+            contrato = Contrato.get(params.contrato)
+            periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
+        }else{
+            periodos = Periodo.list().sort{it.numero}
+        }
+
+        return [periodos: periodos]
+    }
 }

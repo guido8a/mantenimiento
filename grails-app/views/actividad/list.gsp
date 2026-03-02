@@ -18,24 +18,42 @@
 
 <body>
 
-<div class="col-md-12" style="margin-bottom: 10px; margin-left: -20px">
-    <div class="row-fluid">
-
-        <div class="btn-group col-md-2" style="margin-top: 20px">
+<div class="row">
+    <div class="col-md-12" >
+        <div class="btn-group col-md-2" style="margin-top: 20px" >
             <a href="#" class="btn btn-info btnCrearActividad"><i class="fa fa-file"></i>  Nueva actividad</a>
         </div>
 
         <div class="col-md-3">
+            <label class="control-label text-info">Contrato</label>
+            <g:hiddenField name="contratoBusquedaId" value="${null}"/>
+            <g:textField name="contratoBusquedaName" id="contratoBusquedaName" readonly="" class="form-control" value="${'TODOS'}"/>
+        </div>
+        <div class="col-md-3">
+            <label class="control-label text-info">Período</label>
+            <g:hiddenField name="periodoBusquedaId" value="${null}"/>
+            <g:textField name="periodoBusquedaName" id="periodoBusquedaName" readonly="" class="form-control" value="${'TODOS'}"/>
+        </div>
+        <div class="col-md-3" style="margin-top: 20px">
+            <a class="btn btn-sm btn-info" id="btnBuscarContratoPeriodo" title="Buscar contrato y período"><i class="fa fa-search"></i> Buscar Contrato</a>
+            <a class="btn btn-sm btn-warning" id="btnSeleccionarTodosContratoPeriodo" title="Seleccionar todos los contratos y períodos"><i class="fa fa-eraser"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-3">
             <label class="control-label text-info">Buscar por usuario</label>
-            <span style="margin-left: 90px">
-                <button class="btn btn-xs btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i
-                        class="fa fa-user xs"></i></button>
-                <button class="btn btn-xs btn-warning" id="btnBuscarTodosUsuario"
-                        title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>
-            </span>
             <g:hiddenField name="usuarioBusquedaId" value="${null}"/>
-            <g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}"
-                         class="form-control"/>
+            <g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2" style="margin-top: 20px; width: 110px">
+            <button class="btn btn-sm btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i
+                    class="fa fa-user"></i></button>
+            <button class="btn btn-sm btn-warning" id="btnBuscarTodosUsuario"
+                    title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>
         </div>
 
         <div class="col-md-2">
@@ -45,47 +63,86 @@
                       optionValue="descripcion" noSelection="[null: 'TODOS']"/>
         </div>
 
-        <div class="col-md-2" style="margin-left: -20px">
-            <label class="control-label text-info">Buscar por período</label>
-            <g:select name="buscarPorPeriodo" class="buscarPorPeriodo form-control"
-                      from="${bitacora.Periodo.list().sort { it.numero }}" optionKey="id"
-                      optionValue="${{ it.fechads?.format("dd-MM-yy") + " - " + it.fechahs?.format("dd-MM-yy") }}"
-                      noSelection="[null: 'TODOS']" style="width: 160px"/>
-        </div>
+        %{--        <div class="col-md-2" style="margin-left: -20px">--}%
+        %{--            <label class="control-label text-info">Buscar por período</label>--}%
+        %{--            <g:select name="buscarPorPeriodo" class="buscarPorPeriodo form-control"--}%
+        %{--                      from="${bitacora.Periodo.list().sort { it.numero }}" optionKey="id"--}%
+        %{--                      optionValue="${{ it.fechads?.format("dd-MM-yy") + " - " + it.fechahs?.format("dd-MM-yy") }}"--}%
+        %{--                      noSelection="[null: 'TODOS']" style="width: 160px"/>--}%
+        %{--        </div>--}%
 
-        <div class="col-md-1" style="margin-left: -10px">
+        <div class="col-md-2" style="margin-left: -10px">
             <label class="control-label text-info">Buscar Por</label>
             <g:select name="buscarPor" class="buscarPor form-control" from="${[1: 'Descripción', 2: 'Clave']}"
-                      optionKey="key" optionValue="value" style="width: 80px"/>
+                      optionKey="key" optionValue="value" />
         </div>
 
-        <div class="col-md-1">
+        <div class="col-md-2" style="margin-left: -10px">
             <label class="control-label text-info">Criterio</label>
-            <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control" style="width: 110px"/>
+            <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control"/>
         </div>
-        <div class="col-md-1" style="margin-top: 25px; margin-left: 25px">
-            <button class="btn btn-xs btn-info" id="btnBuscarActividad" title="Buscar actividad"><i
+        <div class="col-md-2" style="margin-top: 20px;">
+            <button class="btn btn-sm btn-info" id="btnBuscarActividad" title="Buscar actividades"><i
                     class="fa fa-search"></i></button>
-            <button class="btn btn-xs btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i>
-            </button>
+            <button class="btn btn-sm btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i></button>
+        </div>
+    </div>
+
+
+    <div class="col-md-12" style="margin-top: 20px">
+        <div class="col-md-8" id="divActividad">
+
         </div>
 
+        <div class="col-md-4" id="divVerActividad">
+
+        </div>
     </div>
 </div>
-
-<div class="col-md-12" style="margin-top: 20px">
-    <div class="col-md-8" id="divActividad">
-
-    </div>
-
-    <div class="col-md-4" id="divVerActividad">
-
-    </div>
-</div>
-
 <script type="text/javascript">
 
-    var mbu;
+    var mbu, mbc;
+
+    $("#btnSeleccionarTodosContratoPeriodo").click(function () {
+        $("#contratoBusquedaId").val(null);
+        $("#contratoBusquedaName").val("TODOS");
+        $("#periodoBusquedaId").val(null);
+        $("#periodoBusquedaName").val("TODOS");
+        cargarActividades();
+    });
+
+    $("#btnBuscarContratoPeriodo").click(function () {
+        buscarContratoPeriodo();
+    });
+
+    function buscarContratoPeriodo(){
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'actividad', action: 'buscarContrato_ajax')}",
+            data    : {
+
+            },
+            success : function (msg) {
+                mbc = bootbox.dialog({
+                    id      : "dlgBCP",
+                    title   : "Buscar contrato y período",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    }
+
+    function cerrarBusquedaContrato(){
+        mbc.modal("hide");
+    }
 
     $(".btnCrearActividad").click(function () {
         createEditActividad();
@@ -207,22 +264,23 @@
         var criterio = $("#criterioCriterio").val();
         var buscarPor = $("#buscarPor option:selected").val();
         var tipo = $("#buscarPorTipo option:selected").val();
-        var periodo = $("#buscarPorPeriodo option:selected").val();
-        $.ajax({
-            type: 'POST',
-            url: '${createLink(controller: 'actividad', action: 'tablaActividades_ajax')}',
-            data:{
-                usuario: usuario,
-                criterio: criterio,
-                buscarPor: buscarPor,
-                periodo: periodo,
-                tipo: tipo
-            },
-            success: function (msg){
-                d.modal("hide");
-                $("#divActividad").html(msg)
-            }
-        })
+        var periodo = $("#periodoBusquedaId").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '${createLink(controller: 'actividad', action: 'tablaActividades_ajax')}',
+                data:{
+                    usuario: usuario,
+                    criterio: criterio,
+                    buscarPor: buscarPor,
+                    periodo: periodo,
+                    tipo: tipo
+                },
+                success: function (msg){
+                    d.modal("hide");
+                    $("#divActividad").html(msg)
+                }
+            })
     }
 
     function deleteActividad(itemId) {
