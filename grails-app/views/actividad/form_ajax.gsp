@@ -29,11 +29,22 @@
     <div class="form-group ${hasErrors(bean: actividad, field: 'periodo', 'error')} required">
         <span class="grupo">
             <label for="periodo" class="col-md-2 control-label text-info">
+                Contrato
+            </label>
+            <span class="col-md-4">
+                <g:select name="periodo" from="${contratos}" required="" class="form-control required" optionKey="id"
+                          optionValue="numero" value="${actividad?.periodo?.contrato?.id?:contrato}"/>
+            </span>
+        </span>
+        <span class="grupo">
+            <label for="periodo" class="col-md-2 control-label text-info">
                 Período
             </label>
-            <span class="col-md-5">
-                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required="" class="form-control required" optionKey="id"
-                          optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" value="${actividad?.periodo?.id}"/>
+            <span class="col-md-4">
+                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required=""
+                          class="form-control required" optionKey="id"
+                          optionValue="${{it.fechads?.format("dd-MMM-yy") + " - " + it.fechahs?.format("dd-MMM-yy")}}"
+                          value="${actividad?.periodo?.id}"/>
             </span>
         </span>
     </div>

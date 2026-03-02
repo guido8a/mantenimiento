@@ -88,14 +88,20 @@ class ActividadController {
     def form_ajax(){
 
         def actividad
+        def contrato
+        def cn = dbConnectionService.getConnection()
+        def sql = "select cntr__id from cntr where now()::date between cntrfcin and cntrfcfn"
+        println "SQL: $sql"
+        contrato = cn.rows(sql.toString())[0].cntr__id
 
+        def contratos = Contrato.list([sort: 'fechaSubscripcion'])
         if(params.id){
             actividad = Actividad.get(params.id)
         }else{
             actividad = new Actividad()
         }
 
-        return [actividad: actividad]
+        return [actividad: actividad, contratos: contratos, contrato: contrato]
     }
 
     def save_ajax(){
