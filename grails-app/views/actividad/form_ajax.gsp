@@ -112,7 +112,7 @@
                 Descripción
             </label>
             <span class="col-md-9">
-                <g:textArea name="descripcion" minlength="3" maxlength="1024"  class="form-control"
+                <g:textArea name="descripcion" minlength="3" maxlength="1024"  class="form-control required" required=""
                             value="${actividad?.descripcion}"  style="resize: none; height: 100px"/>
             </span>
         </span>
