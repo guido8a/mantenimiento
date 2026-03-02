@@ -19,12 +19,12 @@
     <table class="table table-bordered table-hover table-condensed" style="width: 100%; background-color: #a39e9e">
         <thead>
         <tr style="width: 100%">
-            <th style="width: 15%">Empresa</th>
-            <th style="width: 20%">Número</th>
-            <th style="width: 20%">Objeto</th>
-            <th style="width: 15%">Fecha Sub.</th>
-            <th style="width: 15%">Fecha Inicio</th>
-            <th style="width: 15%">Fecha Fin</th>
+            <th style="width: 5%">Empresa</th>
+            <th style="width: 10%">Número</th>
+            <th style="width: 64%">Objeto</th>
+            <th style="width: 7%">Fecha Sub.</th>
+            <th style="width: 7%">Fecha Inicio</th>
+            <th style="width: 7%">Fecha Fin</th>
             <th style="width: 10%">Acciones</th>
         </tr>
         </thead>

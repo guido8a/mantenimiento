@@ -17,7 +17,7 @@
             <label for="numero" class="col-md-2 control-label text-info">
                 Número
             </label>
-            <span class="col-md-10">
+            <span class="col-md-4">
                 <g:textField name="numero" minlength="1" maxlength="20" required="" class="form-control required" value="${contrato?.numero}"/>
             </span>
         </span>

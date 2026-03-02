@@ -1,7 +1,7 @@
 package bitacora
 
 class Periodo {
-
+    Contrato contrato
     String numero
     Date fechads
     Date fechahs
@@ -15,6 +15,7 @@ class Periodo {
 
         columns {
             id column: 'prdo__id'
+            contrato column: 'cntr__id'
             numero column: 'prdonmro'
             fechads column: 'prdofcds'
             fechahs column: 'prdofchs'
@@ -22,6 +23,7 @@ class Periodo {
         }
     }
     static constraints = {
+        contrato(blank: false, nullable: false)
         numero(size: 1..15, blank: false)
         fechads(blank: false, nullable: false)
         fechahs(blank: false, nullable: false)
