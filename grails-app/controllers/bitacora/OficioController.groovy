@@ -86,4 +86,16 @@ class OficioController {
         }
     }
 
+    def periodo_ajax(){
+        def contrato = Contrato.get(params.contrato)
+        def periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
+        def oficio
+        if(params.oficio){
+            oficio = Oficio.get(params.oficio)
+        }else{
+            oficio = new Oficio()
+        }
+        return [periodos: periodos, oficio: oficio]
+    }
+
 }

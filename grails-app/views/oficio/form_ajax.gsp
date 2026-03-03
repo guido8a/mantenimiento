@@ -7,41 +7,47 @@
                 Contrato
             </label>
         </span>
-        <div class="col-md-10">
+        <div class="col-md-3">
             <g:select name="contrato" from="${bitacora.Contrato.list().sort{it.numero}}" required="" class="form-control required"
-                      optionValue="${{it.numero + " - " + it.objeto}}" optionKey="id" value="${oficio?.contrato?.id}"/>
+                      optionValue="${{it.numero}}" optionKey="id" value="${oficio?.contrato?.id}"/>
         </div>
-    </div>
-
-    <div class="form-group ${hasErrors(bean: oficio, field: 'periodo', 'error')} required">
         <span class="grupo">
-            <label for="periodo" class="col-md-2 control-label text-info">
+            <label class="col-md-2 control-label text-info">
                 Período
             </label>
-            <span class="col-md-9">
-                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required="" class="form-control required" optionKey="id"
-                          optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" value="${oficio?.periodo?.id}"/>
+            <span class="col-md-3" id="divPeriodos">
+%{--                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required="" class="form-control required" optionKey="id"--}%
+%{--                          optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" value="${oficio?.periodo?.id}"/>--}%
             </span>
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: oficio, field: 'numero', 'error')} required">
+%{--    <div class="form-group ${hasErrors(bean: oficio, field: 'periodo', 'error')} required">--}%
+%{--        <span class="grupo">--}%
+%{--            <label for="periodo" class="col-md-2 control-label text-info">--}%
+%{--                Período--}%
+%{--            </label>--}%
+%{--            <span class="col-md-9">--}%
+%{--                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required="" class="form-control required" optionKey="id"--}%
+%{--                          optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" value="${oficio?.periodo?.id}"/>--}%
+%{--            </span>--}%
+%{--        </span>--}%
+%{--    </div>--}%
+
+    <div class="form-group ${hasErrors(bean: oficio, field: 'numero', 'error')} ${hasErrors(bean: oficio, field: 'fecha', 'error')} required">
         <span class="grupo">
             <label for="numero" class="col-md-2 control-label text-info">
                 Número
             </label>
-            <span class="col-md-10">
+            <span class="col-md-3">
                 <g:textField name="numero" minlength="1" maxlength="31" required="" class="form-control required" value="${oficio?.numero}"/>
             </span>
         </span>
-    </div>
-
-    <div class="form-group ${hasErrors(bean: oficio, field: 'fecha', 'error')} ">
         <span class="grupo">
             <label for="datetimepicker1" class="col-md-2 control-label text-info">
                 Fecha
             </label>
-            <span class="col-md-4">
+            <span class="col-md-3">
                 <input name="fecha" id='datetimepicker1' type='text' class="form-control" value="${oficio?.fecha?.format("dd-MM-yyyy")}"/>
             </span>
         </span>
@@ -53,6 +59,26 @@
 </g:form>
 
 <script type="text/javascript">
+
+    cargarPeriodos();
+
+    $("#contrato").change(function () {
+        cargarPeriodos()
+    });
+
+    function cargarPeriodos(){
+        $.ajax({
+            type: 'POST',
+            url :'${createLink(controller: 'oficio', action: 'periodo_ajax')}',
+            data: {
+                contrato: $("#contrato option:selected").val(),
+                oficio: '${oficio?.id}'
+            },
+            success: function (msg) {
+                $("#divPeriodos").html(msg)
+            }
+        });
+    }
 
     $(function () {
         $('#datetimepicker1').datetimepicker({
