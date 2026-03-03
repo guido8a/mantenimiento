@@ -25,18 +25,18 @@
         </div>
 
         <div class="col-md-3">
-            <label class="control-label text-info">Contrato</label>
-            <g:hiddenField name="contratoBusquedaId" value="${null}"/>
-            <g:textField name="contratoBusquedaName" id="contratoBusquedaName" readonly="" class="form-control" value="${'TODOS'}"/>
+            <label for="contratoBusqueda" class="col-md-2 control-label text-info">
+                Contrato
+            </label>
+            <g:select name="contratoBusqueda" from="${bitacora.Contrato.list()?.sort{it.numero}}" required="" class="form-control" optionKey="id"  optionValue="numero"/>
         </div>
-        <div class="col-md-3">
-            <label class="control-label text-info">Período</label>
-            <g:hiddenField name="periodoBusquedaId" value="${null}"/>
-            <g:textField name="periodoBusquedaName" id="periodoBusquedaName" readonly="" class="form-control" value="${'TODOS'}"/>
-        </div>
-        <div class="col-md-3" style="margin-top: 20px">
-            <a class="btn btn-sm btn-info" id="btnBuscarContratoPeriodo" title="Buscar contrato y período"><i class="fa fa-search"></i> Buscar Contrato</a>
-            <a class="btn btn-sm btn-warning" id="btnSeleccionarTodosContratoPeriodo" title="Seleccionar todos los contratos y períodos"><i class="fa fa-eraser"></i></a>
+        <div class="col-md-3" >
+            <label for="contratoBusqueda" class="col-md-2 control-label text-info">
+                Período
+            </label>
+            <div id="divPeriodoBusqueda">
+
+            </div>
         </div>
     </div>
 </div>
@@ -103,46 +103,66 @@
 
     var mbu, mbc;
 
-    $("#btnSeleccionarTodosContratoPeriodo").click(function () {
-        $("#contratoBusquedaId").val(null);
-        $("#contratoBusquedaName").val("TODOS");
-        $("#periodoBusquedaId").val(null);
-        $("#periodoBusquedaName").val("TODOS");
-        cargarActividades();
+    cargarPeriodosBusqueda();
+
+    $("#contratoBusqueda").change(function () {
+        cargarPeriodosBusqueda()
     });
 
-    $("#btnBuscarContratoPeriodo").click(function () {
-        buscarContratoPeriodo();
-    });
-
-    function buscarContratoPeriodo(){
+    function cargarPeriodosBusqueda(){
         $.ajax({
-            type    : "POST",
-            url     : "${createLink(controller: 'actividad', action: 'buscarContrato_ajax')}",
-            data    : {
-
+            type: 'POST',
+            url :'${createLink(controller: 'actividad', action: 'periodo_ajax')}',
+            data: {
+                contrato: $("#contratoBusqueda option:selected").val()
             },
-            success : function (msg) {
-                mbc = bootbox.dialog({
-                    id      : "dlgBCP",
-                    title   : "Buscar contrato y período",
-                    message : msg,
-                    buttons : {
-                        cancelar : {
-                            label     : "Cancelar",
-                            className : "btn-primary",
-                            callback  : function () {
-                            }
-                        }
-                    } //buttons
-                }); //dialog
-            } //success
-        }); //ajax
+            success: function (msg) {
+                $("#divPeriodoBusqueda").html(msg);
+                cargarActividades();
+            }
+        });
     }
 
-    function cerrarBusquedaContrato(){
-        mbc.modal("hide");
-    }
+    %{--$("#btnSeleccionarTodosContratoPeriodo").click(function () {--}%
+    %{--    $("#contratoBusquedaId").val(null);--}%
+    %{--    $("#contratoBusquedaName").val("TODOS");--}%
+    %{--    $("#periodoBusquedaId").val(null);--}%
+    %{--    $("#periodoBusquedaName").val("TODOS");--}%
+    %{--    cargarActividades();--}%
+    %{--});--}%
+
+    %{--$("#btnBuscarContratoPeriodo").click(function () {--}%
+    %{--    buscarContratoPeriodo();--}%
+    %{--});--}%
+
+    %{--function buscarContratoPeriodo(){--}%
+    %{--    $.ajax({--}%
+    %{--        type    : "POST",--}%
+    %{--        url     : "${createLink(controller: 'actividad', action: 'buscarContrato_ajax')}",--}%
+    %{--        data    : {--}%
+
+    %{--        },--}%
+    %{--        success : function (msg) {--}%
+    %{--            mbc = bootbox.dialog({--}%
+    %{--                id      : "dlgBCP",--}%
+    %{--                title   : "Buscar contrato y período",--}%
+    %{--                message : msg,--}%
+    %{--                buttons : {--}%
+    %{--                    cancelar : {--}%
+    %{--                        label     : "Cancelar",--}%
+    %{--                        className : "btn-primary",--}%
+    %{--                        callback  : function () {--}%
+    %{--                        }--}%
+    %{--                    }--}%
+    %{--                } //buttons--}%
+    %{--            }); //dialog--}%
+    %{--        } //success--}%
+    %{--    }); //ajax--}%
+    %{--}--}%
+
+    %{--function cerrarBusquedaContrato(){--}%
+    %{--    mbc.modal("hide");--}%
+    %{--}--}%
 
     $(".btnCrearActividad").click(function () {
         createEditActividad();
@@ -264,23 +284,23 @@
         var criterio = $("#criterioCriterio").val();
         var buscarPor = $("#buscarPor option:selected").val();
         var tipo = $("#buscarPorTipo option:selected").val();
-        var periodo = $("#periodoBusquedaId").val();
+        var periodo = $("#periodo option:selected").val();
 
-            $.ajax({
-                type: 'POST',
-                url: '${createLink(controller: 'actividad', action: 'tablaActividades_ajax')}',
-                data:{
-                    usuario: usuario,
-                    criterio: criterio,
-                    buscarPor: buscarPor,
-                    periodo: periodo,
-                    tipo: tipo
-                },
-                success: function (msg){
-                    d.modal("hide");
-                    $("#divActividad").html(msg)
-                }
-            })
+        $.ajax({
+            type: 'POST',
+            url: '${createLink(controller: 'actividad', action: 'tablaActividades_ajax')}',
+            data:{
+                usuario: usuario,
+                criterio: criterio,
+                buscarPor: buscarPor,
+                periodo: periodo,
+                tipo: tipo
+            },
+            success: function (msg){
+                d.modal("hide");
+                $("#divActividad").html(msg)
+            }
+        })
     }
 
     function deleteActividad(itemId) {
