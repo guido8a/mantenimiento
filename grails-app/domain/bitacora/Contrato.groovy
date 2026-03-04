@@ -8,6 +8,7 @@ class Contrato {
     Date fechaInicio
     Date fechaFin
     String objeto
+    String sistema
 
     static mapping = {
         table 'cntr'
@@ -23,6 +24,7 @@ class Contrato {
             fechaInicio column: 'cntrfcin'
             fechaFin column: 'cntrfcfn'
             objeto column: 'cntrobjt'
+            sistema column: 'cntrstma'
         }
     }
     static constraints = {
@@ -32,5 +34,6 @@ class Contrato {
         fechaInicio(blank: true, nullable: true)
         fechaFin(blank: true, nullable: true)
         objeto(size: 0..255, blank: true, nullable: true)
+        sistema(size: 0..127, blank: true, nullable: true)
     }
 }
