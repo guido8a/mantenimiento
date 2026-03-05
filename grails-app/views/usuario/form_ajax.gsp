@@ -17,6 +17,29 @@
             </div>
         </div>
 
+        <div class="form-group keeptogether ${hasErrors(bean: usuario, field: 'area', 'error')}">
+            <div class="col-md-6">
+                <span class="grupo">
+                    <label for="area" class="col-md-4 control-label">
+                        Área
+                    </label>
+                </span>
+                <div class="col-md-8">
+                    <g:select name="area" from="${bitacora.Area.list().sort{it.nombre}}" class="form-control" optionKey="id" optionValue="nombre" value="${usuario?.area?.id}" noSelection="[null: 'Sin área']"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <span class="grupo">
+                    <label for="jefe" class="col-md-4 control-label">
+                        Jefe
+                    </label>
+                </span>
+                <div class="col-md-8">
+                    <g:select name="jefe" from="${bitacora.Usuario.list().sort{it.apellido}}" class="form-control" optionKey="id" optionValue="${{it.apellido  + "  " + it.nombre}}" value="${usuario?.jefe?.id}" noSelection="[null: 'Sin jefe']"/>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group keeptogether ${hasErrors(bean: usuario, field: 'cedula', 'error')} required">
             <div class="col-md-6">
                 <span class="grupo">
