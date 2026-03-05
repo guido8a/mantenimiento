@@ -7,12 +7,27 @@
 
 <body>
 
-<div class="btn-toolbar toolbar" style="margin-bottom: 15px">
-    <div class="btn-group">
-        <a href="#" class="btn btn-success" id="btnCrearOficio">
-            <i class="fa fa-file"></i> Nuevo oficio
-        </a>
-    </div>
+<div style="overflow: hidden">
+    <fieldset class="borde" style="border-radius: 4px">
+        <div class="row-fluid" style="margin-left: 10px">
+
+            <div class="btn-group col-md-2">
+                <a href="#" class="btn btn-success" id="btnCrearOficio">
+                    <i class="fa fa-file"></i> Nuevo oficio
+                </a>
+            </div>
+
+
+            <span class="grupo">
+                <span class="col-md-1">
+                    <label class="control-label text-info" style="font-size: 14px">Contrato</label>
+                </span>
+                <span class="col-md-3">
+                    <g:select name="contrato" class="col-md-12 form-control" from="${bitacora.Contrato.list().sort{it.numero}}" optionKey="id" optionValue="numero" />
+                </span>
+            </span>
+        </div>
+    </fieldset>
 </div>
 
 <div style="margin-top: 30px; min-height: 400px">
@@ -35,6 +50,10 @@
 
 <script type="text/javascript">
 
+    $("#contrato").change(function () {
+        cargarTablaOficios();
+    });
+
     cargarTablaOficios();
 
     $("#btnCrearOficio").click(function () {
@@ -47,6 +66,7 @@
             type    : "POST",
             url     : "${g.createLink(controller: 'oficio', action: 'tablaOficios_ajax')}",
             data    : {
+                contrato: $("#contrato option:selected").val()
             },
             success : function (msg) {
                 c.modal("hide");

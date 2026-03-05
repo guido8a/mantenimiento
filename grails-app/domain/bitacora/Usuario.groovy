@@ -3,6 +3,7 @@ package bitacora
 class Usuario {
 
     Empresa empresa
+    Area area
     String cedula
     String nombre
     String apellido
@@ -13,6 +14,7 @@ class Usuario {
     String telefono
     String activo
     String sexo
+    Usuario jefe
 
     static mapping = {
         table 'usro'
@@ -23,6 +25,7 @@ class Usuario {
         columns {
             id column: 'usro__id'
             empresa column: 'empr__id'
+            area column: 'area__id'
             cedula column: 'usrocdla'
             nombre column: 'usronmbr'
             apellido column: 'usroapll'
@@ -33,10 +36,12 @@ class Usuario {
             titulo column: 'usrotitl'
             activo column: 'usroactv'
             sexo column: 'usrosexo'
+            jefe column: 'usrojefe'
         }
     }
     static constraints = {
         empresa(blank: false, nullable: false)
+        area(blank: true, nullable: true)
         cedula(size: 10..10, blank: false, nullable: false)
         nombre(size: 3..31, blank: false, nullable: false)
         apellido(size: 3..31, blank: false, nullable: false)
@@ -47,5 +52,6 @@ class Usuario {
         telefono(blank: true, nullable: true,  attributes: [title: 'teléfono'])
         fechaInicio(blank: true, nullable: true, attributes: [title: 'Fecha de inicio'])
         fechaFin(blank: true, nullable: true, attributes: [title: 'Fecha de finalización'])
+        jefe(blank: true, nullable: true)
     }
 }

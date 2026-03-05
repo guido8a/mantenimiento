@@ -24,7 +24,7 @@
                 </span>
                 <span class="col-md-3">
                     <g:select name="contrato" class="col-md-12 form-control" from="${bitacora.Contrato.list().sort{it.numero}}" optionKey="id"
-                              optionValue="numero" noSelection="[null : 'TODOS']"/>
+                              optionValue="numero" />
                 </span>
             </span>
         </div>

@@ -7,7 +7,8 @@ class OficioController {
     }
 
     def tablaOficios_ajax(){
-        def oficios = Oficio.list().sort{it.numero}
+        def contrato = Contrato.get(params.contrato)
+        def oficios = Oficio.findAllByContrato(contrato).sort{it.numero}
         return [oficios: oficios]
     }
 
