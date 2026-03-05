@@ -11,10 +11,10 @@ class Cambio {
     String justificacion
     String impactoConfidencialidad
     String impactoDisponibilidad
-    String planPruebas
-    String antecedentes
-    String aceptado
     String impactoIntegridad
+    String planPruebas
+    String analisisTecnico
+    String aceptado
     String observaciones
 
     static mapping = {
@@ -35,7 +35,7 @@ class Cambio {
             impactoConfidencialidad column: 'cmboipcf'
             impactoDisponibilidad column: 'cmboipds'
             planPruebas column: 'cmboplpb'
-            antecedentes column: 'cmboantc'
+            analisisTecnico column: 'cmboantc'
             aceptado column: 'cmboacpt'
             impactoIntegridad column: 'cmboipin'
             observaciones column: 'cmboobsr'
@@ -52,7 +52,7 @@ class Cambio {
         impactoConfidencialidad(blank: true, nullable: true)
         impactoDisponibilidad(blank: true, nullable: true)
         planPruebas(size: 0..255, blank: true, nullable: true)
-        antecedentes(size: 0..255, blank: true, nullable: true)
+        analisisTecnico(size: 0..255, blank: true, nullable: true)
         aceptado(blank: true, nullable: true)
         impactoIntegridad(blank: true, nullable: true)
         observaciones(size: 0..255, blank: true, nullable: true)
