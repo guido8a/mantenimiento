@@ -31,12 +31,16 @@ class UsuarioController {
     def form_ajax(){
         def usuario
 
+        def jefes
+
         if(params.id){
             usuario = Usuario.get(params.id)
+            jefes = Usuario.findAllByIdNotEqual(usuario?.id)?.sort{it.apellido}
         }else{
             usuario = new Usuario()
+            jefes = Usuario.list().sort{it.apellido}
         }
-        return [usuario: usuario]
+        return [usuario: usuario, jefes: jefes]
     }
 
 

@@ -55,6 +55,7 @@
                 var b = bootbox.dialog({
                     id      : "dlgCreateEdit",
                     title   : title + " Cambio",
+                    class: 'modal-lg',
                     message : msg,
                     buttons : {
                         cancelar : {

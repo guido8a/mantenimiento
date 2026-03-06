@@ -35,7 +35,7 @@
                     </label>
                 </span>
                 <div class="col-md-8">
-                    <g:select name="jefe" from="${bitacora.Usuario.list().sort{it.apellido}}" class="form-control" optionKey="id" optionValue="${{it.apellido  + "  " + it.nombre}}" value="${usuario?.jefe?.id}" noSelection="[null: 'Sin jefe']"/>
+                    <g:select name="jefe" from="${jefes}" class="form-control" optionKey="id" optionValue="${{it.apellido  + "  " + it.nombre}}" value="${usuario?.jefe?.id}" noSelection="[null: 'Sin jefe']"/>
                 </div>
             </div>
         </div>

@@ -20,36 +20,16 @@ class CambioController {
     }
 
     def tablaCambios_ajax(){
-        def usuario = Usuario.get(session.usuario.id)
-        def cambios = Cambio.findAllByUsuario(usuario).sort{it.numero}
-
+        def cambios = Cambio.list().sort{it.numero}
         return [cambios: cambios]
     }
 
     def save_ajax() {
 
         def cambio
-        def usuario = Usuario.get(session.usuario.id)
 
-        params.fecha = new Date()
-        params.usuario = usuario
-
-        if (params.impactoConfidencialidadName) {
-            params.impactoConfidencialidad = '1'
-        } else {
-            params.impactoConfidencialidad = '0'
-        }
-
-        if (params.impactoDisponibilidadName) {
-            params.impactoDisponibilidad = '1'
-        } else {
-            params.impactoDisponibilidad = '0'
-        }
-
-        if (params.impactoIntegridadName) {
-            params.impactoIntegridad = '1'
-        } else {
-            params.impactoIntegridad = '0'
+        if(params.fecha){
+            params.fecha = new Date().parse("dd-MM-yyyy", params.fecha)
         }
 
         if (params.aceptadoName) {

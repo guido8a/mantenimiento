@@ -34,6 +34,17 @@
         </span>
     </div>
 
+    <div class="form-group ${hasErrors(bean: contrato, field: 'sistema', 'error')} ">
+        <span class="grupo">
+            <label for="sistema" class="col-md-2 control-label text-info">
+                Sistema
+            </label>
+            <span class="col-md-10">
+                <g:textArea name="sistema" maxlength="127" class="form-control" value="${contrato?.sistema}"  style="resize: none; height: 70px"/>
+            </span>
+        </span>
+    </div>
+
     <div class="form-group ${hasErrors(bean: contrato, field: 'fechaSubscripcion', 'error')} required">
         <span class="grupo">
             <label for="datetimepicker3" class="col-md-2 control-label text-info">
