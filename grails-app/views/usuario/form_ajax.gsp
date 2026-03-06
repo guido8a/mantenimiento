@@ -30,12 +30,20 @@
             </div>
             <div class="col-md-6">
                 <span class="grupo">
-                    <label for="jefe" class="col-md-4 control-label">
+                    <label class="col-md-4 control-label">
                         Jefe
                     </label>
                 </span>
                 <div class="col-md-8">
-                    <g:select name="jefe" from="${jefes}" class="form-control" optionKey="id" optionValue="${{it.apellido  + "  " + it.nombre}}" value="${usuario?.jefe?.id}" noSelection="[null: 'Sin jefe']"/>
+                    <div class="col-md-10">
+                        <g:hiddenField name="jefe" value="${usuario?.jefe?.id}" />
+                        <g:textField name="jefeName" readonly="" required="" class="form-control required" value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
+                    </div>
+                    <div class="col-md-1">
+                        <a class="btn btn-info btnUsuarioJefe" href="#"  title="Seleccionar jefe">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -166,6 +174,42 @@
 </div>
 
 <script type="text/javascript">
+
+    var mbu;
+
+    $(".btnUsuarioJefe").click(function () {
+        buscarJefe(2)
+    });
+
+    function buscarJefe(tipo){
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'actividad', action: 'buscarUsuario_ajax')}",
+            data    : {
+                tipo: tipo,
+                usuario: '${usuario?.id}'
+            },
+            success : function (msg) {
+                mbu = bootbox.dialog({
+                    id      : "dlgCreateEdit",
+                    title   : "Buscar jefe",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    }
+
+    function cerrarBusquedaUsuario(){
+        mbu.modal("hide");
+    }
 
     function validarNum(ev) {
         return ((ev.keyCode >= 48 && ev.keyCode <= 57) ||

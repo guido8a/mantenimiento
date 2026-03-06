@@ -19,7 +19,7 @@
                         <i class="fa fa-search"></i>
                     </a>
                     <a class="btn btn-warning btnCrearUsuarioActividad" href="#"  title="Crear usuario">
-                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-user"></i>
                     </a>
                 </g:if>
             </span>
@@ -143,6 +143,10 @@
 </g:form>
 
 <script type="text/javascript">
+
+    $(".btnCrearUsuarioActividad").click(function () {
+        location.href="${createLink(controller: 'usuario', action: 'list')}"
+    });
 
     cargarPeriodos();
 

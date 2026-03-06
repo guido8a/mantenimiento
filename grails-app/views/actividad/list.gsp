@@ -123,47 +123,6 @@
         });
     }
 
-    %{--$("#btnSeleccionarTodosContratoPeriodo").click(function () {--}%
-    %{--    $("#contratoBusquedaId").val(null);--}%
-    %{--    $("#contratoBusquedaName").val("TODOS");--}%
-    %{--    $("#periodoBusquedaId").val(null);--}%
-    %{--    $("#periodoBusquedaName").val("TODOS");--}%
-    %{--    cargarActividades();--}%
-    %{--});--}%
-
-    %{--$("#btnBuscarContratoPeriodo").click(function () {--}%
-    %{--    buscarContratoPeriodo();--}%
-    %{--});--}%
-
-    %{--function buscarContratoPeriodo(){--}%
-    %{--    $.ajax({--}%
-    %{--        type    : "POST",--}%
-    %{--        url     : "${createLink(controller: 'actividad', action: 'buscarContrato_ajax')}",--}%
-    %{--        data    : {--}%
-
-    %{--        },--}%
-    %{--        success : function (msg) {--}%
-    %{--            mbc = bootbox.dialog({--}%
-    %{--                id      : "dlgBCP",--}%
-    %{--                title   : "Buscar contrato y período",--}%
-    %{--                message : msg,--}%
-    %{--                buttons : {--}%
-    %{--                    cancelar : {--}%
-    %{--                        label     : "Cancelar",--}%
-    %{--                        className : "btn-primary",--}%
-    %{--                        callback  : function () {--}%
-    %{--                        }--}%
-    %{--                    }--}%
-    %{--                } //buttons--}%
-    %{--            }); //dialog--}%
-    %{--        } //success--}%
-    %{--    }); //ajax--}%
-    %{--}--}%
-
-    %{--function cerrarBusquedaContrato(){--}%
-    %{--    mbc.modal("hide");--}%
-    %{--}--}%
-
     $(".btnCrearActividad").click(function () {
         createEditActividad();
     });

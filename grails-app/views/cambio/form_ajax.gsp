@@ -19,12 +19,18 @@
 
             <div class="col-md-6">
                 <span class="grupo">
-                    <label for="usuario" class="col-md-4 control-label">
+                    <label class="col-md-4 control-label">
                         Usuario
                     </label>
                 </span>
-                <div class="col-md-8">
-                    <g:select name="usuario" from="${bitacora.Usuario.list()?.sort{it.apellido}}" class="form-control" optionKey="id" optionValue="${{it.apellido + " " + it.nombre}}" value="${cambio?.usuario?.id}"/>
+                <div class="col-md-6">
+                    <g:hiddenField name="usuario" value="${cambio?.usuario?.id}" />
+                    <g:textField name="usuarioName" readonly="" required="" class="form-control required" value="${(cambio?.usuario?.apellido ?: '') + " " + (cambio?.usuario?.nombre ?: '')}"/>
+                </div>
+                <div class="col-md-1">
+                    <a class="btn btn-info btnUsuarioCambio" href="#"  title="Seleccionar usuario">
+                        <i class="fa fa-search"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -33,7 +39,7 @@
             <div class="col-md-6">
                 <span class="grupo">
                     <label for="numero" class="col-md-4 control-label">
-                        Número
+                        Número requerimiento memorando
                     </label>
                 </span>
                 <div class="col-md-8">
@@ -60,7 +66,7 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="descripcion" class="form-control" value="${cambio?.descripcion}" maxlength="255" style="resize: none; height: 80px" />
+                    <g:textArea name="descripcion" class="form-control" value="${cambio?.descripcion}" maxlength="255" style="resize: none; height: 70px" />
                 </div>
             </div>
         </div>
@@ -73,7 +79,7 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="justificacion" class="form-control" value="${cambio?.justificacion}" maxlength="255" style="resize: none; height: 80px" />
+                    <g:textArea name="justificacion" class="form-control" value="${cambio?.justificacion}" maxlength="255" style="resize: none; height: 70px" />
                 </div>
             </div>
         </div>
@@ -123,7 +129,7 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="descripcionSeguridad" class="form-control" value="${cambio?.descripcionSeguridad}" maxlength="255" style="resize: none; height: 80px" />
+                    <g:textArea name="descripcionSeguridad" class="form-control" value="${cambio?.descripcionSeguridad}" maxlength="255" style="resize: none; height: 70px" />
                 </div>
             </div>
         </div>
@@ -136,7 +142,7 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="planPruebas" class="form-control" value="${cambio?.planPruebas}" maxlength="255" style="resize: none; height: 80px" />
+                    <g:textArea name="planPruebas" class="form-control" value="${cambio?.planPruebas}" maxlength="255" style="resize: none; height: 70px" />
                 </div>
             </div>
         </div>
@@ -149,7 +155,7 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="analisisTecnico" class="form-control" value="${cambio?.analisisTecnico}" maxlength="255" style="resize: none; height: 80px" />
+                    <g:textArea name="analisisTecnico" class="form-control" value="${cambio?.analisisTecnico}" maxlength="255" style="resize: none; height: 70px" />
                 </div>
             </div>
         </div>
@@ -176,7 +182,7 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="observaciones" class="form-control" value="${cambio?.observaciones}" maxlength="255" style="resize: none; height: 80px" />
+                    <g:textArea name="observaciones" class="form-control" value="${cambio?.observaciones}" maxlength="255" style="resize: none; height: 70px" />
                 </div>
             </div>
         </div>
@@ -184,6 +190,41 @@
 </div>
 
 <script type="text/javascript">
+
+    var mbu;
+
+    $(".btnUsuarioCambio").click(function () {
+        buscarUsuario(1)
+    });
+
+    function buscarUsuario(tipo){
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'actividad', action: 'buscarUsuario_ajax')}",
+            data    : {
+                tipo: tipo
+            },
+            success : function (msg) {
+                mbu = bootbox.dialog({
+                    id      : "dlgCreateEdit",
+                    title   : "Buscar usuario",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    }
+
+    function cerrarBusquedaUsuario(){
+        mbu.modal("hide");
+    }
 
     $(function () {
         $('#datetimepicker1').datetimepicker({

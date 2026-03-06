@@ -59,7 +59,7 @@ class ActividadController {
     }
 
     def buscarUsuario_ajax(){
-        return [tipo: params.tipo]
+        return [tipo: params.tipo, usuarioId: params.usuario]
     }
 
     def tablaBuscarUsuario_ajax(){
@@ -67,6 +67,12 @@ class ActividadController {
         println("tabla buscar usuario " + params)
         def usuarioActual = Persona.get(session.usuario.id)
         def empresa = usuarioActual.empresa
+        def usuario
+        def textoAd = ''
+        if(params.usuario){
+            usuario = Usuario.get(params.usuario)
+            textoAd = " and usro__id != '${usuario?.id}' "
+        }
 
         def datos;
         def sqlTx = ""
@@ -78,10 +84,11 @@ class ActividadController {
             bsca = listaItems[0]
         }
         def select  =  " select * from usro "
-        def txwh = " where usro__id is not null and empr__id = '${empresa?.id}' and ${bsca} ilike '%${params.criterio}%'"
+        def txwh = " where usro__id is not null and empr__id = '${empresa?.id}' ${textoAd} and ${bsca} ilike '%${params.criterio}%'"
         sqlTx = "${select} ${txwh} order by usroapll limit 50 ".toString()
         def cn = dbConnectionService.getConnection()
         datos = cn.rows(sqlTx)
+        println("sql " + sqlTx)
         [data: datos, tipo: params.tipo]
     }
 

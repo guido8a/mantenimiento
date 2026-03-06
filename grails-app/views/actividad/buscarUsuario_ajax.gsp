@@ -47,7 +47,8 @@
             data:{
                 criterio: criterio,
                 buscarPor: buscarPor,
-                tipo: '${tipo}'
+                tipo: '${tipo}',
+                usuario: '${usuarioId}'
             },
             success: function (msg){
                 d.modal("hide");

@@ -2,9 +2,10 @@
     <thead>
     <tr style="text-align: center">
         <th style="width: 10%">Número</th>
-        <th style="width: 20%">Responsable</th>
+        <th style="width: 15%">Responsable</th>
+        <th style="width: 15%">Usuario</th>
         <th style="width: 10%">Fecha</th>
-        <th style="width: 50%">Descripción</th>
+        <th style="width: 40%">Descripción</th>
         <th style="width: 19%">Acciones</th>
         <th style="width: 1%"></th>
     </tr>
@@ -17,9 +18,10 @@
             <g:each in="${cambios}" var="cambio">
                 <tr style="width: 100%">
                     <td style="width: 10%">${cambio?.numero}</td>
-                    <td style="width: 20%">${(cambio?.responsable?.apellido ?: '') + (cambio?.responsable?.nombre)}</td>
+                    <td style="width: 15%">${(cambio?.responsable?.apellido ?: '') + " " + (cambio?.responsable?.nombre)}</td>
+                    <td style="width: 15%">${(cambio?.usuario?.apellido ?: '') +  " " + (cambio?.usuario?.nombre)}</td>
                     <td style="width: 10%">${cambio?.fecha?.format("dd-MM-yyyy")}</td>
-                    <td style="width: 50%">${cambio?.descripcion}</td>
+                    <td style="width: 40%">${cambio?.descripcion}</td>
                     <td style="width: 19%; text-align: center">
                         <a class="btn btn-xs btnVercambio btn-info" href="#"  title="Ver" data-id="${cambio?.id}">
                             <i class="fa fa-search"></i>

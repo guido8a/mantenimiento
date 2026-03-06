@@ -3,8 +3,9 @@
     <thead>
     <tr style="text-align: center">
         <th style="width: 10%">Cédula</th>
-        <th style="width: 20%">Nombre</th>
-        <th style="width: 20%">Apellido</th>
+        <th style="width: 15%">Nombre</th>
+        <th style="width: 15%">Apellido</th>
+        <th style="width: 20%">Área</th>
         <th style="width: 10%">Estado</th>
         <th style="width: 15%">Acciones</th>
         <th style="width: 1%"></th>
@@ -19,8 +20,9 @@
                 <g:set var="usuario" value="${dt.usro__id}"/>
                 <tr data-id="${dt.usro__id}" class="${dt.usroactv == 0 ? 'inactivo' : 'activo'}">
                     <td style="width: 10%">${dt.usrocdla}</td>
-                    <td style="width: 20%">${dt.usronmbr}</td>
-                    <td style="width: 20%">${dt.usroapll}</td>
+                    <td style="width: 15%">${dt.usronmbr}</td>
+                    <td style="width: 15%">${dt.usroapll}</td>
+                    <td style="width: 20%">${bitacora.Usuario.get(dt.usro__id)?.area?.nombre}</td>
                     <td style="width: 10%; text-align: center">
                         <g:if test="${dt.usroactv == '1'}">
                             <i class="fa fa-user text-success"></i> Activo
