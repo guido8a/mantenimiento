@@ -1586,9 +1586,9 @@ class ReportesController {
 
         addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellColCuatro)
         addCellTabla(tablaImpactoTabla, new Paragraph("Confidencialidad:", font11Normal), prmsCellLeft)
-        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoConfidencialidad == 'B' ? 'X' : ''}" + "]" + " Bajo", font11Normal), prmsCellLeft)
-        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoConfidencialidad == 'M' ? 'X' : ''}" + "]" + " Medio", font11Normal), prmsCellLeft)
-        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoConfidencialidad == 'A' ? 'X' : ''}" + "]" + " Alto", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[ " +  "${cambio?.impactoConfidencialidad == 'B' ? 'X' : ''}" + " ]" + " Bajo", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[ " +  "${cambio?.impactoConfidencialidad == 'M' ? 'X' : ''}" + " ]" + " Medio", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[ " +  "${cambio?.impactoConfidencialidad == 'A' ? 'X' : ''}" + " ]" + " Alto", font11Normal), prmsCellLeft)
         addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellColCuatro)
         addCellTabla(tablaImpactoTabla, new Paragraph("Integridad:", font11Normal), prmsCellLeft)
