@@ -1487,11 +1487,11 @@ class ReportesController {
         font12BoldColor.setColor(new Color(38, 139, 163))
 
         def paramsHead = [border: Color.BLACK, align: Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_JUSTIFIED, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK,]
-        def paramsHead3 = [border: Color.BLACK, align: Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_JUSTIFIED, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 70]
+        def paramsHead3 = [border: Color.BLACK, align: Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_JUSTIFIED, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 50]
         def paramsHead2 = [border: Color.BLACK, align: Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_JUSTIFIED, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, bg: Color.lightGray,]
-        def paramsHeadAC = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, bg: Color.lightGray, height: 70]
-        def paramsHeadAC2 = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 70]
-        def paramsHeadAC3 = [border: Color.BLACK, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 70]
+        def paramsHeadAC = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, bg: Color.lightGray, height: 50]
+        def paramsHeadAC2 = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 50]
+        def paramsHeadAC3 = [border: Color.BLACK, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 50]
         def prmsCellLeft = [border: Color.WHITE, valign: Element.ALIGN_MIDDLE]
         def prmsCellJusti = [border: Color.WHITE, valign: Element.ALIGN_JUSTIFIED, align : Element.ALIGN_JUSTIFIED]
         def prmsCellColCuatro= [border: Color.WHITE, valign: Element.ALIGN_MIDDLE, colspan: 5]
