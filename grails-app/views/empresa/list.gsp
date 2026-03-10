@@ -22,8 +22,8 @@
             <th class="alinear" style="width: 15%">RUC</th>
             <th class="alinear"  style="width: 30%">Nombre</th>
             <th class="alinear"  style="width: 25%">Dirección</th>
-            <th class="alinear"  style="width: 15%">Teléfono</th>
-            <th class="alinear" style="width: 10%">Acciones</th>
+            <th class="alinear"  style="width: 10%">Teléfono</th>
+            <th class="alinear" style="width: 15%">Acciones</th>
         </tr>
         </thead>
     </table>

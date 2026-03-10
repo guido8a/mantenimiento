@@ -13,6 +13,7 @@ class Empresa implements Auditable{
     String mail
     String observaciones
     String ruc
+    String logo
 
     static auditable = [ignore: []]
 
@@ -33,6 +34,7 @@ class Empresa implements Auditable{
             mail column: 'emprmail'
             observaciones column: 'emprobsr'
             ruc column: 'empr_ruc'
+            logo column: 'emprlogo'
         }
     }
 
@@ -46,6 +48,7 @@ class Empresa implements Auditable{
         mail(size: 1..63, blank: true, nullable: true)
         observaciones(size: 1..255, blank: true, nullable: true)
         ruc(size: 1..13, blank: true, nullable: true)
+        logo(blank: true, nullable: true)
     }
 
     String toString() {

@@ -1,6 +1,7 @@
 package reportes
 
 import bitacora.Actividad
+import bitacora.Cambio
 import bitacora.Oficio
 import bitacora.Responsable
 import com.itextpdf.html2pdf.ConverterProperties
@@ -696,8 +697,7 @@ class ReportesController {
 //        response.setContentLength(b.length)
 //        response.getOutputStream().write(b)
 
-//        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
-        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
+        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "", 1)
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
@@ -837,7 +837,7 @@ class ReportesController {
         return ia
     }
 
-    def encabezadoYnumeracion (f, tituloReporte, subtitulo, nombreReporte, textoFooter, empresa, cita, diagnosticos, edadCalculada, edad) {
+    def encabezadoYnumeracion (f, tituloReporte, subtitulo, nombreReporte, textoFooter, empresa, cita, diagnosticos, edadCalculada, edad, tipo) {
 
         def titulo = new java.awt.Color(30, 140, 160)
         com.lowagie.text.Font fontTitulo = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD, titulo);
@@ -845,7 +845,14 @@ class ReportesController {
         com.lowagie.text.Font fontTitulo8 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 8, com.lowagie.text.Font.NORMAL, titulo);
         com.lowagie.text.Font fontTitulo8d = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 8, com.lowagie.text.Font.NORMAL, titulo);
 
-        def path = "/var/mantenimiento/logo.jpeg"
+        def path
+
+        if(tipo == 2){
+            path = "/var/mantenimiento/empresa/emp_${empresa?.id}/${empresa?.logo}"
+        }else{
+            path = "/var/mantenimiento/logo.jpeg"
+        }
+
         Image logo = Image.getInstance(path);
         def longitud = logo.getHeight()
         logo.scalePercent( (70/longitud * 75).toInteger() )
@@ -1077,7 +1084,7 @@ class ReportesController {
 
         byte[] b = baos.toByteArray();
 
-        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "")
+        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "", 1)
     }
 
     def cambiarHtml(texto){
@@ -1454,5 +1461,202 @@ class ReportesController {
         return baos
     }
 
+    def reporteCambios() {
+
+        def cambio = Cambio.get(params.id)
+        def empresa = cambio.usuario.empresa
+        def modulos = []
+
+//        def baos = new ByteArrayOutputStream()
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        def name = "cambio_${cambio?.fecha?.format('dd-MM-yy')}"
+//        def name = "informe_${oficio?.periodo?.numero}"
+        com.lowagie.text.Font titleFont = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 14, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font titleFont3 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font titleFont3Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font titleFont2 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 16, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font10 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font10Bold= new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font11 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font11Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font12 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font12BoldColor = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
+
+        font12BoldColor.setColor(new Color(38, 139, 163))
+
+        def paramsHead = [border: Color.BLACK, align: Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_JUSTIFIED, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK,]
+        def prmsCellLeft = [border: Color.WHITE, valign: Element.ALIGN_MIDDLE]
+        def prmsCellJusti = [border: Color.WHITE, valign: Element.ALIGN_JUSTIFIED, align : Element.ALIGN_JUSTIFIED]
+        def prmsCellColCuatro= [border: Color.WHITE, valign: Element.ALIGN_MIDDLE, colspan: 5]
+        def prmsCellLeftAT = [border: Color.WHITE, align : Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_TOP]
+        def prmsCellRight = [border: Color.BLACK, align : Element.ALIGN_RIGHT, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
+        def prmsCellCenter = [border: Color.BLACK, align : Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
+
+        Document document
+        document = new Document(PageSize.A4);
+        document.setMargins(70, 70, 100, 50);
+        def pdfw = PdfWriter.getInstance(document, baos);
+
+        document.open();
+        document.addTitle("informe_" + new Date().format("dd_MM_yyyy"));
+        document.addSubject("Generado por el sistema Mantenimiento");
+        document.addKeywords("reporte, mantenimiento ,cambio");
+        document.addAuthor("Mantenimiento");
+        document.addCreator("Tedein SA");
+
+        Paragraph headersTitulo = new Paragraph();
+        headersTitulo.setAlignment(Element.ALIGN_CENTER);
+        headersTitulo.add(new Paragraph("REGISTRO Y GESTIÓN DE CAMBIOS A LOS SISTEMAS DE INFORMACIÓN", titleFont));
+        addEmptyLine(headersTitulo, 1);
+        document.add(headersTitulo)
+
+        def tablaModulos = new PdfPTable(1);
+        tablaModulos.setWidthPercentage(100);
+        tablaModulos.setWidths(arregloEnteros([100]))
+        addCellTabla(tablaModulos, new Paragraph("", font10), prmsCellLeft)
+        addCellTabla(tablaModulos, new Paragraph("Este formulario debe ser completado para solicitar, dar seguimiento y cerrar " +
+                "los cambios en los sistemas de información. El procedimiento busca garantizar la " +
+                "confidencialidad, integridad y disponibilidad (CID) de la información durante todo el " +
+                "ciclo de vida del sistema \n         ", font12), paramsHead)
+
+
+        def tablaTexto = new PdfPTable(1);
+        tablaTexto.setWidthPercentage(100);
+        tablaTexto.setWidths(arregloEnteros([100]))
+
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("1. Datos Generales del Cambio", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("Activo Informático:", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("Número de Cambio (sigla del sistema-año-# secuencial):", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("Fecha de Solicitud: ${cambio?.fecha?.format("dd/MM/yyyy")} (# requerimiento): ${cambio?.numero}", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("Solicitante (Nombre y Cargo): ${(cambio?.usuario?.titulo ?: "") + " " + (cambio?.usuario?.apellido ?: "") + " " + (cambio?.usuario?.nombre ?: "") }", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("Área Solicitante: ${cambio?.usuario?.area?.nombre?.toUpperCase() ?: ''}", font11Normal), prmsCellLeft)
+
+        def tablaDescripcion = new PdfPTable(1);
+        tablaDescripcion.setWidthPercentage(100);
+        tablaDescripcion.setWidths(arregloEnteros([100]))
+
+        addCellTabla(tablaDescripcion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaDescripcion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaDescripcion, new Paragraph("2. Descripción del Cambio", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaDescripcion, new Paragraph("Descripción Detallada del Cambio:", font11), prmsCellLeft)
+        addCellTabla(tablaDescripcion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaDescripcion, new Paragraph("${cambio?.descripcion}", font11Normal), prmsCellJusti)
+
+        def tablaJustificacion = new PdfPTable(1);
+        tablaJustificacion.setWidthPercentage(100);
+        tablaJustificacion.setWidths(arregloEnteros([100]))
+
+        addCellTabla(tablaJustificacion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaJustificacion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaJustificacion, new Paragraph("3. Justificación del Cambio", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaJustificacion, new Paragraph("Motivo por el cual se solicita el cambio:", font11), prmsCellLeft)
+        addCellTabla(tablaJustificacion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaJustificacion, new Paragraph("${cambio?.justificacion}", font11Normal), prmsCellJusti)
+
+        def tablaImpacto= new PdfPTable(1);
+        tablaImpacto.setWidthPercentage(100);
+        tablaImpacto.setWidths(arregloEnteros([100]))
+
+        addCellTabla(tablaImpacto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpacto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpacto, new Paragraph("4. Impacto en la Seguridad de la Información (CID)", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaImpacto, new Paragraph("", font11Normal), prmsCellLeft)
+
+        def tablaImpactoTabla= new PdfPTable(5);
+        tablaImpactoTabla.setWidthPercentage(100);
+        tablaImpactoTabla.setWidths(arregloEnteros([30, 20, 20, 20, 10]))
+
+        addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellColCuatro)
+        addCellTabla(tablaImpactoTabla, new Paragraph("Confidencialidad:", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoConfidencialidad == 'B' ? 'X' : ''}" + "]" + " Bajo", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoConfidencialidad == 'M' ? 'X' : ''}" + "]" + " Medio", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoConfidencialidad == 'A' ? 'X' : ''}" + "]" + " Alto", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellColCuatro)
+        addCellTabla(tablaImpactoTabla, new Paragraph("Integridad:", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoIntegridad == 'B' ? 'X' : ''}" + "]" + " Bajo", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoIntegridad == 'M' ? 'X' : ''}" + "]" + " Medio", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoIntegridad == 'A' ? 'X' : ''}" + "]" + " Alto", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellColCuatro)
+        addCellTabla(tablaImpactoTabla, new Paragraph("Disponibilidad:", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoDisponibilidad == 'B' ? 'X' : ''}" + "]" + " Bajo", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoDisponibilidad == 'M' ? 'X' : ''}" + "]" + " Medio", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("[" +  "${cambio?.impactoDisponibilidad == 'A' ? 'X' : ''}" + "]" + " Alto", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellColCuatro)
+        addCellTabla(tablaImpactoTabla, new Paragraph("", font11Normal), prmsCellColCuatro)
+
+        def tablaSeguridad= new PdfPTable(1);
+        tablaSeguridad.setWidthPercentage(100);
+        tablaSeguridad.setWidths(arregloEnteros([100]))
+
+        addCellTabla(tablaSeguridad, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaSeguridad, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaSeguridad, new Paragraph("Descripción del impacto potencial:", font11), prmsCellLeft)
+        addCellTabla(tablaSeguridad, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaSeguridad, new Paragraph("${cambio?.descripcionSeguridad}", font11Normal), prmsCellLeft)
+
+        def tablaPruebas = new PdfPTable(1);
+        tablaPruebas.setWidthPercentage(100);
+        tablaPruebas.setWidths(arregloEnteros([100]))
+
+        addCellTabla(tablaPruebas, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaPruebas, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaPruebas, new Paragraph("5. Plan de Pruebas", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaPruebas, new Paragraph("Pruebas a realizar antes y después del cambio:", font11), prmsCellLeft)
+        addCellTabla(tablaPruebas, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaPruebas, new Paragraph("${cambio?.planPruebas}", font11Normal), prmsCellJusti)
+
+        def tablaTecnico = new PdfPTable(1);
+        tablaTecnico.setWidthPercentage(100);
+        tablaTecnico.setWidths(arregloEnteros([100]))
+
+        addCellTabla(tablaTecnico, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTecnico, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTecnico, new Paragraph("6. Análisis Técnico", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaTecnico, new Paragraph("Resultado del análisis técnico y factibilidad del cambio:", font11), prmsCellLeft)
+        addCellTabla(tablaTecnico, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTecnico, new Paragraph("${cambio?.analisisTecnico}", font11Normal), prmsCellJusti)
+
+        def tablaFirmasResponsabilidad = new PdfPTable(1);
+        tablaFirmasResponsabilidad.setWidthPercentage(100);
+        tablaFirmasResponsabilidad.setWidths(arregloEnteros([100]))
+
+        addCellTabla(tablaFirmasResponsabilidad, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaFirmasResponsabilidad, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaFirmasResponsabilidad, new Paragraph("6. Análisis Técnico", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaFirmasResponsabilidad, new Paragraph("Resultado del análisis técnico y factibilidad del cambio:", font11), prmsCellLeft)
+        addCellTabla(tablaFirmasResponsabilidad, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaFirmasResponsabilidad, new Paragraph("${cambio?.analisisTecnico}", font11Normal), prmsCellJusti)
+
+
+        document.add(tablaModulos)
+        document.add(tablaTexto)
+        document.add(tablaDescripcion)
+        document.add(tablaJustificacion)
+        document.add(tablaImpacto)
+        document.add(tablaImpactoTabla)
+        document.add(tablaSeguridad)
+        document.add(tablaPruebas)
+        document.add(tablaTecnico)
+        document.add(tablaFirmasResponsabilidad)
+
+        document.close();
+        pdfw.close()
+        byte[] b = baos.toByteArray();
+
+        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", empresa, "", "", "", "", 2)
+    }
 
 }

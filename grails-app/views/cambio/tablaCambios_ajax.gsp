@@ -5,8 +5,8 @@
         <th style="width: 15%">Responsable</th>
         <th style="width: 15%">Usuario</th>
         <th style="width: 10%">Fecha</th>
-        <th style="width: 40%">Descripción</th>
-        <th style="width: 19%">Acciones</th>
+        <th style="width: 37%">Descripción</th>
+        <th style="width: 22%">Acciones</th>
         <th style="width: 1%"></th>
     </tr>
     </thead>
@@ -21,8 +21,8 @@
                     <td style="width: 15%">${(cambio?.responsable?.apellido ?: '') + " " + (cambio?.responsable?.nombre)}</td>
                     <td style="width: 15%">${(cambio?.usuario?.apellido ?: '') +  " " + (cambio?.usuario?.nombre)}</td>
                     <td style="width: 10%">${cambio?.fecha?.format("dd-MM-yyyy")}</td>
-                    <td style="width: 40%">${cambio?.descripcion}</td>
-                    <td style="width: 19%; text-align: center">
+                    <td style="width: 37%">${cambio?.descripcion}</td>
+                    <td style="width: 22%; text-align: center">
                         <a class="btn btn-xs btnVercambio btn-info" href="#"  title="Ver" data-id="${cambio?.id}">
                             <i class="fa fa-search"></i>
                         </a>
@@ -31,6 +31,9 @@
                         </a>
                         <a class="btn btn-xs btnBorrarCambio btn-danger" href="#" title="Eliminar" data-id="${cambio?.id}">
                             <i class="fa fa-trash"></i>
+                        </a>
+                        <a class="btn btn-xs btnImprimirCambio btn-info" href="#" title="Imprimir" data-id="${cambio?.id}">
+                            <i class="fa fa-print"></i>
                         </a>
                     </td>
                     <td style="width: 1%"></td>
@@ -44,6 +47,11 @@
 </div>
 
 <script type="text/javascript">
+
+    $(".btnImprimirCambio").click(function () {
+        var id = $(this).data("id");
+        location.href = "${g.createLink(controller:'reportes', action: 'reporteCambios')}?id=" + id
+    });
 
     $(".btnBorrarCambio").click(function () {
         var id = $(this).data("id");

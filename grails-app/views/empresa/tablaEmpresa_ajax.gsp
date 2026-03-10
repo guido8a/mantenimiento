@@ -24,15 +24,18 @@ th, td {
                     <td style="width: 25%">
                         ${empresa?.direccion}
                     </td>
-                    <td style="width: 15%">
+                    <td style="width: 10%">
                         ${empresa?.telefono}
                     </td>
-                    <td style="width: 10%; text-align: center">
+                    <td style="width: 15%; text-align: center">
                         <a class="btn btn-xs btnVerEmpresa btn-info" href="#"  title="Ver" data-id="${empresa.id}">
                             <i class="fa fa-search"></i>
                         </a>
                         <a class="btn btn-xs btn-edit btn-success" href="#"  title="Editar" data-id="${empresa.id}">
                             <i class="fa fa-edit"></i>
+                        </a>
+                        <a class="btn btn-xs btnCargarLogo btn-info" href="#" title="Cargar logo" data-id="${empresa.id}">
+                            <i class="fa fa-image"></i>
                         </a>
                         <a class="btn btn-xs btn-delete btn-danger" href="#" title="Eliminar" data-id="${empresa.id}">
                             <i class="fa fa-trash"></i>
@@ -48,6 +51,42 @@ th, td {
 </div>
 
 <script type="text/javascript">
+
+    var di;
+
+    $(".btnCargarLogo").click(function () {
+        var id = $(this).data("id");
+        cargarLogo(id);
+    });
+
+    function cargarLogo(id) {
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'empresa', action:'logo_ajax')}",
+            data    : {
+                id: id
+            },
+            success : function (msg) {
+                di = bootbox.dialog({
+                    id      : "dlgFoto",
+                    title   : "Logo",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "<i class='fa fa-times'></i> Cerrar",
+                            className : "btn-gris",
+                            callback  : function () {
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    } //createEdit
+
+    function cerrarCargaLogo(){
+        di.modal("hide")
+    }
 
     $(".btnVerEmpresa").click(function () {
         var id = $(this).data("id");

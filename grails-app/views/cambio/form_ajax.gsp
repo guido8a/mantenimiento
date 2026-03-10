@@ -142,7 +142,7 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="planPruebas" class="form-control" value="${cambio?.planPruebas}" maxlength="255" style="resize: none; height: 70px" />
+                    <g:textArea name="planPruebas" class="form-control" value="${cambio?.planPruebas}" maxlength="255" style="resize: none; height: 60px" />
                 </div>
             </div>
         </div>
@@ -182,7 +182,7 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="observaciones" class="form-control" value="${cambio?.observaciones}" maxlength="255" style="resize: none; height: 70px" />
+                    <g:textArea name="observaciones" class="form-control" value="${cambio?.observaciones}" maxlength="255" style="resize: none; height: 60px" />
                 </div>
             </div>
         </div>
