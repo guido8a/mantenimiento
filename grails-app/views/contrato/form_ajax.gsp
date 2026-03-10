@@ -2,14 +2,25 @@
     <g:hiddenField name="id" value="${contrato?.id}" />
 
     <div class="form-group keeptogether ${hasErrors(bean: contrato, field: 'empresa', 'error')} required">
-            <span class="grupo">
-                <label for="empresa" class="col-md-2 control-label text-info">
-                    Empresa
-                </label>
+        <span class="grupo">
+            <label for="empresa" class="col-md-2 control-label text-info">
+                Empresa
+            </label>
+        </span>
+        <div class="col-md-10">
+            <g:select name="empresa" from="${bitacora.Empresa.list().sort{it.nombre}}" class="form-control" optionValue="nombre" optionKey="id" value="${contrato?.empresa?.id}" />
+        </div>
+    </div>
+
+    <div class="form-group ${hasErrors(bean: contrato, field: 'sistema', 'error')} ">
+        <span class="grupo">
+            <label for="sistema" class="col-md-2 control-label text-info">
+                Sistema
+            </label>
+            <span class="col-md-10">
+                <g:select name="sistema" from="${bitacora.Sistema.list().sort{it.nombre}}" class="form-control" optionValue="nombre" optionKey="id" value="${contrato?.sistema?.id}"/>
             </span>
-            <div class="col-md-10">
-                <g:select name="empresa" from="${bitacora.Empresa.list().sort{it.nombre}}" class="form-control" optionValue="nombre" optionKey="id" value="${contrato?.empresa?.id}"/>
-            </div>
+        </span>
     </div>
 
     <div class="form-group ${hasErrors(bean: contrato, field: 'numero', 'error')} required">
@@ -30,17 +41,6 @@
             </label>
             <span class="col-md-10">
                 <g:textArea name="objeto" maxlength="255"  class="form-control" value="${contrato?.objeto}"  style="resize: none; height: 150px"/>
-            </span>
-        </span>
-    </div>
-
-    <div class="form-group ${hasErrors(bean: contrato, field: 'sistema', 'error')} ">
-        <span class="grupo">
-            <label for="sistema" class="col-md-2 control-label text-info">
-                Sistema
-            </label>
-            <span class="col-md-10">
-                <g:textArea name="sistema" maxlength="127" class="form-control" value="${contrato?.sistema}"  style="resize: none; height: 70px"/>
             </span>
         </span>
     </div>
