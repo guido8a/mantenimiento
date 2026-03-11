@@ -796,6 +796,19 @@ class ReportesController {
                 cell.setBorderWidthTop(0)
             }
         }
+        if (params.bordeA) {
+            cell.setBorderWidthTop(0.5)
+            cell.setBorderWidthLeft(0.5)
+            cell.setBorderWidthRight(0.5)
+            cell.setBorderWidthBottom(0)
+        }
+
+        if (params.bordeB) {
+            cell.setBorderWidthTop(0)
+            cell.setBorderWidthLeft(0.5)
+            cell.setBorderWidthRight(0.5)
+            cell.setBorderWidthBottom(0.8)
+        }
         table.addCell(cell);
     }
 
@@ -1490,6 +1503,9 @@ class ReportesController {
         def paramsHead3 = [border: Color.BLACK, align: Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_JUSTIFIED, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 50]
         def paramsHead2 = [border: Color.BLACK, align: Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_JUSTIFIED, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, bg: Color.lightGray,]
         def paramsHeadAC = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, bg: Color.lightGray, height: 50]
+        def paramsHeadAL = [border: Color.BLACK, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, bg: Color.lightGray, height: 50]
+        def paramsHeadAL2 = [border: Color.BLACK, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE,  bcb: Color.BLACK,  bg: Color.lightGray, height: 50, bordeB: "1"]
+        def paramsHeadAL3 = [align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE,  bg: Color.lightGray, height: 50, bordeA: "1"]
         def paramsHeadAC2 = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 50]
         def paramsHeadAC3 = [border: Color.BLACK, align: Element.ALIGN_LEFT, valign: Element.ALIGN_MIDDLE, bwt: 0.1, bwb: 0.1, bwl: 0.1, bcl: Color.BLACK, height: 50]
         def prmsCellLeft = [border: Color.WHITE, valign: Element.ALIGN_MIDDLE]
@@ -1540,6 +1556,7 @@ class ReportesController {
         addCellTabla(tablaTexto, new Paragraph("1. Datos Generales del Cambio", font12BoldColor), prmsCellLeft)
         addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTexto, new Paragraph("Activo Informático: ${cambio?.responsable?.contrato?.sistema?.nombre ?: ''}", font11Normal), prmsCellJusti)
         addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTexto, new Paragraph("Número de Cambio (sigla del sistema-año-# secuencial): ${cambio?.responsable?.contrato?.sistema?.siglas + "-" + cambio?.fecha?.format("yyyy") + "-" + cambio?.id}", font11Normal), prmsCellLeft)
@@ -1559,6 +1576,7 @@ class ReportesController {
         addCellTabla(tablaDescripcion, new Paragraph("2. Descripción del Cambio", font12BoldColor), prmsCellLeft)
         addCellTabla(tablaDescripcion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaDescripcion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaDescripcion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaDescripcion, new Paragraph("Descripción Detallada del Cambio:", font11), prmsCellLeft)
         addCellTabla(tablaDescripcion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaDescripcion, new Paragraph("${cambio?.descripcion}", font11Normal), prmsCellJusti)
@@ -1572,6 +1590,7 @@ class ReportesController {
         addCellTabla(tablaJustificacion, new Paragraph("3. Justificación del Cambio", font12BoldColor), prmsCellLeft)
         addCellTabla(tablaJustificacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaJustificacion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaJustificacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaJustificacion, new Paragraph("Motivo por el cual se solicita el cambio:", font11), prmsCellLeft)
         addCellTabla(tablaJustificacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaJustificacion, new Paragraph("${cambio?.justificacion}", font11Normal), prmsCellJusti)
@@ -1583,6 +1602,7 @@ class ReportesController {
         addCellTabla(tablaImpacto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaImpacto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaImpacto, new Paragraph("4. Impacto en la Seguridad de la Información (CID)", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaImpacto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaImpacto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaImpacto, new Paragraph("", font11Normal), prmsCellLeft)
 
@@ -1630,6 +1650,7 @@ class ReportesController {
         addCellTabla(tablaPruebas, new Paragraph("5. Plan de Pruebas", font12BoldColor), prmsCellLeft)
         addCellTabla(tablaPruebas, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaPruebas, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaPruebas, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaPruebas, new Paragraph("Pruebas a realizar antes y después del cambio:", font11), prmsCellLeft)
         addCellTabla(tablaPruebas, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaPruebas, new Paragraph("${cambio?.planPruebas}", font11Normal), prmsCellJusti)
@@ -1641,6 +1662,7 @@ class ReportesController {
         addCellTabla(tablaTecnico, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTecnico, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTecnico, new Paragraph("6. Análisis Técnico", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaTecnico, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTecnico, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTecnico, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTecnico, new Paragraph("Resultado del análisis técnico y factibilidad del cambio:", font11), prmsCellLeft)
@@ -1656,6 +1678,7 @@ class ReportesController {
         addCellTabla(tablaFirmasResponsabilidad, new Paragraph("7. Firmas de Responsabilidad", font12BoldColor), prmsCellLeft)
         addCellTabla(tablaFirmasResponsabilidad, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaFirmasResponsabilidad, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaFirmasResponsabilidad, new Paragraph("", font11Normal), prmsCellLeft)
 
         def tablaFirmasResponsabilidadTabla = new PdfPTable(4);
         tablaFirmasResponsabilidadTabla.setWidthPercentage(100);
@@ -1668,12 +1691,12 @@ class ReportesController {
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("Cargo/Área", font12Bold), paramsHead2)
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("Firma", font12Bold), paramsHead2)
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("Elaborado por:", font12Bold), paramsHeadAC)
-        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("", font12Bold), paramsHeadAC2)
-        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("", font12Bold), paramsHeadAC2)
+        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("Ing. Guido Ochoa", font11Normal), paramsHeadAC3)
+        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("Consultora Tedein S.A.", font11Normal), paramsHeadAC3)
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("", font12Bold), paramsHead3)
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("Autorizado por:", font12Bold), paramsHeadAC)
-        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("", font12Bold), paramsHeadAC2)
-        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("", font12Bold), paramsHeadAC2)
+        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("${(cambio?.responsable?.titulo ?: '') + " " + (cambio?.responsable?.apellido ?: '') + " " + (cambio?.responsable?.nombre ?: '')}", font11Normal), paramsHeadAC3)
+        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("${cambio?.responsable?.cargo ?: ''}", font11Normal), paramsHeadAC3)
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("", font12Bold), paramsHead3)
 
         def tablaAceptacion= new PdfPTable(1);
@@ -1683,6 +1706,7 @@ class ReportesController {
         addCellTabla(tablaAceptacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaAceptacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaAceptacion, new Paragraph("8. Aceptación del cambio", font12BoldColor), prmsCellLeft)
+        addCellTabla(tablaAceptacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaAceptacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaAceptacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaAceptacion, new Paragraph("(Debe realizar las pruebas en el servidor de pruebas del sistema ${cambio?.responsable?.contrato?.sistema?.siglas} para aprobar o rechazar)", font11Normal), prmsCellLeft)
@@ -1707,6 +1731,7 @@ class ReportesController {
         addCellTabla(tablaFirmasAceptacion, new Paragraph("9. Firmas de Aceptación", font12BoldColor), prmsCellLeft)
         addCellTabla(tablaFirmasAceptacion, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaFirmasAceptacion, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaFirmasAceptacion, new Paragraph("", font11Normal), prmsCellLeft)
 
         def tablaFirmasAceptacionTabla = new PdfPTable(4);
         tablaFirmasAceptacionTabla.setWidthPercentage(100);
@@ -1718,17 +1743,19 @@ class ReportesController {
         addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("Nombre", font12Bold), paramsHead2)
         addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("Cargo/Área", font12Bold), paramsHead2)
         addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("Firma", font12Bold), paramsHead2)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("Técnicos del Área:", font12Bold), paramsHeadAC)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${(cambio?.usuario?.titulo ?: "") + " " + (cambio?.usuario?.apellido ?: "") + " " + (cambio?.usuario?.nombre ?: "") }", font12), paramsHeadAC2)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${cambio?.usuario?.area?.nombre?.toUpperCase() ?: ''}", font11Normal), paramsHeadAC3)
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("Técnicos del Área:", font12Bold), paramsHeadAL)
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${(cambio?.usuario?.titulo ?: "") + " " + (cambio?.usuario?.apellido ?: "") + " " + (cambio?.usuario?.nombre ?: "") }", font11Normal), paramsHeadAC3)
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${cambio?.usuario?.area?.nombre ?: ''}", font11Normal), paramsHeadAC3)
         addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("", font12Bold), paramsHead3)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("Responsables del área", font12Bold), paramsHeadAC)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${(cambio?.usuario?.jefe?.titulo ?: "") + " " + (cambio?.usuario?.jefe?.apellido ?: "") + " " + (cambio?.usuario?.jefe?.nombre ?: "") }", font12), paramsHeadAC2)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${cambio?.usuario?.jefe?.area?.nombre?.toUpperCase() ?: ''}", font12Bold), paramsHeadAC2)
+
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("Responsables del Área:", font12Bold), paramsHeadAL3)
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${(cambio?.usuario?.jefe?.titulo ?: "") + " " + (cambio?.usuario?.jefe?.apellido ?: "") + " " + (cambio?.usuario?.jefe?.nombre ?: "") }", font11Normal), paramsHeadAC3)
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${cambio?.usuario?.jefe?.area?.nombre ?: ''}", font11Normal), paramsHeadAC3)
         addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("", font12Bold), paramsHead3)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("", font12Bold), paramsHeadAC)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${(cambio?.usuario?.jefe?.jefe?.titulo ?: "") + " " + (cambio?.usuario?.jefe?.jefe?.apellido ?: "") + " " + (cambio?.usuario?.jefe?.jefe?.nombre ?: "") }", font12), paramsHeadAC2)
-        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${cambio?.usuario?.jefe?.jefe?.area?.nombre?.toUpperCase() ?: ''}", font12), paramsHeadAC2)
+
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("", font12Bold), paramsHeadAL2)
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${(cambio?.usuario?.jefe?.jefe?.titulo ?: "") + " " + (cambio?.usuario?.jefe?.jefe?.apellido ?: "") + " " + (cambio?.usuario?.jefe?.jefe?.nombre ?: "") }", font11Normal), paramsHeadAC3)
+        addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("${cambio?.usuario?.jefe?.jefe?.area?.nombre ?: ''}", font11Normal), paramsHeadAC3)
         addCellTabla(tablaFirmasAceptacionTabla, new Paragraph("", font12Bold), paramsHead3)
 
         def tablaNotas = new PdfPTable(2);
