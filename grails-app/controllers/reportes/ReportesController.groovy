@@ -1696,7 +1696,7 @@ class ReportesController {
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("", font12Bold), paramsHead3)
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("Autorizado por:", font12Bold), paramsHeadAC)
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("${(cambio?.responsable?.titulo ?: '') + " " + (cambio?.responsable?.apellido ?: '') + " " + (cambio?.responsable?.nombre ?: '')}", font11Normal), paramsHeadAC3)
-        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("${cambio?.responsable?.cargo ?: ''}", font11Normal), paramsHeadAC3)
+        addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("${cambio?.responsable?.cargo ? (cambio?.responsable?.cargo + ' del contrato N°' + (cambio?.responsable?.contrato?.numero ?: '') )  : ''}", font11Normal), paramsHeadAC3)
         addCellTabla(tablaFirmasResponsabilidadTabla, new Paragraph("", font12Bold), paramsHead3)
 
         def tablaAceptacion= new PdfPTable(1);
