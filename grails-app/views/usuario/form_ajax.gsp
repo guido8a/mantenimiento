@@ -35,7 +35,7 @@
                     </label>
                 </span>
                 <div class="col-md-8">
-                    <div class="col-md-10">
+                    <div class="col-md-10" style="margin-left: -15px; width: 200px;">
                         <g:hiddenField name="jefe" value="${usuario?.jefe?.id}" />
                         <g:textField name="jefeName" readonly="" class="form-control " value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
                     </div>
