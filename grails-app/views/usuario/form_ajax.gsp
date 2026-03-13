@@ -35,18 +35,20 @@
                     </label>
                 </span>
                 <div class="col-md-8">
-                    <div class="col-md-10" style="margin-left: -15px; width: 200px;">
-                        <g:hiddenField name="jefe" value="${usuario?.jefe?.id}" />
-                        <g:textField name="jefeName" readonly="" class="form-control " value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
-                    </div>
-                    <div class="col-md-1" style="width: 20px">
+
+                    <div class="col-md-12">
                         <a class="btn btn-info btnUsuarioJefe btn-xs" href="#"  title="Seleccionar jefe">
                             <i class="fa fa-search"></i>
                         </a>
                         <a class="btn btn-warning btnQuitarJefe btn-xs" href="#"  title="Quitar jefe">
                             <i class="fa fa-eraser"></i>
                         </a>
+                        <g:hiddenField name="jefe" value="${usuario?.jefe?.id}" />
+                        <g:textField name="jefeName" readonly="" class="form-control " value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
                     </div>
+%{--                    <div class="col-md-1" style="width: 20px">--}%
+%{--               --}%
+%{--                    </div>--}%
                 </div>
             </div>
         </div>
