@@ -18,6 +18,40 @@
         </div>
 
         <div class="form-group keeptogether ${hasErrors(bean: usuario, field: 'area', 'error')}">
+            <div class="col-md-7" style="margin-left: 83px">
+                <span class="grupo" >
+                    <label class="col-md-1 control-label">
+                        Jefe
+                    </label>
+                </span>
+                <div class="col-md-11">
+                    <div class="col-md-8">
+                        <g:hiddenField name="jefe" value="${usuario?.jefe?.id}" />
+                        <g:textField name="jefeName" readonly="" class="form-control " title="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}" value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-info btnUsuarioJefe btn-xs" href="#"  title="Seleccionar jefe">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <a class="btn btn-warning btnQuitarJefe btn-xs" href="#"  title="Quitar jefe">
+                            <i class="fa fa-eraser"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <span class="grupo">
+                    <label for="activo" class="col-md-4 control-label">
+                        Activo
+                    </label>
+                    <span class="col-md-8">
+                        <g:checkBox name="activoName" id="activo" class="form-control" data-on-Label="Si" checked="${usuario.activo == '1' ?: false}"/>
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group keeptogether ${hasErrors(bean: usuario, field: 'area', 'error')}">
             <div class="col-md-6">
                 <span class="grupo">
                     <label for="area" class="col-md-4 control-label">
@@ -30,26 +64,13 @@
             </div>
             <div class="col-md-6">
                 <span class="grupo">
-                    <label class="col-md-4 control-label">
-                        Jefe
+                    <label for="titulo" class="col-md-4 control-label">
+                        Título
                     </label>
+                    <span class="col-md-8">
+                        <g:textField name="titulo" minlength="1" maxlength="4" class="form-control input-sm" value="${usuario?.titulo}"/>
+                    </span>
                 </span>
-                <div class="col-md-8">
-
-                    <div class="col-md-12">
-                        <a class="btn btn-info btnUsuarioJefe btn-xs" href="#"  title="Seleccionar jefe">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <a class="btn btn-warning btnQuitarJefe btn-xs" href="#"  title="Quitar jefe">
-                            <i class="fa fa-eraser"></i>
-                        </a>
-                        <g:hiddenField name="jefe" value="${usuario?.jefe?.id}" />
-                        <g:textField name="jefeName" readonly="" class="form-control " value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
-                    </div>
-%{--                    <div class="col-md-1" style="width: 20px">--}%
-%{--               --}%
-%{--                    </div>--}%
-                </div>
             </div>
         </div>
 
@@ -132,29 +153,19 @@
             </div>
         </div>
 
-        <div class="form-group keeptogether ${hasErrors(bean: usuario, field: 'titulo', 'error')} ${hasErrors(bean: usuario, field: 'activo', 'error')}">
-            <div class="col-md-6">
-                <span class="grupo">
-                    <label for="titulo" class="col-md-4 control-label">
-                        Título
-                    </label>
-                    <span class="col-md-8">
-                        <g:textField name="titulo" minlength="1" maxlength="4" class="form-control input-sm" value="${usuario?.titulo}"/>
-                    </span>
-                </span>
-            </div>
+    %{--        <div class="form-group keeptogether ${hasErrors(bean: usuario, field: 'titulo', 'error')} ${hasErrors(bean: usuario, field: 'activo', 'error')}">--}%
 
-            <div class="col-md-6">
-                <span class="grupo">
-                    <label for="activo" class="col-md-4 control-label">
-                        Activo
-                    </label>
-                    <span class="col-md-8">
-                        <g:checkBox name="activoName" id="activo" class="form-control" data-on-Label="Si" checked="${usuario.activo == '1' ?: false}"/>
-                    </span>
-                </span>
-            </div>
-        </div>
+    %{--            <div class="col-md-6">--}%
+    %{--                <span class="grupo">--}%
+    %{--                    <label for="activo" class="col-md-4 control-label">--}%
+    %{--                        Activo--}%
+    %{--                    </label>--}%
+    %{--                    <span class="col-md-8">--}%
+    %{--                        <g:checkBox name="activoName" id="activo" class="form-control" data-on-Label="Si" checked="${usuario.activo == '1' ?: false}"/>--}%
+    %{--                    </span>--}%
+    %{--                </span>--}%
+    %{--            </div>--}%
+    %{--        </div>--}%
 
         <div class="form-group ${hasErrors(bean: usuario, field: 'fechaInicio', 'error')} ">
             <span class="grupo">
