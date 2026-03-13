@@ -39,9 +39,12 @@
                         <g:hiddenField name="jefe" value="${usuario?.jefe?.id}" />
                         <g:textField name="jefeName" readonly="" class="form-control " value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
                     </div>
-                    <div class="col-md-1">
-                        <a class="btn btn-info btnUsuarioJefe" href="#"  title="Seleccionar jefe">
+                    <div class="col-md-1" style="width: 20px">
+                        <a class="btn btn-info btnUsuarioJefe btn-xs" href="#"  title="Seleccionar jefe">
                             <i class="fa fa-search"></i>
+                        </a>
+                        <a class="btn btn-warning btnQuitarJefe btn-xs" href="#"  title="Quitar jefe">
+                            <i class="fa fa-eraser"></i>
                         </a>
                     </div>
                 </div>
@@ -176,6 +179,11 @@
 <script type="text/javascript">
 
     var mbu;
+
+    $(".btnQuitarJefe").click(function () {
+        $("#jefe").val(null);
+        $("#jefeName").val('')
+    });
 
     $(".btnUsuarioJefe").click(function () {
         buscarJefe(2)
