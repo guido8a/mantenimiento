@@ -37,7 +37,7 @@
                 <div class="col-md-8">
                     <div class="col-md-10">
                         <g:hiddenField name="jefe" value="${usuario?.jefe?.id}" />
-                        <g:textField name="jefeName" readonly="" required="" class="form-control required" value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
+                        <g:textField name="jefeName" readonly="" class="form-control " value="${(usuario?.jefe?.apellido ?: '') + " " + (usuario?.jefe?.nombre ?: '')}"/>
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-info btnUsuarioJefe" href="#"  title="Seleccionar jefe">
