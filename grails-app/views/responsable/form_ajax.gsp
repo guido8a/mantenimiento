@@ -9,7 +9,7 @@
         </span>
         <div class="col-md-10">
             <g:select name="contrato" from="${bitacora.Contrato.list().sort{it.numero}}" required="" class="form-control required"
-                      optionValue="${{it.numero + " - " + it.objeto}}" optionKey="id" value="${responsable?.contrato?.id}"/>
+                      optionValue="${{it.numero}}" optionKey="id" value="${responsable?.contrato?.id}"/>
         </div>
     </div>
 
