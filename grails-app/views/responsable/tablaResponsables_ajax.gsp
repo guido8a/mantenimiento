@@ -24,6 +24,9 @@ th, td {
                     <td style="width: 20%">
                         ${responsable?.nombre}
                     </td>
+                    <td style="width: 20%">
+                        ${responsable?.mail}
+                    </td>
                     <td style="width: 15%">
                         ${responsable?.fechaInicio?.format("dd-MM-yyyy")}
                     </td>

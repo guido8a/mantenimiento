@@ -19,11 +19,12 @@
     <table class="table table-bordered table-hover table-condensed" style="width: 100%; background-color: #a39e9e">
         <thead>
         <tr style="width: 100%">
-            <th style="width: 15%">Contrato</th>
+            <th style="width: 10%">Contrato</th>
             <th style="width: 20%">Apellido</th>
-            <th style="width: 20%">Nombre</th>
-            <th style="width: 15%">Fecha Inicio</th>
-            <th style="width: 15%">Fecha Fin</th>
+            <th style="width: 15%">Nombre</th>
+            <th style="width: 20%">Email</th>
+            <th style="width: 10%">Fecha Inicio</th>
+            <th style="width: 10%">Fecha Fin</th>
             <th style="width: 10%">Acciones</th>
         </tr>
         </thead>

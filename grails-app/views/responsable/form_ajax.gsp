@@ -7,7 +7,7 @@
                 Contrato
             </label>
         </span>
-        <div class="col-md-10">
+        <div class="col-md-6">
             <g:select name="contrato" from="${bitacora.Contrato.list().sort{it.numero}}" required="" class="form-control required"
                       optionValue="${{it.numero}}" optionKey="id" value="${responsable?.contrato?.id}"/>
         </div>
@@ -18,7 +18,7 @@
             <label for="nombre" class="col-md-2 control-label text-info">
                 Nombre
             </label>
-            <span class="col-md-10">
+            <span class="col-md-6">
                 <g:textField name="nombre" minlength="3" maxlength="31" required="" class="form-control required" value="${responsable?.nombre}"/>
             </span>
         </span>
@@ -74,7 +74,7 @@
                 Mail
             </label>
             <span class="col-md-10">
-                <g:textField name="mail" minlength="3" maxlength="63"  class="form-control email" value="${responsable?.mail}"/>
+                <g:textField name="mail" minlength="3" maxlength="63"  class="form-control email required"  required="" value="${responsable?.mail}"/>
             </span>
         </span>
     </div>
@@ -85,7 +85,7 @@
                 Teléfono
             </label>
             <span class="col-md-10">
-                <g:textField name="telefono" minlength="3" maxlength="31"  class="form-control" value="${responsable?.telefono}"/>
+                <g:textField name="telefono" minlength="3" maxlength="31"  class="form-control required"  required="" value="${responsable?.telefono}"/>
             </span>
         </span>
     </div>
