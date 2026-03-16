@@ -56,9 +56,9 @@
             ev.keyCode === 37 || ev.keyCode === 39);
     }
 
-    $("#numero").keydown(function (ev) {
-        return validarNum(ev);
-    });
+    // $("#numero").keydown(function (ev) {
+    //     return validarNum(ev);
+    // });
 
     $(function () {
         $('#datetimepicker1').datetimepicker({

@@ -55,22 +55,12 @@
             <button class="btn btn-sm btn-warning" id="btnBuscarTodosUsuario"
                     title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>
         </div>
-
         <div class="col-md-2">
             <label class="control-label text-info">Buscar por tipo</label>
             <g:select name="buscarPorTipo" class="buscarPorTipo col-md-12 form-control"
                       from="${bitacora.TipoMantenimiento.list().sort { it.descripcion }}" optionKey="id"
                       optionValue="descripcion" noSelection="[null: 'TODOS']"/>
         </div>
-
-        %{--        <div class="col-md-2" style="margin-left: -20px">--}%
-        %{--            <label class="control-label text-info">Buscar por período</label>--}%
-        %{--            <g:select name="buscarPorPeriodo" class="buscarPorPeriodo form-control"--}%
-        %{--                      from="${bitacora.Periodo.list().sort { it.numero }}" optionKey="id"--}%
-        %{--                      optionValue="${{ it.fechads?.format("dd-MM-yy") + " - " + it.fechahs?.format("dd-MM-yy") }}"--}%
-        %{--                      noSelection="[null: 'TODOS']" style="width: 160px"/>--}%
-        %{--        </div>--}%
-
         <div class="col-md-2" style="margin-left: -10px">
             <label class="control-label text-info">Buscar Por</label>
             <g:select name="buscarPor" class="buscarPor form-control" from="${[1: 'Descripción', 2: 'Clave', 3: 'Requerimiento']}"
@@ -82,7 +72,7 @@
             <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control"/>
         </div>
         <div class="col-md-2" style="margin-top: 20px;">
-            <button class="btn btn-sm btn-info" id="btnBuscarActividad" title="Buscar actividades"><i
+            <button class="btn btn-sm btn-info bact" id="btnBuscarActividad" title="Buscar actividades"><i
                     class="fa fa-search"></i></button>
             <button class="btn btn-sm btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i></button>
         </div>
@@ -300,6 +290,14 @@
             }
         });
     }
+
+    $("#criterioCriterio").keydown(function (ev) {
+        if (ev.keyCode === 13) {
+            cargarActividades();
+            return false;
+        }
+        return true;
+    });
 
 </script>
 </body>

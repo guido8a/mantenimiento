@@ -57,5 +57,13 @@
         })
     }
 
+    $("#criterioCriterioBU").keydown(function (ev) {
+        if (ev.keyCode === 13) {
+            cargarTablaBuscarUsuarios();
+            return false;
+        }
+        return true;
+    });
+
 
 </script>
