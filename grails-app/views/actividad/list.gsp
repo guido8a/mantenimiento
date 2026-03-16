@@ -24,13 +24,15 @@
             <a href="#" class="btn btn-info btnCrearActividad"><i class="fa fa-file"></i>  Nueva actividad</a>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label for="contratoBusqueda" class="col-md-2 control-label text-info">
                 Contrato
             </label>
-            <g:select name="contratoBusqueda" from="${bitacora.Contrato.list()?.sort{it.numero}}" required="" class="form-control" optionKey="id"  optionValue="numero"/>
+            %{--<g:select name="contratoBusqueda" from="${bitacora.Contrato.list()?.sort{it.numero}}" required="" --}%
+            <g:select name="contratoBusqueda" from="${bitacora.Contrato.list([order: 'numero'])}" required=""
+                      class="form-control" optionKey="id"  optionValue="numero"/>
         </div>
-        <div class="col-md-3" >
+        <div class="col-md-2" style="margin-left: -20px; width: 120px">
             <label for="contratoBusqueda" class="col-md-2 control-label text-info">
                 Período
             </label>
@@ -43,18 +45,18 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="col-md-3">
-            <label class="control-label text-info">Buscar por usuario</label>
-            <g:hiddenField name="usuarioBusquedaId" value="${null}"/>
-            <g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}" class="form-control"/>
-        </div>
+        %{--<div class="col-md-3">--}%
+            %{--<label class="control-label text-info">Buscar por usuario</label>--}%
+            %{--<g:hiddenField name="usuarioBusquedaId" value="${null}"/>--}%
+            %{--<g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}" class="form-control"/>--}%
+        %{--</div>--}%
 
-        <div class="col-md-2" style="margin-top: 20px; width: 110px">
-            <button class="btn btn-sm btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i
-                    class="fa fa-user"></i></button>
-            <button class="btn btn-sm btn-warning" id="btnBuscarTodosUsuario"
-                    title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>
-        </div>
+        %{--<div class="col-md-2" style="margin-top: 20px; width: 110px">--}%
+            %{--<button class="btn btn-sm btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i--}%
+                    %{--class="fa fa-user"></i></button>--}%
+            %{--<button class="btn btn-sm btn-warning" id="btnBuscarTodosUsuario"--}%
+                    %{--title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>--}%
+        %{--</div>--}%
         <div class="col-md-2">
             <label class="control-label text-info">Buscar por tipo</label>
             <g:select name="buscarPorTipo" class="buscarPorTipo col-md-12 form-control"
@@ -62,8 +64,10 @@
                       optionValue="descripcion" noSelection="[null: 'TODOS']"/>
         </div>
         <div class="col-md-2" style="margin-left: -10px">
-            <label class="control-label text-info">Buscar Por</label>
-            <g:select name="buscarPor" class="buscarPor form-control" from="${[1: 'Descripción', 2: 'Clave', 3: 'Requerimiento']}"
+            <label class="control-label text-info">Buscar Por Criterio</label>
+            <g:select name="buscarPor" class="buscarPor form-control" from="${[1: 'Descripción', 2: 'Clave',
+                                                                               3: 'Requerimiento', 4: 'Nombre de usuario',
+                                                                               5: 'Apellido de usuario']}"
                       optionKey="key" optionValue="value" />
         </div>
 

@@ -13,7 +13,8 @@
                     <div class="form-group">
                         <span class="grupo">
                             <span class="col-md-12">
-                                <label>Requerimiento:</label> <span class="alert-info">${actividad?.requerimiento}</span>
+                                <label>Requerimiento:</label> <span class="alert-info">
+                                ${actividad?.requerimiento} (${actividad?.tipoMantenimiento?.descripcion})</span>
 %{--                                <g:textField name="usuarioVer" readonly="" class="form-control" value="${actividad?.requerimiento}"/>--}%
                             </span>
                         </span>

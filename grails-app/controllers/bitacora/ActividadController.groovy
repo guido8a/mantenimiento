@@ -14,7 +14,7 @@ class ActividadController {
         println("tabla atividades " + params)
         def datos;
         def sqlTx = ""
-        def listaItems = ['actvdscr', 'actvclve', 'actvreqm']
+        def listaItems = ['actvdscr', 'actvclve', 'actvreqm', 'usronmbr', 'usroapll']
         def bsca
         def tipoTx = ''
         def periodoTx = ''
@@ -25,10 +25,10 @@ class ActividadController {
             bsca = listaItems[0]
         }
 
-        if(params.usuario && params.usuario != 'null'){
-            def usuario = Usuario.get(params.usuario)
-            usuarioTx = " and actv.usro__id = ${usuario?.id} "
-        }
+//        if(params.usuario && params.usuario != 'null'){
+//            def usuario = Usuario.get(params.usuario)
+//            usuarioTx = " and actv.usro__id = ${usuario?.id} "
+//        }
 
         if(params.periodo && params.periodo != 'null'){
             def periodo = Periodo.get(params.periodo)
