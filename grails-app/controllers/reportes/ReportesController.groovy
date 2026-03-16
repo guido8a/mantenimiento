@@ -568,7 +568,9 @@ class ReportesController {
         com.lowagie.text.Font titleFont3Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
         com.lowagie.text.Font titleFont2 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 16, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font font10 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font12 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
         com.lowagie.text.Font font10Bold= new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font12Bold= new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font font11 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font font11Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.NORMAL);
 
@@ -617,13 +619,15 @@ class ReportesController {
             tablaModulos.setSpacingBefore(20*(lineasVacias/2))
         }
 
-        addCellTabla(tablaModulos, new Paragraph("Soporte a usuarios en el uso de módulos de:", font10), prmsCellLeft)
+        addCellTabla(tablaModulos, new Paragraph("Soporte a usuarios en el uso de módulos de:", font12), prmsCellLeft)
+        addCellTabla(tablaModulos, new Paragraph(" ", font12), prmsCellLeft)
+        addCellTabla(tablaModulos, new Paragraph(" ", font12), prmsCellLeft)
         actividades.each { a->
             modulos.add(a?.moduloSistema)
         }
         modulos.unique().each {
-            addCellTabla(tablaModulos, new Paragraph("", font10), prmsCellLeft)
-            addCellTabla(tablaModulos, new Paragraph("          * " + (it?.descripcion ?: ''), font10), prmsCellLeft)
+            addCellTabla(tablaModulos, new Paragraph("", font12), prmsCellLeft)
+            addCellTabla(tablaModulos, new Paragraph("          * " + (it?.descripcion ?: ''), font12), prmsCellLeft)
         }
 
         def tablaTexto = new PdfPTable(1);
@@ -636,7 +640,7 @@ class ReportesController {
             tablaTexto.setSpacingBefore(20)
         }
 
-        addCellTabla(tablaTexto, new Paragraph("Actividades realizadas de soporte:", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("Actividades realizadas de soporte:", font12Bold), prmsCellLeft)
         addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
         addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
 
@@ -646,14 +650,15 @@ class ReportesController {
 
         actividades.eachWithIndex { actividad, q ->
             addCellTabla(tablaActividades, new Paragraph((q + 1)?.toString() + ".", font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font10), prmsCellLeftAT)
+//            addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font12), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font12), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font12Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font10Bold), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( "Requerimiento: " + ( actividad?.requerimiento  ?: ''), font10Bold), prmsCellLeftAT)
-            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Requerimiento: " + ( actividad?.requerimiento  ?: ''), font12Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font12), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " +
-                    ( (actividad?.usuario?.titulo ?: '') + " " +  (actividad?.usuario?.nombre ?: '') + " " +  (actividad?.usuario?.apellido ?: '')), font10Bold), prmsCellLeftAT)
+                    ( (actividad?.usuario?.titulo ?: '') + " " +  (actividad?.usuario?.nombre ?: '') + " " +  (actividad?.usuario?.apellido ?: '')), font12Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
         }
