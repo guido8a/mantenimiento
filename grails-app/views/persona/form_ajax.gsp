@@ -5,13 +5,13 @@
         <g:hiddenField name="id" value="${personaInstance?.id}"/>
 
         <div class="form-group keeptogether ${hasErrors(bean: personaInstance, field: 'empresa', 'error')} required">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <span class="grupo">
-                    <label for="empresa" class="col-md-4 control-label">
+                    <label for="empresa" class="col-md-2 control-label">
                         Empresa
                     </label>
                 </span>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <g:select name="empresa" from="${bitacora.Empresa.list().sort{it.nombre}}" class="form-control" optionValue="nombre" optionKey="id" value="${personaInstance?.empresa?.id}"/>
                 </div>
             </div>

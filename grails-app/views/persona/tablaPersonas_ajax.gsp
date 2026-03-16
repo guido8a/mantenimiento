@@ -20,7 +20,7 @@
             <g:each in="${data}" var="dt" status="i">
                 <g:set var="usuario" value="${dt.prsn__id}"/>
                 <tr data-id="${dt.prsn__id}" class="${dt.prsnactv == 0 ? 'inactivo' : 'activo'}">
-                    <td style="width: 10%">${seguridad.Persona.get(dt.prsn__id)?.empresa?.nombre}</td>
+                    <td style="width: 10%">${seguridad.Persona.get(dt.prsn__id)?.empresa?.sigla}</td>
                     <td style="width: 10%">${dt.prsnlogn}</td>
                     <td style="width: 15%">${dt.prsnnmbr}</td>
                     <td style="width: 15%">${dt.prsnapll}</td>
