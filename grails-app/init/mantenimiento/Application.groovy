@@ -1,4 +1,4 @@
-package bitacora3
+package mantenimiento
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

@@ -4,11 +4,11 @@ grails:
         pattern: '/**'
     nuevoPath:
         nuevo: 'apli/'
-        nuevo2: '/home/fabricio/IdeaProjects/bitacora3/grails-app/assets/images/apli'
+        nuevo2: '/home/fabricio/IdeaProjects/mantenimiento/grails-app/assets/images/apli'
         nuevo3: '/var/bitacora'
     profile: web
     codegen:
-        defaultPackage: bitacora3
+        defaultPackage: mantenimiento
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events

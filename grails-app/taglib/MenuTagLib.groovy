@@ -1,4 +1,4 @@
-import bitacora.Alerta
+//import bitacora.Alerta
 import org.grails.core.io.ResourceLocator
 import seguridad.Prms
 
@@ -59,11 +59,11 @@ class MenuTagLib {
             strItems += '</ul>'
             strItems += '</li>'
         }
-        def alertas ="("
-        def count = Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
+//        def alertas ="("
+//        def count = Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
 
-        alertas += count
-        alertas+=")"
+//        alertas += count
+//        alertas+=")"
         def html = ""
         html += '<nav class="navbar navbar-fixed-top navbar-inverse hidden-print ">'
         html += '<div class="container" style="min-width: 600px !important;">'
@@ -171,10 +171,10 @@ class MenuTagLib {
             strItems += '</li>'
         }
 
-        def alertas = "("
-        def count = Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
-        alertas += count
-        alertas += ")"
+//        def alertas = "("
+//        def count = Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
+//        alertas += count
+//        alertas += ")"
 
         def html = "<nav class=\"navbar navbar-default navbar-fixed-top navbar-inverse\" role=\"navigation\">"
 

@@ -1,4 +1,4 @@
-package bitacora3
+package mantenimiento
 
 import groovy.io.FileType
 import seguridad.Persona

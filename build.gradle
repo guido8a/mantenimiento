@@ -11,7 +11,7 @@ buildscript {
 }
 
 version "0.1"
-group "bitacora3"
+group "mantenimiento"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
