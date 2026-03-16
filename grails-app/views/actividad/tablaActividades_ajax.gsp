@@ -34,7 +34,7 @@ th, td {
                     <td style="width: 10%">${actividad.usuario}</td>
                     <td style="width: 5%">${actividad.tpmtcdgo}</td>
                     <td style="width: 10%">${actividad?.actvfcha?.format("dd-MM-yy HH:mm")}</td>
-                    <td style="width: 60%">${actividad.actvdscr}</td>
+                    <td style="width: 60%">${actividad.actvdscr} (${actividad.actvreqm})</td>
                     <td style="width: 14%; text-align: center">
                         <a class="btn btn-xs btn-success btnEditarActividad" href="#"  title="Editar actividad" data-id="${actividad.actv__id}">
                             <i class="fa fa-edit"></i>

@@ -73,7 +73,7 @@
 
         <div class="col-md-2" style="margin-left: -10px">
             <label class="control-label text-info">Buscar Por</label>
-            <g:select name="buscarPor" class="buscarPor form-control" from="${[1: 'Descripción', 2: 'Clave']}"
+            <g:select name="buscarPor" class="buscarPor form-control" from="${[1: 'Descripción', 2: 'Clave', 3: 'Requerimiento']}"
                       optionKey="key" optionValue="value" />
         </div>
 
