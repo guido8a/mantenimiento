@@ -125,6 +125,16 @@ class ActividadController {
             params.fecha = new Date().parse("dd-MM-yyyy HH:mm", params.fecha)
         }
 
+        if(params.descripcion){
+            String cc = util.clean(str: params.descripcion)
+            params.descripcion = cc
+        }
+
+        if(params.algoritmo){
+            String cc2 = util.clean(str: params.algoritmo)
+            params.algoritmo = cc2
+        }
+
         actividad.properties = params
 
         if(!actividad.save(flush:true)){
@@ -177,5 +187,10 @@ class ActividadController {
         }
 
         return [periodos: periodos]
+    }
+
+    def showActividad_ajax(){
+        def actividad = Actividad.get(params.id)
+        return [actividad: actividad]
     }
 }

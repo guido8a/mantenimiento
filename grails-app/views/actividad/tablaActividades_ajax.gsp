@@ -40,11 +40,11 @@ th, td {
                     <td style="width: 10%">${actividad?.actvfcha?.format("dd-MM-yy HH:mm")}</td>
                     <td style="width: 63%">${actividad.actvdscr} (${actividad.actvreqm})</td>
                     <td style="width: 14%; text-align: center">
+                        <a class="btn btn-xs btn-info btnVerActividad" href="#"  title="Ver actividad" data-id="${actividad.actv__id}">
+                            <i class="fa fa-search"></i>
+                        </a>
                         <a class="btn btn-xs btn-success btnEditarActividad" href="#"  title="Editar actividad" data-id="${actividad.actv__id}">
                             <i class="fa fa-edit"></i>
-                        </a>
-                        <a class="btn btn-xs btn-info btnVerActividad" href="#"  title="Ver actividad" data-id="${actividad.actv__id}">
-                            <i class="fa fa-arrow-right"></i>
                         </a>
                         <a class="btn btn-xs btn-danger btnBorrarActividad" href="#"  title="Eliminar actividad" data-id="${actividad.actv__id}">
                             <i class="fa fa-trash"></i>
@@ -76,7 +76,8 @@ th, td {
 
     $(".btnVerActividad").click(function () {
         var id = $(this).data("id");
-        cargarVerActividades(id);
+        // cargarVerActividades(id);
+        verActividad(id);
     });
 
     cargarVerActividades();

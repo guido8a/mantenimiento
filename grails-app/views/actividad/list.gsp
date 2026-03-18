@@ -69,31 +69,13 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        %{--<div class="col-md-3">--}%
-            %{--<label class="control-label text-info">Buscar por usuario</label>--}%
-            %{--<g:hiddenField name="usuarioBusquedaId" value="${null}"/>--}%
-            %{--<g:textField name="usuarioBusquedaName" id="usuarioBusquedaName" readonly="" value="${'Todos los usuarios'}" class="form-control"/>--}%
-        %{--</div>--}%
-
-        %{--<div class="col-md-2" style="margin-top: 20px; width: 110px">--}%
-            %{--<button class="btn btn-sm btn-info" id="btnBuscarUsuario" title="Buscar usuario"><i--}%
-                    %{--class="fa fa-user"></i></button>--}%
-            %{--<button class="btn btn-sm btn-warning" id="btnBuscarTodosUsuario"--}%
-                    %{--title="Seleccionar todos los usuarios"><i class="fa fa-users"></i></button>--}%
-        %{--</div>--}%
-
-    </div>
-
-
     <div class="col-md-12" style="margin-top: 20px">
-        <div class="col-md-8" id="divActividad">
+        <div class="col-md-12" id="divActividad">
 
         </div>
+%{--        <div class="col-md-4" id="divVerActividad">--}%
 
-        <div class="col-md-4" id="divVerActividad">
-
-        </div>
+%{--        </div>--}%
     </div>
 </div>
 <script type="text/javascript">
@@ -135,6 +117,7 @@
                 var b = bootbox.dialog({
                     id      : "dlgCreateEdit",
                     title   : title + " Actividad",
+                    class   : "modal-lg",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -158,12 +141,27 @@
     } //createEdit
 
     function submitFormActividad() {
+        var descripcion = CKEDITOR.instances.descripcion.getData();
+        var algoritmo = CKEDITOR.instances.algoritmo.getData();
         var $form = $("#frmActividad");
         if ($form.valid()) {
             $.ajax({
                 type    : "POST",
                 url     : '${createLink(controller: 'actividad', action:'save_ajax')}',
-                data    : $form.serialize(),
+                // data    : $form.serialize(),
+                data    :{
+                    id: $("#id").val(),
+                    usuario: $("#usuario").val(),
+                    contrato: $("#contrato").val(),
+                    periodo: $("#periodo").val(),
+                    requerimiento: $("#requerimiento").val(),
+                    moduloSistema: $("#moduloSistema option:selected").val(),
+                    tipoMantenimiento: $("#tipoMantenimiento option:selected").val(),
+                    clave: $("#clave").val(),
+                    fecha: $("#datetimepicker2").val(),
+                    descripcion: descripcion,
+                    algoritmo: algoritmo
+                },
                 success : function (msg) {
                     var parts = msg.split("_");
                     if (parts[0]==="ok") {
@@ -305,6 +303,33 @@
         }
         return true;
     });
+
+
+    function verActividad(id){
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'actividad', action: 'showActividad_ajax')}",
+            data    : {
+                id: id
+            },
+            success : function (msg) {
+                var ac = bootbox.dialog({
+                    id      : "dlgCreateEditACT",
+                    // class   : "modal-lg",
+                    title   : "Ver actividad",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    }
 
 </script>
 </body>

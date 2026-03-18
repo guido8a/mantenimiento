@@ -28,73 +28,27 @@
 
     <div class="form-group ${hasErrors(bean: actividad, field: 'periodo', 'error')} required">
         <span class="grupo">
-            <label for="contrato" class="col-md-2 control-label text-info">
+            <label for="contrato" class="col-md-1 control-label text-info">
                 Contrato
             </label>
-            <span class="col-md-4">
+            <span class="col-md-3">
                 <g:select name="contrato" from="${contratos}" required="" class="form-control required" optionKey="id"
                           optionValue="numero" value="${actividad?.periodo?.contrato?.id?:contrato}"/>
             </span>
         </span>
         <span class="grupo">
-            <label class="col-md-2 control-label text-info">
+            <label class="col-md-1 control-label text-info">
                 Período
             </label>
-            <span class="col-md-4" id="divPeriodo">
+            <span class="col-md-3" id="divPeriodo">
 
             </span>
         </span>
-    </div>
-
-    <div class="form-group ${hasErrors(bean: actividad, field: 'tipoMantenimiento', 'error')} ">
         <span class="grupo">
-            <label for="tipoMantenimiento" class="col-md-2 control-label text-info">
-                Tipo de mantenimiento
-            </label>
-            <span class="col-md-4">
-                <g:select name="tipoMantenimiento" from="${bitacora.TipoMantenimiento.list().sort{it.descripcion}}"
-                          required="" class="form-control required" optionKey="id"
-                          optionValue="${{it.descripcion}}" value="${actividad?.tipoMantenimiento?.id}"/>
-            </span>
-        </span>
-        <span class="grupo">
-            <label for="moduloSistema" class="col-md-2 control-label text-info">
-                Módulo del sistema
-            </label>
-            <span class="col-md-4">
-                <g:select name="moduloSistema" from="${bitacora.ModuloSistema.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"
-                          optionValue="${{it.descripcion}}" value="${actividad?.moduloSistema?.id}"/>
-            </span>
-        </span>
-    </div>
-
-    %{--<div class="form-group ${hasErrors(bean: actividad, field: 'moduloSistema', 'error')} ">--}%
-        %{--<span class="grupo">--}%
-            %{--<label for="moduloSistema" class="col-md-2 control-label text-info">--}%
-                %{--Módulo del sistema--}%
-            %{--</label>--}%
-            %{--<span class="col-md-9">--}%
-                %{--<g:select name="moduloSistema" from="${bitacora.ModuloSistema.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"--}%
-                          %{--optionValue="${{it.descripcion}}" value="${actividad?.moduloSistema?.id}"/>--}%
-            %{--</span>--}%
-        %{--</span>--}%
-    %{--</div>--}%
-
-    <div class="form-group ${hasErrors(bean: actividad, field: 'requerimiento', 'error')} required">
-        <span class="grupo">
-            <label for="requerimiento" class="col-md-2 control-label text-info">
-                Requerimiento número
-            </label>
-            <span class="col-md-4">
-                <g:textField name="requerimiento" minlength="3" maxlength="15" required="" class="form-control
-                required" value="${actividad?.requerimiento}"/>
-            </span>
-        </span>
-        <span class="grupo">
-            <label for="datetimepicker2" class="col-md-2 control-label text-info">
+            <label for="datetimepicker2" class="col-md-1 control-label text-info">
                 Fecha
             </label>
-            <span class="col-md-4">
+            <span class="col-md-3">
                 <span class="grupo">
                     <input name="fecha" id='datetimepicker2' type='text' class="form-control"
                            value="${actividad?.fecha?.format("dd-MM-yyyy HH:mm") ?: new java.util.Date()?.format("dd-MM-yyyy HH:mm")}"/>
@@ -103,28 +57,33 @@
         </span>
     </div>
 
-    <div class="form-group ${hasErrors(bean: actividad, field: 'fecha', 'error')} required">
-    </div>
-
-    <div class="form-group ${hasErrors(bean: actividad, field: 'descripcion', 'error')} ">
+    <div class="form-group ${hasErrors(bean: actividad, field: 'tipoMantenimiento', 'error')} ">
         <span class="grupo">
-            <label for="descripcion" class="col-md-2 control-label text-info">
-                Descripción
+            <label for="tipoMantenimiento" class="col-md-1 control-label text-info">
+                Tipo de mantenimiento
             </label>
-            <span class="col-md-9">
-                <g:textArea name="descripcion" minlength="3" maxlength="1024"  class="form-control required" required=""
-                            value="${actividad?.descripcion}"  style="resize: none; height: 100px"/>
+            <span class="col-md-3">
+                <g:select name="tipoMantenimiento" from="${bitacora.TipoMantenimiento.list().sort{it.descripcion}}"
+                          required="" class="form-control required" optionKey="id"
+                          optionValue="${{it.descripcion}}" value="${actividad?.tipoMantenimiento?.id}"/>
             </span>
         </span>
-    </div>
-
-    <div class="form-group ${hasErrors(bean: actividad, field: 'algoritmo', 'error')} ">
         <span class="grupo">
-            <label for="algoritmo" class="col-md-2 control-label text-info">
-                Algoritmo
+            <label for="moduloSistema" class="col-md-1 control-label text-info">
+                Módulo del sistema
             </label>
-            <span class="col-md-9">
-                <g:textArea name="algoritmo" minlength="3" maxlength="1024"  class="form-control" value="${actividad?.algoritmo}"  style="resize: none; height: 100px"/>
+            <span class="col-md-3">
+                <g:select name="moduloSistema" from="${bitacora.ModuloSistema.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"
+                          optionValue="${{it.descripcion}}" value="${actividad?.moduloSistema?.id}"/>
+            </span>
+        </span>
+        <span class="grupo">
+            <label for="requerimiento" class="col-md-1 control-label text-info">
+                Requerimiento número
+            </label>
+            <span class="col-md-3">
+                <g:textField name="requerimiento" minlength="3" maxlength="15" required="" class="form-control
+                required" value="${actividad?.requerimiento}"/>
             </span>
         </span>
     </div>
@@ -140,6 +99,26 @@
         </span>
     </div>
 
+    <div class="form-group ${hasErrors(bean: actividad, field: 'descripcion', 'error')}">
+        <label for="descripcion" class="col-md-2 control-label text-info" style="font-size: 14px">
+            Descripción
+        </label>
+        <span class="grupo">
+            <span class="col-md-12">
+                <textarea id="descripcion" class="editor" rows="60" cols="80">${actividad?.descripcion}</textarea>
+            </span>
+        </span>
+    </div>
+    <div class="form-group ${hasErrors(bean: actividad, field: 'algoritmo', 'error')}">
+        <label for="algoritmo" class="col-md-2 control-label text-info" style="font-size: 14px">
+            Algoritmo
+        </label>
+        <span class="grupo">
+            <span class="col-md-12">
+                <textarea id="algoritmo" class="editor" rows="60" cols="80">${actividad?.algoritmo}</textarea>
+            </span>
+        </span>
+    </div>
 </g:form>
 
 <script type="text/javascript">
@@ -151,20 +130,20 @@
     cargarPeriodos();
 
     $("#contrato").change(function () {
-       cargarPeriodos()
+        cargarPeriodos()
     });
 
     function cargarPeriodos(){
         $.ajax({
-           type: 'POST',
-           url :'${createLink(controller: 'actividad', action: 'periodo_ajax')}',
-           data: {
-               contrato: $("#contrato option:selected").val(),
-               actividad: '${actividad?.id}'
-           },
-           success: function (msg) {
-               $("#divPeriodo").html(msg)
-           }
+            type: 'POST',
+            url :'${createLink(controller: 'actividad', action: 'periodo_ajax')}',
+            data: {
+                contrato: $("#contrato option:selected").val(),
+                actividad: '${actividad?.id}'
+            },
+            success: function (msg) {
+                $("#divPeriodo").html(msg)
+            }
         });
     }
 
@@ -182,6 +161,33 @@
     $(".btnBuscarUsuarioActividad").click(function () {
         buscarUsuario(1);
     });
+
+    CKEDITOR.replace( 'descripcion', {
+        height: "140px",
+        toolbar                 : [
+            ['Font', 'FontSize', 'Scayt', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+            ['Find', 'Replace', '-', 'SelectAll'],
+            ['Table', 'HorizontalRule', 'PageBreak'],
+            [ '-', 'TextColor', 'BGColor', '-', 'About'],
+            '/',
+            ['Bold', 'Italic', 'Underline', /*'Strike', */'Subscript', 'Superscript'/*, '-', 'RemoveFormat'*/],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
+        ]
+    });
+
+    CKEDITOR.replace( 'algoritmo', {
+        height: "140px",
+        toolbar                 : [
+            ['Font', 'FontSize', 'Scayt', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+            ['Find', 'Replace', '-', 'SelectAll'],
+            ['Table', 'HorizontalRule', 'PageBreak'],
+            [ '-', 'TextColor', 'BGColor', '-', 'About'],
+            '/',
+            ['Bold', 'Italic', 'Underline', /*'Strike', */'Subscript', 'Superscript'/*, '-', 'RemoveFormat'*/],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
+        ]
+    });
+
 
     var validator = $("#frmActividad").validate({
         errorClass     : "help-block",

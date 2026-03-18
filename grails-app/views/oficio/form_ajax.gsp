@@ -16,23 +16,9 @@
                 Período
             </label>
             <span class="col-md-3" id="divPeriodos">
-%{--                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required="" class="form-control required" optionKey="id"--}%
-%{--                          optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" value="${oficio?.periodo?.id}"/>--}%
             </span>
         </span>
     </div>
-
-%{--    <div class="form-group ${hasErrors(bean: oficio, field: 'periodo', 'error')} required">--}%
-%{--        <span class="grupo">--}%
-%{--            <label for="periodo" class="col-md-2 control-label text-info">--}%
-%{--                Período--}%
-%{--            </label>--}%
-%{--            <span class="col-md-9">--}%
-%{--                <g:select name="periodo" from="${bitacora.Periodo.list()?.sort{it.numero}}" required="" class="form-control required" optionKey="id"--}%
-%{--                          optionValue="${{it.fechads?.format("dd-MM-yyyy") + " - " + it.fechahs?.format("dd-MM-yyyy")}}" value="${oficio?.periodo?.id}"/>--}%
-%{--            </span>--}%
-%{--        </span>--}%
-%{--    </div>--}%
 
     <div class="form-group ${hasErrors(bean: oficio, field: 'numero', 'error')} ${hasErrors(bean: oficio, field: 'fecha', 'error')} required">
         <span class="grupo">

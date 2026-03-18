@@ -40,8 +40,8 @@ class Actividad implements Auditable{
         periodo(blank: true, nullable: true)
         requerimiento(size: 0..15, blank: true, nullable: true)
         fecha(blank: true, nullable: true)
-        descripcion(size: 0..512, blank: false, nullable: false)
-        algoritmo(size: 0..512, blank: true, nullable: true)
+        descripcion(blank: false, nullable: false)
+        algoritmo(blank: true, nullable: true)
         clave(size: 0..63, blank: true, nullable: true)
     }
 
