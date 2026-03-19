@@ -141,14 +141,12 @@
     } //createEdit
 
     function submitFormActividad() {
-        var descripcion = CKEDITOR.instances.descripcion.getData();
         var algoritmo = CKEDITOR.instances.algoritmo.getData();
         var $form = $("#frmActividad");
         if ($form.valid()) {
             $.ajax({
                 type    : "POST",
                 url     : '${createLink(controller: 'actividad', action:'save_ajax')}',
-                // data    : $form.serialize(),
                 data    :{
                     id: $("#id").val(),
                     usuario: $("#usuario").val(),
@@ -159,7 +157,7 @@
                     tipoMantenimiento: $("#tipoMantenimiento option:selected").val(),
                     clave: $("#clave").val(),
                     fecha: $("#datetimepicker2").val(),
-                    descripcion: descripcion,
+                    descripcion: $("#descripcion").val(),
                     algoritmo: algoritmo
                 },
                 success : function (msg) {
