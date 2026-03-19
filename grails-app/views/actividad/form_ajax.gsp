@@ -163,26 +163,24 @@
     });
 
     CKEDITOR.replace( 'descripcion', {
-        height: "140px",
+        height: "120px",
         toolbar                 : [
-            ['Font', 'FontSize', 'Scayt', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
-            ['Find', 'Replace', '-', 'SelectAll'],
+            ['Font', 'FontSize', 'Scayt', '-'],
             ['Table', 'HorizontalRule', 'PageBreak'],
-            [ '-', 'TextColor', 'BGColor', '-', 'About'],
-            '/',
+            [ '-', 'TextColor', 'BGColor', '-'],
             ['Bold', 'Italic', 'Underline', /*'Strike', */'Subscript', 'Superscript'/*, '-', 'RemoveFormat'*/],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'link']
         ]
     });
 
     CKEDITOR.replace( 'algoritmo', {
         height: "140px",
         toolbar                 : [
-            ['Font', 'FontSize', 'Scayt', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
-            ['Find', 'Replace', '-', 'SelectAll'],
-            ['Table', 'HorizontalRule', 'PageBreak'],
+            ['Font', 'FontSize', 'Scayt', '-', 'Undo', 'Redo'],
+//            ['Find', 'Replace', '-', 'SelectAll'],
+            ['HorizontalRule'],
             [ '-', 'TextColor', 'BGColor', '-', 'About'],
-            '/',
+//            '/',
             ['Bold', 'Italic', 'Underline', /*'Strike', */'Subscript', 'Superscript'/*, '-', 'RemoveFormat'*/],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
         ]
