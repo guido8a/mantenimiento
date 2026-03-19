@@ -93,7 +93,7 @@
                 Palabras Clave
             </label>
             <span class="col-md-11">
-                <g:textField name="clave" minlength="3" maxlength="63"  class="form-control" value="${actividad?.clave}"/>
+                <g:textField name="clave" minlength="3" maxlength="63" required=""  class="form-control required" value="${actividad?.clave}"/>
             </span>
         </span>
     </div>
