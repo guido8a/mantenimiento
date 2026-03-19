@@ -2,7 +2,9 @@ package reportes
 
 import bitacora.Actividad
 import bitacora.Cambio
+import bitacora.Contrato
 import bitacora.Oficio
+import bitacora.Periodo
 import bitacora.Responsable
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter
@@ -1798,6 +1800,160 @@ class ReportesController {
         byte[] b = baos.toByteArray();
 
         encabezadoYnumeracion(b, name, "", "${name}.pdf", "", empresa, "", "", "", "", 2)
+    }
+
+
+    def buscarActividades_ajax(){
+
+    }
+
+    def reporteActividades(){
+
+        def contrato = Contrato.get(params.id)
+        def periodo = Periodo.findAllByContrato(contrato)
+        def actividades = Actividad.findAllByPeriodoInList(periodo)
+        def modulos = []
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        def name = "reporteActividades_${contrato?.numero}"
+//        def name = "informe_${oficio?.periodo?.numero}"
+        com.lowagie.text.Font titleFont = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 14, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font titleFont3 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font titleFont3Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font titleFont2 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 16, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font10 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font12 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.NORMAL);
+        com.lowagie.text.Font font10Bold= new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 10, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font12Bold= new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font11 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.BOLD);
+        com.lowagie.text.Font font11Normal = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 11, com.lowagie.text.Font.NORMAL);
+
+        def paramsHead = [border: Color.BLACK, align: Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE]
+        def prmsCellLeft = [border: Color.WHITE, valign: Element.ALIGN_MIDDLE]
+        def prmsCellLeftAT = [border: Color.WHITE, align : Element.ALIGN_JUSTIFIED, valign: Element.ALIGN_TOP]
+        def prmsCellRight = [border: Color.BLACK, align : Element.ALIGN_RIGHT, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
+        def prmsCellCenter = [border: Color.BLACK, align : Element.ALIGN_CENTER, valign: Element.ALIGN_MIDDLE, bordeBot: "1"]
+
+        Document document
+        document = new Document(PageSize.A4);
+        document.setMargins(70, 70, 100, 50);
+        def pdfw = PdfWriter.getInstance(document, baos);
+
+        document.open();
+        document.addTitle("informe_" + new Date().format("dd_MM_yyyy"));
+        document.addSubject("Generado por el sistema Mantenimiento");
+        document.addKeywords("reporte, mantenimiento ,informe");
+        document.addAuthor("Mantenimiento");
+        document.addCreator("Tedein SA");
+
+        Paragraph headersTitulo = new Paragraph();
+//        addEmptyLine(headersTitulo, 1)
+        headersTitulo.setAlignment(Element.ALIGN_CENTER);
+//        headersTitulo.add(new Paragraph( '', titleFont2));
+//        addEmptyLine(headersTitulo, 2);
+        headersTitulo.add(new Paragraph("INFORME TÉCNICO N° " + (oficio?.periodo?.numero ?: ''), titleFont));
+        addEmptyLine(headersTitulo, 1);
+        headersTitulo.add(new Paragraph("Contrato N°: " + (oficio?.contrato?.numero ?: ''), titleFont3));
+//        headersTitulo.add(new Paragraph("Quito, " + fechaConFormato(new Date(), "dd MMMM yyyy").toUpperCase(), titleFont3));
+        addEmptyLine(headersTitulo, 1);
+        headersTitulo.add(new Paragraph(oficio?.contrato?.objeto, titleFont3Normal));
+        addEmptyLine(headersTitulo, 1);
+        headersTitulo.add(new Paragraph("Informe técnico del período del " + fechaConFormato(oficio?.periodo?.fechads, "dd MMMM yyyy") + " al " + fechaConFormato(oficio?.periodo?.fechahs, "dd MMMM yyyy"), font11));
+        addEmptyLine(headersTitulo, 1);
+
+        document.add(headersTitulo)
+
+        def tablaModulos = new PdfPTable(2);
+        tablaModulos.setWidthPercentage(100);
+        tablaModulos.setWidths(arregloEnteros([1, 99]))
+
+        addCellTabla(tablaModulos, new Paragraph("", font10), prmsCellLeft)
+        def lineasVacias = oficio?.periodo.lineas
+        if(lineasVacias > 0) {
+            tablaModulos.setSpacingBefore(20*(lineasVacias/2))
+        }
+
+        addCellTabla(tablaModulos, new Paragraph("Soporte a usuarios en el uso de módulos de:", font12), prmsCellLeft)
+        addCellTabla(tablaModulos, new Paragraph(" ", font12), prmsCellLeft)
+        addCellTabla(tablaModulos, new Paragraph(" ", font12), prmsCellLeft)
+        actividades.each { a->
+            modulos.add(a?.moduloSistema)
+        }
+        modulos.unique().each {
+            addCellTabla(tablaModulos, new Paragraph("", font12), prmsCellLeft)
+            addCellTabla(tablaModulos, new Paragraph("          * " + (it?.descripcion ?: ''), font12), prmsCellLeft)
+        }
+
+        def tablaTexto = new PdfPTable(1);
+        tablaTexto.setWidthPercentage(100);
+        tablaTexto.setWidths(arregloEnteros([100]))
+
+        if(lineasVacias > 0) {
+            tablaTexto.setSpacingBefore(20*(lineasVacias/2))
+        } else {
+            tablaTexto.setSpacingBefore(20)
+        }
+
+        addCellTabla(tablaTexto, new Paragraph("Actividades realizadas de soporte:", font12Bold), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+        addCellTabla(tablaTexto, new Paragraph("", font11Normal), prmsCellLeft)
+
+        def tablaActividades = new PdfPTable(2);
+        tablaActividades.setWidthPercentage(100f);
+        tablaActividades.setWidths(arregloEnteros([5, 95]))
+
+        actividades.eachWithIndex { actividad, q ->
+            addCellTabla(tablaActividades, new Paragraph((q + 1)?.toString() + ".", font10), prmsCellLeftAT)
+//            addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( ( actividad?.descripcion  ?: ''), font12), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font12), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Fecha: " + ( actividad?.fecha?.format("dd-MM-yyyy")  ?: ''), font12Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Requerimiento: " + ( actividad?.requerimiento  ?: ''), font12Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font12), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " +
+                    ( (actividad?.usuario?.titulo ?: '') + " " +  (actividad?.usuario?.nombre ?: '') + " " +  (actividad?.usuario?.apellido ?: '')), font12Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
+        }
+
+        println "lineas vacías: $lineasVacias"
+        if(lineasVacias > 0) {
+            lineasVacias.times {
+                addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+                addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+            }
+        } else {
+            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+        }
+
+        addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
+        addCellTabla(tablaActividades, new Paragraph( "Atentamente, ", font10), prmsCellLeftAT)
+
+
+        def tablaFirma = new PdfPTable(2);
+        tablaFirma.setWidthPercentage(100);
+        tablaFirma.setWidths(arregloEnteros([5,95]))
+        tablaFirma.setSpacingBefore(60)
+        addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("Ing. Guido Ochoa Moreno Msc.", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("Gerente General", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("", font11), prmsCellLeft)
+        addCellTabla(tablaFirma, new Paragraph("TEDEIN S.A.", font11Normal), prmsCellLeft)
+
+        document.add(tablaModulos)
+        document.add(tablaTexto)
+        document.add(tablaActividades)
+        document.add(tablaFirma)
+
+        document.close();
+        pdfw.close()
+        byte[] b = baos.toByteArray();
+
+        encabezadoYnumeracion(b, name, "", "${name}.pdf", "", "", "", "", "", "", 1)
     }
 
 }
