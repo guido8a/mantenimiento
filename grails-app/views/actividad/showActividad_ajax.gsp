@@ -64,6 +64,17 @@
     </div>
 </g:if>
 
+<g:if test="${actividad?.clave}">
+    <div class="row">
+        <div class="col-md-2 text-info">
+            Palabras clave
+        </div>
+        <div class="col-md-10">
+            ${actividad?.clave}
+        </div>
+    </div>
+</g:if>
+
 <div class="row">
     <div class="col-md-12 text-info">
         Descripción
