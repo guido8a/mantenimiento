@@ -40,7 +40,7 @@ class ActividadController {
             tipoTx = " and actv.tpmt__id = ${tipo?.id} "
         }
 
-        def select  =  " select actv__id, usronmbr||' '||usroapll usuario, tpmtcdgo, actvfcha, actvdscr, actvreqm from actv, tpmt, usro "
+        def select  =  "select actv__id, usronmbr||' '||usroapll usuario, tpmtcdgo, actvfcha, actvdscr, actvreqm from actv, tpmt, usro "
         def txwh = " where tpmt.tpmt__id = actv.tpmt__id and usro.usro__id = actv.usro__id and " +
                 "${bsca} ilike '%${params.criterio}%' ${usuarioTx} ${periodoTx} ${tipoTx} "
         sqlTx = "${select} ${txwh} order by actvfcha limit 50 ".toString()
