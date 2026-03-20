@@ -2,10 +2,10 @@
     <div class="col-md-12">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-            <div class="col-md-1">
-                <label>Contrato</label>
+            <div class="col-md-8">
+                <label>Palabra clave</label>
             </div>
-            <g:select name="contrato" from="${bitacora.Contrato.list().sort{it.numero}}" optionKey="id" optionValue="${{it.numero}}" class="form-control" />
+            <g:select name="clave" from="${claves}"  optionKey="${{it.palabra}}" optionValue="${{it.palabra}}" class="form-control" />
         </div>
     </div>
 </div>
