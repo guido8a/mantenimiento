@@ -13,11 +13,6 @@
             <i class="fa fa-file"></i> Nuevo contrato
         </a>
     </div>
-    <div class="btn-group">
-        <a href="#" class="btn btn-info" id="btnImprimirBusqueda">
-            <i class="fa fa-print"></i> Imprimir
-        </a>
-    </div>
 </div>
 
 <div style="margin-top: 30px; min-height: 400px">

@@ -193,4 +193,38 @@ class ActividadController {
         def actividad = Actividad.get(params.id)
         return [actividad: actividad]
     }
+
+    def reporte(){
+        def datos;
+        def claves = []
+        def cn = dbConnectionService.getConnection()
+        def sql = "SELECT palabra, COUNT(*) as cantidad FROM ( " +
+                "SELECT unnest(string_to_array(lower( replace(actvclve, ' de ', ' ')), ' ')) as palabra from actv ) as palabras " +
+                "GROUP BY palabra having count(*) > 1 ORDER BY palabra;"
+        datos = cn.rows(sql)
+
+        datos.each {
+            claves += it
+        }
+
+        return [claves: claves]
+    }
+
+    def tablaReporteActividades_ajax(){
+        def actividades = Actividad.findAllByClaveIlike('%' + params.clave + '%').sort{it.periodo}
+        return [actividades: actividades]
+    }
+
+    def ocurrencias_ajax(){
+
+        println("--> " + params)
+
+        def cn = dbConnectionService.getConnection()
+        def sql = "SELECT palabra, COUNT(*) as cantidad FROM ( " +
+                "SELECT unnest(string_to_array(lower( replace(actvclve, ' de ', ' ')), ' ')) as palabra from actv where actvclve ilike ('%' + params.clave +'%')) as palabras " +
+                "GROUP BY palabra ORDER BY palabra;"
+        def datos = cn.rows(sql)
+
+        println("daaaa " + datos)
+    }
 }
