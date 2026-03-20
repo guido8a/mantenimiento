@@ -20,7 +20,7 @@
             <div class="col-md-1">
                 <label>Ocurrencias</label>
             </div>
-            <g:textField name="ocurrencias" value="" class="form-control" disabled=""/>
+            <g:textField name="ocurrencias" value="${''}" class="form-control" disabled=""/>
         </div>
         <div class="col-md-2" style="margin-top: 20px">
             <a href="#" class="btn btn-info" id="btnBuscarActividades">
@@ -97,7 +97,7 @@
                 clave: $("#clave").val()
             },
             success : function (msg) {
-                $("#ocurrencias").html(msg);
+                $("#ocurrencias").val(msg);
             }
         });
     }

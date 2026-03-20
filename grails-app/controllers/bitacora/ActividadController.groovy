@@ -219,12 +219,24 @@ class ActividadController {
 
         println("--> " + params)
 
+
+
+        def datos;
+        def cantidad
         def cn = dbConnectionService.getConnection()
         def sql = "SELECT palabra, COUNT(*) as cantidad FROM ( " +
-                "SELECT unnest(string_to_array(lower( replace(actvclve, ' de ', ' ')), ' ')) as palabra from actv where actvclve ilike ('%' + params.clave +'%')) as palabras " +
-                "GROUP BY palabra ORDER BY palabra;"
-        def datos = cn.rows(sql)
+                "SELECT unnest(string_to_array(lower( replace(actvclve, ' de ', ' ')), ' ')) as palabra from actv ) as palabras " +
+                "GROUP BY palabra having count(*) > 1 ORDER BY palabra;"
+        datos = cn.rows(sql)
 
-        println("daaaa " + datos)
+        datos.each {
+            if(it.palabra == params.clave){
+                cantidad = it.cantidad
+            }
+        }
+
+        println("datos " + cantidad)
+
+       render "${cantidad}"
     }
 }
