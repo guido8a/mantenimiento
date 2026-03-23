@@ -1861,7 +1861,7 @@ class ReportesController {
         headersTitulo.setAlignment(Element.ALIGN_CENTER);
         headersTitulo.add(new Paragraph("REPORTE DE ACTIVIDADES", titleFont));
         addEmptyLine(headersTitulo, 1);
-        headersTitulo.add(new Paragraph("Actividades asociadas al término:  ${params.clave}", titleFont3));
+        headersTitulo.add(new Paragraph("Actividades asociadas al término:  \"${params.clave}\"", titleFont3));
         addEmptyLine(headersTitulo, 1);
         headersTitulo.add(new Paragraph("Reporte generado el " + new Date().format("dd-MM-yyyy"), titleFont3));
         addEmptyLine(headersTitulo, 1);
