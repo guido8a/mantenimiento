@@ -1824,7 +1824,7 @@ class ReportesController {
 
     def reporteActividades(){
 
-        def actividades = Actividad.findAllByClaveIlike('%' + params.clave + '%')
+        def actividades = Actividad.findAllByClaveIlike('%' + params.clave + '%').sort{it.fecha}
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         def name = "reporteActividades"
