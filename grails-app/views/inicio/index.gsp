@@ -120,7 +120,7 @@
         <div class="ui-corner-all item fuera">
             <div class="ui-corner-all item">
                 <div class="imagen">
-                    <asset:image src="apli/reporte.jpeg" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
+                    <asset:image src="apli/cambios.jpeg" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
 %{--                    <img src="${resource(dir: 'images', file: 'agenda.png')}" width="100%" height="100%"/>--}%
                 </div>
 
@@ -130,7 +130,7 @@
         </div>
         </a>
 
-        <a href= "${createLink(controller:'usuario', action: 'list')}" style="text-decoration: none">
+        <a href= "${createLink(controller:'cambio', action: 'list')}" style="text-decoration: none">
         <div class="ui-corner-all item3 fuera">
             <div class="ui-corner-all item3">
                 <div class="imagen2">
@@ -138,7 +138,21 @@
                 </div>
 
                 <div class="texto">
-                    <span class="text-success"><strong>Usuarios del sistema</strong><br/>Soporte técnico</span>
+                    <span class="text-success"><strong>Cambios al sistema</strong><br/>Mejoras</span>
+                </div>
+            </div>
+        </div>
+        </a>
+
+        <a href= "${createLink(controller:'actividad', action: 'reporte')}" style="text-decoration: none">
+        <div class="ui-corner-all item3 fuera">
+            <div class="ui-corner-all item3">
+                <div class="imagen2">
+                    <asset:image src="apli/reporte.jpeg" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
+                </div>
+
+                <div class="texto">
+                    <span class="text-success"><strong>Reportes del sistema</strong><br/>Palabras Clave</span>
                 </div>
             </div>
         </div>
