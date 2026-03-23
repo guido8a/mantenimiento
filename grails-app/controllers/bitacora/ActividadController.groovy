@@ -211,7 +211,7 @@ class ActividadController {
     }
 
     def tablaReporteActividades_ajax(){
-        def actividades = Actividad.findAllByClaveIlike('%' + params.clave + '%').sort{it.periodo}
+        def actividades = Actividad.findAllByClaveIlike('%' + params.clave + '%').sort{it.fecha}
         return [actividades: actividades]
     }
 

@@ -561,7 +561,7 @@ class ReportesController {
     def reporteInforme() {
 
         def oficio = Oficio.get(params.id)
-        def actividades = Actividad.findAllByPeriodo(oficio?.periodo)
+        def actividades = Actividad.findAllByPeriodo(oficio?.periodo).sort{it.fecha}
         def modulos = []
 
 //        def baos = new ByteArrayOutputStream()
