@@ -34,9 +34,9 @@
                       class="form-control" optionKey="id"  optionValue="numero"/>
         </div>
         <div class="col-md-2" style="margin-left: -20px; width: 120px">
-            <label for="contratoBusqueda" class="col-md-2 control-label text-info">
-                Período
-            </label>
+%{--            <label for="contratoBusqueda" class="col-md-2 control-label text-info">--}%
+%{--                Período--}%
+%{--            </label>--}%
             <div id="divPeriodoBusqueda">
 
             </div>
