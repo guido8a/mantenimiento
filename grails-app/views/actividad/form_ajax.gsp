@@ -104,7 +104,7 @@
         </label>
         <span class="grupo">
             <span class="col-md-11">
-                <g:textArea name="descripcion" class="form-control"  value="${actividad?.descripcion}" style="resize: none; height: 150px"/>
+                <g:textArea name="descripcion" class="form-control"  value="${actividad?.descripcion}" style="resize: none; height: 120px"/>
             </span>
         </span>
     </div>
