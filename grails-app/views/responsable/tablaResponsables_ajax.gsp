@@ -15,22 +15,22 @@ th, td {
         <g:if test="${responsables.size() > 0}">
             <g:each in="${responsables}" var="responsable">
                 <tr style="width: 100%">
-                    <td style="width: 15%">
+                    <td style="width: 10%">
                         ${responsable?.contrato?.numero}
                     </td>
                     <td style="width: 20%">
                         ${responsable?.apellido}
                     </td>
-                    <td style="width: 20%">
+                    <td style="width: 15%">
                         ${responsable?.nombre}
                     </td>
                     <td style="width: 20%">
                         ${responsable?.mail}
                     </td>
-                    <td style="width: 15%">
+                    <td style="width: 10%">
                         ${responsable?.fechaInicio?.format("dd-MM-yyyy")}
                     </td>
-                    <td style="width: 15%">
+                    <td style="width: 10%">
                         ${responsable?.fechaFin?.format("dd-MM-yyyy")}
                     </td>
                     <td style="width: 10%; text-align: center">

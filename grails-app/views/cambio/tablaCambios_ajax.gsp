@@ -23,9 +23,6 @@
                     <td style="width: 10%">${cambio?.fecha?.format("dd-MM-yyyy")}</td>
                     <td style="width: 37%">${cambio?.descripcion}</td>
                     <td style="width: 22%; text-align: center">
-                        <a class="btn btn-xs btnVercambio btn-info" href="#"  title="Ver" data-id="${cambio?.id}">
-                            <i class="fa fa-search"></i>
-                        </a>
                         <a class="btn btn-xs btnEditarCambio btn-success" href="#" title="Editar" data-id="${cambio?.id}">
                             <i class="fa fa-edit"></i>
                         </a>

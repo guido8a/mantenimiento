@@ -37,7 +37,7 @@ th, td {
                         <a class="btn btn-xs btnCargarLogo btn-info" href="#" title="Cargar logo" data-id="${empresa.id}">
                             <i class="fa fa-image"></i>
                         </a>
-                        <a class="btn btn-xs btn-delete btn-danger" href="#" title="Eliminar" data-id="${empresa.id}">
+                        <a class="btn btn-xs btnBorrarEmpresa btn-danger" href="#" title="Eliminar" data-id="${empresa.id}">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
@@ -97,7 +97,7 @@ th, td {
         var id = $(this).data("id");
         createEditRow(id);
     });
-    $(".btn-delete").click(function () {
+    $(".btnBorrarEmpresa").click(function () {
         var id = $(this).data("id");
         deleteRow(id);
     });
