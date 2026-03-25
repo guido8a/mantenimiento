@@ -19,8 +19,7 @@
 <body>
 
 <div class="row">
-    %{--<div class="col-md-12" >--}%
-    %{--<div>--}%
+
         <div class="col-md-2" style="margin-top: 20px" >
             <a href="#" class="btn btn-info btnCrearActividad" style="width: 140px"><i class="fa fa-file"></i>  Nueva actividad</a>
         </div>
@@ -29,19 +28,14 @@
             <label for="contratoBusqueda" class="col-md-2 control-label text-info">
                 Contrato
             </label>
-            %{--<g:select name="contratoBusqueda" from="${bitacora.Contrato.list()?.sort{it.numero}}" required="" --}%
             <g:select name="contratoBusqueda" from="${bitacora.Contrato.list([order: 'numero'])}" required=""
                       class="form-control" optionKey="id"  optionValue="numero"/>
         </div>
         <div class="col-md-2" style="margin-left: -20px; width: 120px">
-%{--            <label for="contratoBusqueda" class="col-md-2 control-label text-info">--}%
-%{--                Período--}%
-%{--            </label>--}%
             <div id="divPeriodoBusqueda">
 
             </div>
         </div>
-
 
         <div class="col-md-2 text-info" style="margin-left: -0px">
             <label class="control-label text-info">Buscar por tipo</label>
@@ -65,7 +59,6 @@
             <i class="fa fa-search"></i></button>
         <button class="btn btn-sm btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i></button>
     </div>
-    %{--</div>--}%
 </div>
 
 <div class="row">
@@ -73,9 +66,6 @@
         <div class="col-md-12" id="divActividad">
 
         </div>
-%{--        <div class="col-md-4" id="divVerActividad">--}%
-
-%{--        </div>--}%
     </div>
 </div>
 <script type="text/javascript">
@@ -313,7 +303,7 @@
             success : function (msg) {
                 var ac = bootbox.dialog({
                     id      : "dlgCreateEditACT",
-                    // class   : "modal-lg",
+                    class   : "modal-lg",
                     title   : "Ver actividad",
                     message : msg,
                     buttons : {
