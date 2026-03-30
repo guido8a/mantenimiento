@@ -59,21 +59,21 @@
         <div class="col-md-1"></div>
         <span class="grupo">
             <span class="col-md-3">
+                <label for="moduloSistema" class="control-label text-info">
+                    Módulo del sistema
+                </label>
+                <g:select name="moduloSistema" from="${bitacora.ModuloSistema.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"
+                          optionValue="${{it.descripcion}}" value="${actividad?.moduloSistema?.id}"/>
+            </span>
+        </span>
+        <span class="grupo">
+            <span class="col-md-3">
                 <label for="tipoMantenimiento" class="control-label text-info">
                     Tipo de mantenimiento
                 </label>
                 <g:select name="tipoMantenimiento" from="${bitacora.TipoMantenimiento.list().sort{it.descripcion}}"
                           required="" class="form-control required" optionKey="id"
                           optionValue="${{it.descripcion}}" value="${actividad?.tipoMantenimiento?.id}"/>
-            </span>
-        </span>
-        <span class="grupo">
-            <span class="col-md-3">
-                <label for="moduloSistema" class="control-label text-info">
-                    Módulo del sistema
-                </label>
-                <g:select name="moduloSistema" from="${bitacora.ModuloSistema.list().sort{it.descripcion}}" required="" class="form-control required" optionKey="id"
-                          optionValue="${{it.descripcion}}" value="${actividad?.moduloSistema?.id}"/>
             </span>
         </span>
         <span class="grupo">

@@ -567,7 +567,7 @@ class ReportesController {
 //        def baos = new ByteArrayOutputStream()
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        def name = "informe ${oficio?.periodo?.fechads.format('dd-MM-yy')} al ${oficio?.periodo?.fechahs.format('dd-MM-yy')}"
+        def name = "informe_${oficio?.numero}"
 //        def name = "informe_${oficio?.periodo?.numero}"
         com.lowagie.text.Font titleFont = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 14, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font titleFont3 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
