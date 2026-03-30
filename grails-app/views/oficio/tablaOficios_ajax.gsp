@@ -19,7 +19,7 @@ th, td {
                         ${oficio.contrato?.numero}
                     </td>
                     <td style="width: 15%">
-                        ${(oficio?.periodo?.fechads?.format("dd-MM-yyyy") ?: '') + " - " + (oficio?.periodo?.fechads?.format("dd-MM-yyyy") ?: '')}
+                        ${(oficio?.periodo?.fechads?.format("dd-MM-yyyy") ?: '') + " - " + (oficio?.periodo?.fechahs?.format("dd-MM-yyyy") ?: '')}
                     </td>
                     <td style="width: 20%">
                         ${oficio?.numero}

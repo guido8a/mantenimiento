@@ -7,7 +7,7 @@ class Oficio {
     String numero
     Date fecha
     String texto
-    String lineas
+    int lineas
 
     static mapping = {
         table 'ofco'
