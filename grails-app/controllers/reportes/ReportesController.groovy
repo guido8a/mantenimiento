@@ -663,6 +663,8 @@ class ReportesController {
             addCellTabla(tablaActividades, new Paragraph( " ", font10), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Requerimiento: " + ( actividad?.requerimiento  ?: ''), font12Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( " ", font12), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( "Módulo: " + ( actividad?.moduloSistema?.descripcion  ?: ''), font12Bold), prmsCellLeftAT)
+            addCellTabla(tablaActividades, new Paragraph( " ", font12), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( "Solicitado por: " +
                     ( (actividad?.usuario?.titulo ?: '') + " " +  (actividad?.usuario?.nombre ?: '') + " " +  (actividad?.usuario?.apellido ?: '')), font12Bold), prmsCellLeftAT)
             addCellTabla(tablaActividades, new Paragraph( " ", font10Bold), prmsCellLeftAT)
