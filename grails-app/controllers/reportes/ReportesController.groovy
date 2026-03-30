@@ -567,7 +567,7 @@ class ReportesController {
 //        def baos = new ByteArrayOutputStream()
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        def name = "informe_${oficio?.numero}"
+        def name = "informe_${oficio?.periodo?.numero}"
 //        def name = "informe_${oficio?.periodo?.numero}"
         com.lowagie.text.Font titleFont = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 14, com.lowagie.text.Font.BOLD);
         com.lowagie.text.Font titleFont3 = new com.lowagie.text.Font(com.lowagie.text.Font.TIMES_ROMAN, 12, com.lowagie.text.Font.BOLD);
@@ -592,7 +592,7 @@ class ReportesController {
         def pdfw = PdfWriter.getInstance(document, baos);
 
         document.open();
-        document.addTitle("informe_" + new Date().format("dd_MM_yyyy"));
+        document.addTitle("informe__${oficio?.periodo?.numero}");
         document.addSubject("Generado por el sistema Mantenimiento");
         document.addKeywords("reporte, mantenimiento ,informe");
         document.addAuthor("Mantenimiento");
