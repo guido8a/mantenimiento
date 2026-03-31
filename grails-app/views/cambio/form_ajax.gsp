@@ -13,7 +13,9 @@
                     </label>
                 </span>
                 <div class="col-md-8">
-                    <g:select name="responsable" from="${bitacora.Responsable.list()?.sort{it.apellido}}" class="form-control" optionKey="id" optionValue="${{it.apellido + " " + it.nombre}}" value="${cambio?.responsable?.id}"/>
+                    <g:select name="responsable" from="${bitacora.Responsable.list()?.sort{it.apellido}}"
+                              class="form-control" optionKey="id"
+                              optionValue="${{it.apellido + " " + it.nombre}}" value="${cambio?.responsable?.id}"/>
                 </div>
             </div>
 

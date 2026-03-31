@@ -10,11 +10,12 @@
 <div class="col-md-12">
 
     <div class="col-md-8">
-        <div class="col-md-6">
-            <div class="col-md-5">
+        <div class="col-md-4">
+            <div class="col-md-12">
                 <label>Palabra clave</label>
             </div>
-            <g:select name="clave" from="${claves}"  optionKey="${{it.palabra}}" optionValue="${{it.palabra}}" class="form-control" />
+            <g:select name="clave" from="${claves}"  optionKey="${{it.palabra}}"
+                      optionValue="${{it.palabra + " (frecuencia: " + it.cantidad + ") "}}" class="form-control" />
         </div>
         <div class="col-md-3">
             <div class="col-md-1">

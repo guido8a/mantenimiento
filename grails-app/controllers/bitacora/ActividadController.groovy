@@ -200,13 +200,18 @@ class ActividadController {
         def cn = dbConnectionService.getConnection()
         def sql = "SELECT palabra, COUNT(*) as cantidad FROM ( " +
                 "SELECT unnest(string_to_array(lower( replace(actvclve, ' de ', ' ')), ' ')) as palabra from actv ) as palabras " +
-                "GROUP BY palabra having count(*) > 1 ORDER BY palabra;"
+                "GROUP BY palabra having count(*) > 1 ORDER BY 2 desc"
         datos = cn.rows(sql)
 
         datos.each {
-            claves += it
+            def mp = [:]
+            mp['palabra'] = it.palabra
+            mp['cantidad'] = it.cantidad
+            //claves += mp
+            claves.add(mp)
         }
 
+        println "claves: $claves"
         return [claves: claves]
     }
 
