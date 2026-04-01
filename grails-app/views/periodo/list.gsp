@@ -181,6 +181,45 @@
         });
     }
 
+    function duplicarPeriodo(itemId) {
+        bootbox.dialog({
+            title   : "<i class='fa fa-copy fa-2x pull-left text-info text-shadow'></i>   Duplicar",
+            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea duplicar el período seleccionado? </p>",
+            buttons : {
+                cancelar : {
+                    label     : "<i class='fa fa-times'></i> Cancelar",
+                    className : "btn-primary",
+                    callback  : function () {
+                    }
+                },
+                eliminar : {
+                    label     : "<i class='fa fa-copy'></i> Duplicar",
+                    className : "btn-success",
+                    callback  : function () {
+                        var a=  cargarLoader("Borrando...");
+                        $.ajax({
+                            type    : "POST",
+                            url     : '${createLink(controller: 'periodo', action:'duplicar_ajax')}',
+                            data    : {
+                                id : itemId
+                            },
+                            success : function (msg) {
+                                a.modal("hide");
+                                if (msg === "ok") {
+                                    log("Período duplicado correctamente","success");
+                                    cargarTablaPeriodos();
+                                } else {
+                                    log("Error al duplicar el período","error");
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
 </script>
 
 </body>

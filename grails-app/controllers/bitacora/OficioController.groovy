@@ -99,4 +99,18 @@ class OficioController {
         return [periodos: periodos, oficio: oficio]
     }
 
+    def duplicarOficio_ajax(){
+        def oficio = Oficio.get(params.id)
+        def nuevoOficio = new Oficio()
+        nuevoOficio.properties = oficio.properties
+
+        if(!nuevoOficio.save(flush: true)){
+            println("error al duplicar el oficio" + nuevoOficio.errors)
+            render "no"
+        }else{
+            render "ok"
+        }
+
+    }
+
 }

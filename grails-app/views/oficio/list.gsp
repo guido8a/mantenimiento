@@ -214,6 +214,45 @@
         });
     }
 
+    function duplicarOficio(itemId) {
+        bootbox.dialog({
+            title   : "<i class='fa fa-copy fa-2x pull-left text-info text-shadow'></i> Duplicar",
+            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea duplicar el oficio seleccionado?</p>",
+            buttons : {
+                cancelar : {
+                    label     : "<i class='fa fa-times'></i> Cancelar",
+                    className : "btn-primary",
+                    callback  : function () {
+                    }
+                },
+                eliminar : {
+                    label     : "<i class='fa fa-copy'></i> Duplicar",
+                    className : "btn-success",
+                    callback  : function () {
+                        var a = cargarLoader("Borrando...");
+                        $.ajax({
+                            type    : "POST",
+                            url     : '${createLink(controller: 'oficio', action:'duplicarOficio_ajax')}',
+                            data    : {
+                                id : itemId
+                            },
+                            success : function (msg) {
+                                a.modal("hide");
+                                if (msg === "ok") {
+                                    log("Oficio duplicado correctamente","success");
+                                    cargarTablaOficios();
+                                } else {
+                                    log("Error al duplicar el oficio","error");
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

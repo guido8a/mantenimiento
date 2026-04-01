@@ -160,14 +160,8 @@ class ActividadController {
     def periodo_ajax(){
         def contrato = Contrato.get(params.contrato)
         def periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
-        def actividad
-        if(params.actividad){
-            actividad = Actividad.get(params.actividad)
-        }else{
-            actividad = new Actividad()
-        }
-
-        return [periodos: periodos, actividad: actividad]
+        def ultimoPeriodo = periodos.last()
+        return [periodos: periodos, ultimo: ultimoPeriodo]
     }
 
     def buscarContrato_ajax(){
@@ -223,6 +217,7 @@ class ActividadController {
     def periodoForm_ajax(){
         def contrato = Contrato.get(params.contrato)
         def periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
+        def ultimoPeriodo = periodos.last()
         def actividad
         if(params.actividad){
             actividad = Actividad.get(params.actividad)
@@ -230,7 +225,7 @@ class ActividadController {
             actividad = new Actividad()
         }
 
-        return [periodos: periodos, actividad: actividad]
+        return [periodos: periodos, actividad: actividad, ultimo: ultimoPeriodo]
     }
 
 

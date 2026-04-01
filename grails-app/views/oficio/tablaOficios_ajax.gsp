@@ -37,6 +37,9 @@ th, td {
                         <a class="btn btn-xs btnBorrarOficio btn-danger" href="#" title="Eliminar" data-id="${oficio.id}">
                             <i class="fa fa-trash"></i>
                         </a>
+                        <a class="btn btn-xs btnDuplicarOficio btn-warning" href="#" title="Duplicar oficio" data-id="${oficio.id}">
+                            <i class="fa fa-copy"></i>
+                        </a>
                     </td>
                     <td style="width: 10%; text-align: center">
                         <a class="btn btn-xs btnImprimirOficio btn-info" href="#"  title="Imprimir oficio" data-id="${oficio.id}">
@@ -59,6 +62,11 @@ th, td {
 </div>
 
 <script type="text/javascript">
+
+    $(".btnDuplicarOficio").click(function () {
+        var id = $(this).data("id");
+        duplicarOficio(id);
+    });
 
     $(".btnLineas").click(function (){
         var id = $(this).data("id");

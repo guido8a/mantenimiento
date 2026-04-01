@@ -34,6 +34,9 @@ th, td {
                         <a class="btn btn-xs btn-delete btn-danger" href="#" title="Eliminar" data-id="${periodo.id}">
                             <i class="fa fa-trash"></i>
                         </a>
+                        <a class="btn btn-xs btnDuplicar btn-warning" href="#" title="Duplicar período" data-id="${periodo.id}">
+                            <i class="fa fa-copy"></i>
+                        </a>
                     </td>
                 </tr>
             </g:each>
@@ -53,6 +56,11 @@ th, td {
     $(".btn-delete").click(function () {
         var id = $(this).data("id");
         deleteRow(id);
+    });
+
+    $(".btnDuplicar").click(function () {
+        var id = $(this).data("id");
+        duplicarPeriodo(id);
     });
 
 </script>

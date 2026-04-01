@@ -87,7 +87,7 @@
             },
             success: function (msg) {
                 $("#divPeriodoBusqueda").html(msg);
-                cargarActividades();
+                // cargarActividades();
             }
         });
     }

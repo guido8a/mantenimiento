@@ -72,4 +72,19 @@ class PeriodoController {
         }
     }
 
+    def duplicar_ajax(){
+        def periodo = Periodo.get(params.id)
+        def nuevoPeriodo = new Periodo()
+
+        nuevoPeriodo.properties = periodo.properties
+
+        if(!nuevoPeriodo.save(flush:true)){
+            println("error al guardar el período " + nuevoPeriodo.errors)
+            render "no"
+        }else{
+            render "ok"
+        }
+
+    }
+
 }
