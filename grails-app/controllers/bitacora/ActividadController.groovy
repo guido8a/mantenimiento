@@ -220,28 +220,5 @@ class ActividadController {
         return [actividades: actividades]
     }
 
-    def ocurrencias_ajax(){
 
-        println("--> " + params)
-
-
-
-        def datos;
-        def cantidad
-        def cn = dbConnectionService.getConnection()
-        def sql = "SELECT palabra, COUNT(*) as cantidad FROM ( " +
-                "SELECT unnest(string_to_array(lower( replace(actvclve, ' de ', ' ')), ' ')) as palabra from actv ) as palabras " +
-                "GROUP BY palabra having count(*) > 1 ORDER BY palabra;"
-        datos = cn.rows(sql)
-
-        datos.each {
-            if(it.palabra == params.clave){
-                cantidad = it.cantidad
-            }
-        }
-
-        println("datos " + cantidad)
-
-       render "${cantidad}"
-    }
 }

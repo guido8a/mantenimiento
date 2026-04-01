@@ -8,28 +8,23 @@
 <body>
 
 <div class="col-md-12">
-
     <div class="col-md-8">
-        <div class="col-md-4">
-            <div class="col-md-12">
+        <div class="col-md-7">
+            <div class="col-md-4">
                 <label>Palabra clave</label>
             </div>
-            <g:select name="clave" from="${claves}"  optionKey="${{it.palabra}}"
-                      optionValue="${{it.palabra + " (frecuencia: " + it.cantidad + ") "}}" class="form-control" />
-        </div>
-        <div class="col-md-3">
-            <div class="col-md-1">
-                <label>Ocurrencias</label>
+            <div class="col-md-8">
+                <g:select name="clave" from="${claves}"  optionKey="${{it.palabra}}"
+                          optionValue="${{it.palabra + " (frecuencia: " + it.cantidad + ") "}}" class="form-control" />
             </div>
-            <g:textField name="ocurrencias" value="${''}" class="form-control" disabled=""/>
         </div>
-        <div class="col-md-2" style="margin-top: 20px">
+        <div class="col-md-2">
             <a href="#" class="btn btn-info" id="btnBuscarActividades">
                 <i class="fa fa-search"></i>
             </a>
         </div>
     </div>
-    <div class="btn-group col-md-2" style="margin-top: 20px; alignment: right">
+    <div class="btn-group col-md-2" style="alignment: right">
         <a href="#" class="btn btn-info" id="btnImprimirBusqueda">
             <i class="fa fa-print"></i> Imprimir
         </a>
@@ -72,7 +67,6 @@
 
     function cargarTablaActividades(){
         var c = cargarLoader("Cargando...");
-        cargarOcurrencias();
         $.ajax({
             type    : "POST",
             url     : "${g.createLink(controller: 'actividad', action: 'tablaReporteActividades_ajax')}",
@@ -89,20 +83,6 @@
             }
         });
     }
-
-    function cargarOcurrencias() {
-        $.ajax({
-            type    : "POST",
-            url     : "${g.createLink(controller: 'actividad', action: 'ocurrencias_ajax')}",
-            data    : {
-                clave: $("#clave").val()
-            },
-            success : function (msg) {
-                $("#ocurrencias").val(msg);
-            }
-        });
-    }
-
 </script>
 </body>
 </html>
