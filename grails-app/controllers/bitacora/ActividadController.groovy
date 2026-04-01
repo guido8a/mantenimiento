@@ -220,5 +220,18 @@ class ActividadController {
         return [actividades: actividades]
     }
 
+    def periodoForm_ajax(){
+        def contrato = Contrato.get(params.contrato)
+        def periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
+        def actividad
+        if(params.actividad){
+            actividad = Actividad.get(params.actividad)
+        }else{
+            actividad = new Actividad()
+        }
+
+        return [periodos: periodos, actividad: actividad]
+    }
+
 
 }

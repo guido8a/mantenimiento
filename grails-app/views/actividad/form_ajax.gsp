@@ -136,7 +136,7 @@
     function cargarPeriodos(){
         $.ajax({
             type: 'POST',
-            url :'${createLink(controller: 'actividad', action: 'periodo_ajax')}',
+            url :'${createLink(controller: 'actividad', action: 'periodoForm_ajax')}',
             data: {
                 contrato: $("#contrato option:selected").val(),
                 actividad: '${actividad?.id}'

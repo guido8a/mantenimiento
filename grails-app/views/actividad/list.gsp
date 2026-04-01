@@ -141,7 +141,7 @@
                     id: $("#id").val(),
                     usuario: $("#usuario").val(),
                     contrato: $("#contrato").val(),
-                    periodo: $("#periodo").val(),
+                    periodo: $("#periodoForm").val(),
                     requerimiento: $("#requerimiento").val(),
                     moduloSistema: $("#moduloSistema option:selected").val(),
                     tipoMantenimiento: $("#tipoMantenimiento option:selected").val(),
