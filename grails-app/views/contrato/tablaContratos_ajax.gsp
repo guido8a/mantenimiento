@@ -15,13 +15,13 @@ th, td {
         <g:if test="${contratos.size() > 0}">
             <g:each in="${contratos}" var="contrato">
                 <tr style="width: 100%">
-                    <td style="width: 5%">
+                    <td style="width: 7%">
                         ${contrato?.empresa?.sigla}
                     </td>
                     <td style="width: 10%">
                         ${contrato?.numero}
                     </td>
-                    <td style="width: 64%">
+                    <td style="width: 62%">
                         ${contrato?.objeto}
                     </td>
                     <td style="width: 7%">
