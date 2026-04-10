@@ -221,9 +221,7 @@ class ActividadController {
     }
 
     def periodoForm_ajax(){
-        def contrato = Contrato.get(params.contrato)
-        def periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
-        def ultimoPeriodo = periodos.last()
+
         def actividad
         if(params.actividad){
             actividad = Actividad.get(params.actividad)
@@ -231,7 +229,15 @@ class ActividadController {
             actividad = new Actividad()
         }
 
-        return [periodos: periodos, actividad: actividad, ultimo: ultimoPeriodo]
+        def cn = dbConnectionService.getConnection()
+        def contrato = Contrato.get(params.contrato)
+        def periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
+        def sql  =  "select prdo__id from prdo where cntr__id = (select cntr__id from cntr where now() " +
+                "between cntrfcin and cntrfcfn) and now() between prdofcds and prdofchs"
+        println "sql $sql"
+        def actual = cn.rows(sql.toString())[0].prdo__id
+
+        return [periodos: periodos, actual: actual, actividad: actividad]
     }
 
 
