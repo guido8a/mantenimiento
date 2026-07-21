@@ -15,7 +15,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group keeptogether ${hasErrors(bean: sistema, field: 'nombre', 'error')} required">
             <div class="col-md-12">
                 <span class="grupo">
@@ -24,7 +23,19 @@
                     </label>
                 </span>
                 <div class="col-md-10">
-                    <g:textArea name="nombre" class="form-control required" required="" value="${sistema?.nombre}" minlength="1" maxlength="255" style="resize: none; height: 100px"  />
+                    <g:textArea name="nombre" class="form-control required" required="" value="${sistema?.nombre}" minlength="3" maxlength="255" style="resize: none; height: 100px"  />
+                </div>
+            </div>
+        </div>
+        <div class="form-group keeptogether ${hasErrors(bean: sistema, field: 'base', 'error')} required">
+            <div class="col-md-12">
+                <span class="grupo">
+                    <label for="base" class="col-md-2 control-label">
+                        Base de datos
+                    </label>
+                </span>
+                <div class="col-md-10">
+                    <g:textArea name="base" class="form-control required" required="" value="${sistema?.base}" minlength="3" maxlength="15" style="resize: none; height: 50px"  />
                 </div>
             </div>
         </div>

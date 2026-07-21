@@ -1,9 +1,10 @@
 <table class="table table-bordered table-striped table-hover table-condensed" id="tabla" style="width: 100%; background-color: #a39e9e">
     <thead>
     <tr style="text-align: center">
-        <th style="width: 25%">Siglas</th>
-        <th style="width: 60%">Nombre</th>
-        <th style="width: 14%">Acciones</th>
+        <th style="width: 15%">Siglas</th>
+        <th style="width: 59%">Nombre</th>
+        <th style="width: 15%">Base</th>
+        <th style="width: 10%">Acciones</th>
         <th style="width: 1%"></th>
     </tr>
     </thead>
@@ -14,9 +15,10 @@
         <g:if test="${sistemas.size() > 0}">
             <g:each in="${sistemas}" var="sistema">
                 <tr style="width: 100%">
-                    <td style="width: 25%">${sistema?.siglas}</td>
-                    <td style="width: 60%">${sistema?.nombre}</td>
-                    <td style="width: 14%; text-align: center">
+                    <td style="width: 15%">${sistema?.siglas}</td>
+                    <td style="width: 59%">${sistema?.nombre}</td>
+                    <td style="width: 15%">${sistema?.base}</td>
+                    <td style="width: 10%; text-align: center">
                         <a class="btn btn-xs btnEditarSistema btn-success" href="#" title="Editar" data-id="${sistema?.id}">
                             <i class="fa fa-edit"></i>
                         </a>

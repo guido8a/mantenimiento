@@ -2,7 +2,7 @@ package bitacora
 
 import audita.Auditable
 
-class query implements Auditable{
+class Query implements Auditable{
 
     Sistema sistema
     Date fecha
@@ -20,7 +20,7 @@ class query implements Auditable{
             id column: 'sqls__id'
             sistema column: 'stma__id'
             fecha column: 'sqlsfcha'
-            problema column: 'sqlsdscr'
+            problema column: 'sqlsprbl'
             algoritmo column: 'sqlsalgr'
             referencia column: 'sqlsrefe'
             clave column: 'sqlsclve'
