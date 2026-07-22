@@ -31,7 +31,7 @@
         </label>
         <span class="grupo">
             <span class="col-md-11">
-                <g:textArea name="problema" class="form-control"  value="${query?.problema}" style="resize: none; height: 120px"/>
+                <g:textArea name="problema" class="form-control required"  required="" value="${query?.problema}" style="resize: none; height: 120px"/>
             </span>
         </span>
     </div>
@@ -42,7 +42,8 @@
         </label>
         <span class="grupo">
             <span class="col-md-11">
-                <textarea id="algoritmo" class="editor" rows="60" cols="80">${query?.algoritmo}</textarea>
+%{--                <textarea id="algoritmo" class="editor" rows="60" cols="80">${query?.algoritmo}</textarea>--}%
+                <g:textArea name="algoritmo" class="form-control required"  value="${query?.algoritmo}" required="" style="resize: none; height: 120px"/>
             </span>
         </span>
     </div>
@@ -53,7 +54,7 @@
                 Palabras Clave
             </label>
             <span class="col-md-11">
-                <g:textField name="clave" minlength="3" maxlength="63" required=""  class="form-control required" value="${query?.clave}"/>
+                <g:textField name="clave" minlength="3" maxlength="63"  class="form-control " value="${query?.clave}"/>
             </span>
         </span>
     </div>
@@ -64,7 +65,7 @@
                 Referencias
             </label>
             <span class="col-md-11">
-                <g:textField name="referencia" minlength="3" maxlength="255" required=""  class="form-control required" value="${query?.referencia}"/>
+                <g:textField name="referencia" minlength="3" maxlength="255"  class="form-control " value="${query?.referencia}"/>
             </span>
         </span>
     </div>
@@ -97,16 +98,16 @@
     //     ]
     // });
 
-    CKEDITOR.replace( 'algoritmo', {
-        height: "140px",
-        toolbar                 : [
-            ['Font', 'FontSize', 'Scayt', '-', 'Undo', 'Redo'],
-            ['HorizontalRule'],
-            [ '-', 'TextColor', 'BGColor', '-', 'About'],
-            ['Bold', 'Italic', 'Underline', /*'Strike', */'Subscript', 'Superscript'/*, '-', 'RemoveFormat'*/],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
-        ]
-    });
+    // CKEDITOR.replace( 'algoritmo', {
+    //     height: "140px",
+    //     toolbar                 : [
+    //         ['Font', 'FontSize', 'Scayt', '-', 'Undo', 'Redo'],
+    //         ['HorizontalRule'],
+    //         [ '-', 'TextColor', 'BGColor', '-', 'About'],
+    //         ['Bold', 'Italic', 'Underline', /*'Strike', */'Subscript', 'Superscript'/*, '-', 'RemoveFormat'*/],
+    //         ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
+    //     ]
+    // });
 
 
     var validator = $("#frmQuery").validate({

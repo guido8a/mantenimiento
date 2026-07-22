@@ -34,11 +34,40 @@ class QueryController {
     }
 
     def save_ajax() {
+        def query
 
+        if(params.id){
+            query = Query.get(params.id)
+        }else{
+            query = new Query()
+        }
+
+        params.fecha = new Date().parse("dd-MM-yyyy", params.fecha)
+        query.properties = params
+
+        if(!query.save(flush:true)){
+           println("error al guardar el query " + query.errors)
+            render "no_Error al guardar"
+        }else{
+            render "ok_Guardado correctamente"
+        }
     }
 
     def borrar_ajax() {
+        def query = Query.get(params.id)
 
+        try{
+            query.delete(flush: true)
+            render "ok_Registro borrado correctamente"
+        }catch(e){
+            println("error al borrar el query " + query.errors)
+            render "no_Error al borrar el registro"
+        }
+    }
+
+    def showQuery_ajax(){
+        def query = Query.get(params.id)
+        return [query: query]
     }
 
 }

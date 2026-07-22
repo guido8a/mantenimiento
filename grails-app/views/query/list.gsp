@@ -95,32 +95,20 @@
     } //createEdit
 
     function submitFormQuery() {
-        var algoritmo = CKEDITOR.instances.algoritmo.getData();
+        // var algoritmo = CKEDITOR.instances.algoritmo.getData();
         var $form = $("#frmQuery");
         if ($form.valid()) {
             $.ajax({
                 type    : "POST",
                 url     : '${createLink(controller: 'query', action:'save_ajax')}',
-                data    :{
-                    id: $("#id").val(),
-                    usuario: $("#usuario").val(),
-                    contrato: $("#contrato").val(),
-                    periodo: $("#periodoForm").val(),
-                    requerimiento: $("#requerimiento").val(),
-                    moduloSistema: $("#moduloSistema option:selected").val(),
-                    tipoMantenimiento: $("#tipoMantenimiento option:selected").val(),
-                    clave: $("#clave").val(),
-                    fecha: $("#datetimepicker2").val(),
-                    descripcion: $("#descripcion").val(),
-                    algoritmo: algoritmo
-                },
+                data    : $form.serialize(),
                 success : function (msg) {
                     var parts = msg.split("_");
                     if (parts[0]==="ok") {
                         log(parts[1],"success");
                         cargarTablaQuery();
                     } else {
-                        log(parts[1],"error");
+                        bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                         cargarTablaQuery();
                         return false;
                     }
@@ -167,7 +155,7 @@
     function deleteQuery(itemId) {
         bootbox.dialog({
             title   : "<i class='fa fa-trash fa-2x pull-left text-danger text-shadow'></i> Alerta",
-            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar la actividad seleccionada? </br> Esta acción no se puede deshacer.</p>",
+            message : "<p style='font-weight: bold; font-size: 14px'>¿Está seguro que desea eliminar el resgistro seleccionado?</p>",
             buttons : {
                 cancelar : {
                     label     : "<i class='fa fa-times'></i> Cancelar",
@@ -188,11 +176,12 @@
                             },
                             success : function (msg) {
                                 a.modal("hide");
-                                if (msg === "ok") {
-                                    log("Actividad borrada correctamente","success");
+                                var parts = msg.split("_");
+                                if (parts[0] === "ok") {
+                                    log(parts[1],"success");
                                     cargarTablaQuery();
                                 } else {
-                                    log("Error al borrar la actvidad","error");
+                                    bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                                     return false;
                                 }
                             }
