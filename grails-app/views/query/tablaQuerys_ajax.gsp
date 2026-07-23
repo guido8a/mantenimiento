@@ -24,13 +24,13 @@
                     <td style="width: 41%">${query.sqlsprbl}</td>
                     <td style="width: 25%">${query.sqlsalgr}</td>
                     <td style="width: 10%; text-align: center">
-                        <a class="btn btn-xs btn-info btnVerQuery" href="#"  title="Ver actividad" data-id="${query?.sqls__id}">
+                        <a class="btn btn-xs btn-info btnVerQuery" href="#"  title="Ver query" data-id="${query?.sqls__id}">
                             <i class="fa fa-search"></i>
                         </a>
-                        <a class="btn btn-xs btn-success btnEditarQuery" href="#"  title="Editar actividad" data-id="${query?.sqls__id}">
+                        <a class="btn btn-xs btn-success btnEditarQuery" href="#"  title="Editar query" data-id="${query?.sqls__id}">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a class="btn btn-xs btn-danger btnBorrarQuery" href="#"  title="Eliminar actividad" data-id="${query?.sqls__id}">
+                        <a class="btn btn-xs btn-danger btnBorrarQuery" href="#"  title="Eliminar query" data-id="${query?.sqls__id}">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
