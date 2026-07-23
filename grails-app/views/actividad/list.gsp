@@ -58,6 +58,7 @@
         <button class="btn btn-sm btn-info bact" id="btnBuscarActividad" title="Buscar actividades">
             <i class="fa fa-search"></i></button>
         <button class="btn btn-sm btn-warning" id="btnLimpiarBusquedaActividad"><i class="fa fa-eraser"></i></button>
+        <button class="btn btn-sm btn-info" id="btnQuery" title="Ir a lista de Query"><i class="fa fa-tasks"></i></button>
     </div>
 </div>
 
@@ -71,6 +72,10 @@
 <script type="text/javascript">
 
     var mbu, mbc;
+
+    $("#btnQuery").click(function () {
+        location.href="${createLink(controller: 'query', action: 'list')}"
+    });
 
     cargarPeriodosBusqueda();
 
