@@ -20,6 +20,9 @@
 
 <div class="row">
     <div class="col-md-12">
+        <div class="col-md-1" style="margin-top: 20px" >
+            <a href="#" class="btn btn-info btnRegresarActividad" title="Regresar a actividades"><i class="fa fa-arrow-left"></i>  </a>
+        </div>
         <div class="col-md-2">
             <label for="sistemaBusqueda" class="control-label text-info">
                 Sistema
@@ -55,6 +58,10 @@
 <script type="text/javascript">
 
     var mbc;
+
+    $(".btnRegresarActividad").click(function () {
+        location.href="${createLink(controller: 'actividad', action: 'list')}"
+    });
 
     $(".btnCrearQuery").click(function () {
         createEditQuery();
