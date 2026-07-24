@@ -107,7 +107,7 @@
             <div class="ui-corner-all item">
                 <div class="imagen">
                     %{--<img src="${resource(dir: 'images', file: 'conocimiento.png')}" width="100%" height="100%"/>--}%
-                    <asset:image src="apli/mantenimiento.jpg" alt="Buscar en la Base de Conocimiento"  width="100%" height="100%"/>
+                    <asset:image src="apli/mantenimiento.jpg" title="Actividades"  width="100%" height="100%"/>
                 </div>
 
                 <div class="texto">
@@ -120,7 +120,7 @@
         <div class="ui-corner-all item fuera">
             <div class="ui-corner-all item">
                 <div class="imagen">
-                    <asset:image src="apli/cambios.jpeg" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
+                    <asset:image src="apli/cambios.jpeg" title="Informes y oficios del mantenimiento" width="100%" height="100%"/>
 %{--                    <img src="${resource(dir: 'images', file: 'agenda.png')}" width="100%" height="100%"/>--}%
                 </div>
 
@@ -134,7 +134,7 @@
         <div class="ui-corner-all item3 fuera">
             <div class="ui-corner-all item3">
                 <div class="imagen2">
-                    <asset:image src="apli/usuarios.png" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
+                    <asset:image src="apli/usuarios.png" title="Registro de cambios" width="100%" height="100%"/>
                 </div>
 
                 <div class="texto">
@@ -148,7 +148,21 @@
         <div class="ui-corner-all item3 fuera">
             <div class="ui-corner-all item3">
                 <div class="imagen2">
-                    <asset:image src="apli/reporte.jpeg" alt="Buscar en la Base de Conocimiento" width="100%" height="100%"/>
+                    <asset:image src="apli/reporte.jpeg" title="Reportes" width="100%" height="100%"/>
+                </div>
+
+                <div class="texto">
+                    <span class="text-success"><strong>Reportes del sistema</strong><br/>Palabras Clave</span>
+                </div>
+            </div>
+        </div>
+        </a>
+
+        <a href= "${createLink(controller:'query', action: 'list')}" style="text-decoration: none">
+        <div class="ui-corner-all item3 fuera">
+            <div class="ui-corner-all item3">
+                <div class="imagen2">
+                    <asset:image src="apli/sqls.png" title="Consultas útiles" width="100%" height="100%"/>
                 </div>
 
                 <div class="texto">
