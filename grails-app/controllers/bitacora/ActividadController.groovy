@@ -41,9 +41,10 @@ class ActividadController {
             tipoTx = " and actv.tpmt__id = ${tipo?.id} "
         }
 
-        def select  =  "select actv__id, usronmbr||' '||usroapll usuario, tpmtcdgo, actvfcha, actvdscr, actvreqm from actv, tpmt, usro "
+        def select  =  "select actv__id, usronmbr||' '||usroapll usuario, tpmtcdgo, actvfcha, actvdscr, actvreqm," +
+                "mdstdscr from actv, tpmt, usro, mdst "
         def txwh = " where tpmt.tpmt__id = actv.tpmt__id and usro.usro__id = actv.usro__id and " +
-                "${bsca} ilike '%${params.criterio}%' ${usuarioTx} ${periodoTx} ${tipoTx} "
+                "mdst.mdst__id = actv.mdst__id and ${bsca} ilike '%${params.criterio}%' ${usuarioTx} ${periodoTx} ${tipoTx} "
         sqlTx = "${select} ${txwh} order by actvfcha limit 50 ".toString()
         println("tx " + sqlTx)
         def cn = dbConnectionService.getConnection()
@@ -84,7 +85,7 @@ class ActividadController {
         }else{
             bsca = listaItems[0]
         }
-        def select  =  " select * from usro "
+        def select  =  " select usro__id, usronmbr, usroapll, usrocdla from usro "
         def txwh = " where usro__id is not null and empr__id = '${empresa?.id}' ${textoAd} and ${bsca} ilike '%${params.criterio}%'"
         sqlTx = "${select} ${txwh} order by usroapll limit 50 ".toString()
         def cn = dbConnectionService.getConnection()

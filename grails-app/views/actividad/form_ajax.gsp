@@ -11,7 +11,7 @@
             <span class="col-md-8">
                 <g:hiddenField name="usuario" value="${actividad?.usuario?.id}" />
                 <g:textField name="usuarioName" readonly="" required="" class="form-control required"
-                             value="${(actividad?.usuario?.apellido ?: '') + " " + (actividad?.usuario?.nombre ?: '')}"/>
+                             value="${(actividad?.usuario?.nombre ?: '') + " " + (actividad?.usuario?.apellido ?: '')}"/>
             </span>
             <span class="col-md-3">
                 <g:if test="${!actividad?.id}">

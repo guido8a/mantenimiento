@@ -35,7 +35,7 @@ th, td {
             <g:each in="${data}" var="actividad">
                 <g:set var="actividadId" value="${actividad?.actv__id}"/>
                 <tr data-id="${actividad.actv__id}" style="width: 100%" class="${actividad?.tpmtcdgo == 'MJ'? 'mejora':''}">
-                    <td style="width: 12%">${actividad.usuario}</td>
+                    <td style="width: 12%">${actividad.usuario}<br>(${actividad.mdstdscr})</td>
                     %{--<td style="width: 5%">${actividad.tpmtcdgo}</td>--}%
                     <td style="width: 10%">${actividad?.actvfcha?.format("dd-MM-yy HH:mm")}</td>
                     <td style="width: 63%">${actividad.actvdscr} (${actividad.actvreqm})</td>

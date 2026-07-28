@@ -57,9 +57,11 @@ th, td {
         var cedula = $(this).data("cedula");
         var nombre = $(this).data("nombre");
         var apellido = $(this).data("apellido");
+        console.log('tipo:', "${tipo == '1'}")
         <g:if test="${tipo == '1'}">
         $("#usuario").val(id);
         $("#usuarioName").val(apellido + " " + nombre);
+        $("#moduloSistema").val('3').change();
         </g:if>
         <g:else>
         <g:if test="${tipo == '2'}">
