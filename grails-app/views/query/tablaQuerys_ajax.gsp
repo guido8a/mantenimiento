@@ -4,8 +4,8 @@
     <thead>
     <tr style="text-align: center">
         <th style="width: 8%">Fecha</th>
-        <th style="width: 35%">Problema</th>
-        <th style="width: 46%">Algoritmo</th>
+        <th style="width: 30%">Problema</th>
+        <th style="width: 51%">Algoritmo</th>
         <th style="width: 10%">Acciones</th>
         <th style="width: 1%"></th>
     </tr>
@@ -19,8 +19,8 @@
                 <g:set var="id" value="${query?.sqls__id}"/>
                 <tr data-id="${query?.sqls__id}" style="width: 100%" >
                     <td style="width: 8%">${query?.sqlsfcha?.format("dd-MM-yyyy")}</td>
-                    <td style="width: 35%">${query.sqlsprbl}</td>
-                    <td style="width: 46%"><elm2:poneHtml textoHtml="${query.sqlsalgr}"/></td>
+                    <td style="width: 30%">${query.sqlsprbl}</td>
+                    <td class="text-info" style="width: 51%"><elm2:poneHtml textoHtml="${query.sqlsalgr}"/></td>
                     <td style="width: 10%; text-align: center">
                         <a class="btn btn-xs btn-info btnVerQuery" href="#"  title="Ver query" data-id="${query?.sqls__id}">
                             <i class="fa fa-search"></i>
