@@ -14,7 +14,7 @@ class QueryController {
         def listaItems = ['sqlsprbl', 'sqlsclve', 'sqlsalgr', 'sqlsrefe']
         def bsca = listaItems[params.buscarPor?.toInteger()-1]
         def select = " select * from sqls where sqls__id is not null and stma__id = ${params.sistema} and ${bsca} ilike '%${params.criterio}%' "
-        def sqlTx = "${select} order by sqlsprbl limit 50 ".toString()
+        def sqlTx = "${select} order by sqlsfcha desc limit 50 ".toString()
         println("tx " + sqlTx)
         def cn = dbConnectionService.getConnection()
         def datos = cn.rows(sqlTx)
