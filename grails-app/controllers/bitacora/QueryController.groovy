@@ -34,6 +34,8 @@ class QueryController {
     }
 
     def save_ajax() {
+        println("params sq " + params)
+
         def query
 
         if(params.id){

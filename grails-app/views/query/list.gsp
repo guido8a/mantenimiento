@@ -102,13 +102,28 @@
     } //createEdit
 
     function submitFormQuery() {
-        // var algoritmo = CKEDITOR.instances.algoritmo.getData();
+        var algoritmo = CKEDITOR.instances.algoritmo.getData();
+        var id = $("#id").val();
+        var sistema = $("#sistema option:selected").val();
+        var fecha = $("#datetimepicker2").val();
+        var problema = $("#problema").val();
+        var clave = $("#clave").val();
+        var referencia = $("#referencia").val();
         var $form = $("#frmQuery");
         if ($form.valid()) {
             $.ajax({
                 type    : "POST",
                 url     : '${createLink(controller: 'query', action:'save_ajax')}',
-                data    : $form.serialize(),
+                // data    : $form.serialize(),
+                data    : {
+                    id: id,
+                    sistema: sistema,
+                    fecha: fecha,
+                    problema: problema,
+                    algoritmo:algoritmo,
+                    clave: clave,
+                    referencia: referencia
+                },
                 success : function (msg) {
                     var parts = msg.split("_");
                     if (parts[0]==="ok") {
