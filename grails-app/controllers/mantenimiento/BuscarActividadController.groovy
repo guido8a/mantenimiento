@@ -22,7 +22,7 @@ class BuscarActividadController {
                 " prsn.prsn__id = ac.prsnpara and prdd.prdd__id = ac.prdd__id " +
                 "order by ac.actvfcha, ac.actvdscr limit 21"
 
-        println "sql: $sql"
+//        println "sql: $sql"
 
         data = cn.rows(sql)
 

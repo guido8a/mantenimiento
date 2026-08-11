@@ -22,7 +22,7 @@ class UsuarioController {
         def select  =  " select * from usro "
         def txwh = " where usro__id is not null and ${bsca} ilike '%${params.criterio}%'"
         sqlTx = "${select} ${txwh} order by usroapll limit 50 ".toString()
-        println "sql: $sqlTx"
+//        println "sql: $sqlTx"
         def cn = dbConnectionService.getConnection()
         datos = cn.rows(sqlTx)
         [data: datos, tipo: params.tipo]

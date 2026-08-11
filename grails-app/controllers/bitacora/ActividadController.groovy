@@ -90,7 +90,7 @@ class ActividadController {
         sqlTx = "${select} ${txwh} order by usroapll limit 50 ".toString()
         def cn = dbConnectionService.getConnection()
         datos = cn.rows(sqlTx)
-        println("sql " + sqlTx)
+//        println "sql " + sqlTx
         [data: datos, tipo: params.tipo]
     }
 
@@ -100,7 +100,7 @@ class ActividadController {
         def contrato
         def cn = dbConnectionService.getConnection()
         def sql = "select cntr__id from cntr where now()::date between cntrfcin and cntrfcfn"
-        println "SQL: $sql"
+//        println "SQL: $sql"
         contrato = cn.rows(sql.toString())[0].cntr__id
 
         def contratos = Contrato.list([sort: 'fechaSubscripcion'])
@@ -165,7 +165,7 @@ class ActividadController {
         def periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
         def sql  =  "select prdo__id from prdo where cntr__id = (select cntr__id from cntr where now() " +
                 "between cntrfcin and cntrfcfn) and now()::date between prdofcds and prdofchs"
-        println "sql $sql"
+//        println "sql $sql"
         def actual = cn.rows(sql.toString())[0].prdo__id
 
         return [periodos: periodos, actual: actual]
@@ -235,7 +235,7 @@ class ActividadController {
         def periodos = Periodo.findAllByContrato(contrato).sort{it.numero}
         def sql  =  "select prdo__id from prdo where cntr__id = (select cntr__id from cntr where now() " +
                 "between cntrfcin and cntrfcfn) and now()::date between prdofcds and prdofchs"
-        println "sql $sql"
+//        println "sql $sql"
         def actual = cn.rows(sql.toString())[0].prdo__id
 
         return [periodos: periodos, actual: actual, actividad: actividad]
