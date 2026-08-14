@@ -21,10 +21,15 @@ th, td {
             <g:each in="${actividades}" var="actividad">
                 <tr>
                     <td style="width: 10%">${actividad.periodo?.contrato?.numero}</td>
-                    <td style="width: 17%">${actividad?.periodo?.fechads?.format("dd-MM-yyyy") + " - " + actividad?.periodo?.fechahs?.format("dd-MM-yyyy")}</td>
-                    <td style="width: 13%">${actividad?.requerimiento}</td>
+                    <td style="width: 16%">${actividad?.periodo?.fechads?.format("dd-MM-yyyy") + " - " + actividad?.periodo?.fechahs?.format("dd-MM-yyyy")}</td>
+                    <td style="width: 10%">${actividad?.requerimiento}</td>
                     <td style="width: 14%">${actividad?.usuario?.apellido + " "  + actividad?.usuario?.nombre}</td>
-                    <td style="width: 45%">${actividad?.descripcion}</td>
+                    <td style="width: 42%">${actividad?.descripcion}</td>
+                    <td style="width: 6%; text-align: center">
+                        <a class="btn btn-xs btn-info btnVerActividad" href="#"  title="Ver actividad" data-id="${actividad.id}">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </td>
                     <td style="width: 1%"></td>
                 </tr>
             </g:each>
@@ -35,4 +40,13 @@ th, td {
         </g:else>
     </table>
 </div>
+
+<script type="text/javascript">
+
+    $(".btnVerActividad").click(function () {
+        var id = $(this).data("id");
+        verActividadReporte(id);
+    });
+
+</script>
 

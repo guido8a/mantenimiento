@@ -37,9 +37,10 @@
         <tr style="width: 100%">
             <th style="width: 10%">Contrato</th>
             <th style="width: 17%">Periodo</th>
-            <th style="width: 13%">Requerimiento</th>
+            <th style="width: 10%">Requerimiento</th>
             <th style="width: 14%">Solicitante</th>
-            <th style="width: 45%">Objeto</th>
+            <th style="width: 42%">Objeto</th>
+            <th style="width: 6%">Acciones</th>
             <th style="width: 1%"></th>
         </tr>
         </thead>
@@ -83,6 +84,35 @@
             }
         });
     }
+
+    function verActividadReporte(id){
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller: 'actividad', action: 'showReporteActividad_ajax')}",
+            data    : {
+                id: id
+            },
+            success : function (msg) {
+                var ac = bootbox.dialog({
+                    id      : "dlgCreateEditACT",
+                    class   : "modal-lg",
+                    title   : "Ver actividad",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    }
+
+
+
 </script>
 </body>
 </html>

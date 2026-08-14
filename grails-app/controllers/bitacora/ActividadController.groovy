@@ -241,5 +241,10 @@ class ActividadController {
         return [periodos: periodos, actual: actual, actividad: actividad]
     }
 
+    def showReporteActividad_ajax(){
+        def actividad = Actividad.get(params.id)
+        return [actividad: actividad]
+    }
+
 
 }
