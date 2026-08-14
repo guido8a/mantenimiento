@@ -98,6 +98,22 @@
         </span>
     </div>
 
+    <div class="form-group">
+        <span class="grupo">
+            <label for="coincidencia" class="col-md-1 control-label text-info">
+                Coincidencias
+            </label>
+            <span class="col-md-8">
+                <g:textField name="coincidencia" class="form-control" value="" />
+            </span>
+            <span class="col-md-3">
+                <a class="btn btn-info btnBuscarCoincidencia" href="#"  title="Buscar coincidencia de descripción">
+                    <i class="fa fa-search"></i>
+                </a>
+            </span>
+        </span>
+    </div>
+
     <div class="form-group ${hasErrors(bean: actividad, field: 'descripcion', 'error')}">
         <label for="descripcion" class="col-md-1 control-label text-info">
             Descripción
@@ -122,6 +138,10 @@
 </g:form>
 
 <script type="text/javascript">
+
+    $(".btnBuscarCoincidencia").click(function () {
+        buscarCoincidencias();
+    });
 
     $(".btnCrearUsuarioActividad").click(function () {
         location.href="${createLink(controller: 'usuario', action: 'list')}"
@@ -201,6 +221,38 @@
             label.parents(".grupo").removeClass('has-error');
         }
     });
+
+    function buscarCoincidencias(){
+        var texto = $("#coincidencia").val();
+        if(texto !== ''){
+            $.ajax({
+                type    : "POST",
+                url     : "${createLink(controller: 'actividad', action: 'buscarCoincidencias_ajax')}",
+                data    : {
+                    texto: texto
+                },
+                success : function (msg) {
+                    var ac = bootbox.dialog({
+                        id      : "dlgCreateEditACT",
+                        class   : "modal-lg",
+                        title   : "Buscar coincidencias",
+                        message : msg,
+                        buttons : {
+                            cancelar : {
+                                label     : "Cancelar",
+                                className : "btn-primary",
+                                callback  : function () {
+                                }
+                            }
+                        } //buttons
+                    }); //dialog
+                } //success
+            }); //ajax
+        }else{
+            bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + "Ingrese un texto para la búsqueda" + '</strong>');
+            return false
+        }
+    }
 
 </script>
 

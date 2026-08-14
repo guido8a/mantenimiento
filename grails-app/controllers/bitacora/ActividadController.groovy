@@ -246,5 +246,10 @@ class ActividadController {
         return [actividad: actividad]
     }
 
+    def buscarCoincidencias_ajax(){
+        def resultado = Actividad.findAllByDescripcionIlike('%' + params.texto + '%', [sort: 'fecha', order: 'desc'])
+        return [resultado:resultado]
+    }
+
 
 }
