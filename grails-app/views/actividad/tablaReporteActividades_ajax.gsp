@@ -20,11 +20,10 @@ th, td {
         <g:if test="${actividades.size() > 0}">
             <g:each in="${actividades}" var="actividad">
                 <tr>
-                    <td style="width: 10%">${actividad.periodo?.contrato?.numero}</td>
-                    <td style="width: 16%">${actividad?.periodo?.fechads?.format("dd-MM-yyyy") + " - " + actividad?.periodo?.fechahs?.format("dd-MM-yyyy")}</td>
-                    <td style="width: 10%">${actividad?.requerimiento}</td>
-                    <td style="width: 14%">${actividad?.usuario?.apellido + " "  + actividad?.usuario?.nombre}</td>
-                    <td style="width: 42%">${actividad?.descripcion}</td>
+                    <td style="width: 75%">${actividad?.descripcion}</td>
+                    <td style="width: 18%">${actividad.periodo?.contrato?.numero}
+                    ${actividad?.periodo?.fechads?.format("dd-MM-yyyy") + " - " + actividad?.periodo?.fechahs?.format("dd-MM-yyyy")}
+                    (${actividad?.usuario?.apellido + " "  + actividad?.usuario?.nombre})</td>
                     <td style="width: 6%; text-align: center">
                         <a class="btn btn-xs btn-info btnVerActividad" href="#"  title="Ver actividad" data-id="${actividad.id}">
                             <i class="fa fa-search"></i>

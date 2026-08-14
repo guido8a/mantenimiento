@@ -100,10 +100,10 @@
 
     <div class="form-group">
         <span class="grupo">
-            <label for="coincidencia" class="col-md-1 control-label text-info">
-                Coincidencias
+            <label for="coincidencia" class="col-md-3 control-label text-info">
+                Buscar en otras actividades:
             </label>
-            <span class="col-md-8">
+            <span class="col-md-6">
                 <g:textField name="coincidencia" class="form-control" value="" />
             </span>
             <span class="col-md-3">

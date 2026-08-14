@@ -35,11 +35,8 @@
     <table class="table table-bordered table-hover table-condensed" style="width: 100%; background-color: #a39e9e">
         <thead>
         <tr style="width: 100%">
-            <th style="width: 10%">Contrato</th>
-            <th style="width: 17%">Periodo</th>
-            <th style="width: 10%">Requerimiento</th>
-            <th style="width: 14%">Solicitante</th>
-            <th style="width: 42%">Objeto</th>
+            <th style="width: 75%">Descripción</th>
+            <th style="width: 18%">Contrato periodo y usuario</th>
             <th style="width: 6%">Acciones</th>
             <th style="width: 1%"></th>
         </tr>
