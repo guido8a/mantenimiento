@@ -100,14 +100,14 @@
 
     <div class="form-group">
         <span class="grupo">
-            <label for="coincidencia" class="col-md-3 control-label text-info">
+            <label for="coincidencia" class="col-md-3 control-label text-success">
                 Buscar en otras actividades:
             </label>
             <span class="col-md-6">
                 <g:textField name="coincidencia" class="form-control" value="" />
             </span>
             <span class="col-md-3">
-                <a class="btn btn-info btnBuscarCoincidencia" href="#"  title="Buscar coincidencia de descripción">
+                <a class="btn btn-success btnBuscarCoincidencia" href="#"  title="Buscar coincidencia de descripción">
                     <i class="fa fa-search"></i>
                 </a>
             </span>
