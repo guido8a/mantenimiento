@@ -36,7 +36,8 @@ spring:
             max-request-size: 50MB
 server:
   session:
-    timeout: 1800 #30 minutos
+      timeout: 1800 #30 minutos
+  port: 8087
 #    timeout: 60 #1 minuto
 
 # Spring Actuator Endpoints are Disabled by Default
@@ -120,7 +121,7 @@ environments:
             dbCreate: update
             url: jdbc:postgresql://127.0.0.1:5432/mntn
         grails:
-          serverURL: http://localhost:8080
+          serverURL: http://localhost:8087
     test:
         dataSource:
             dbCreate: update
@@ -128,7 +129,9 @@ environments:
     production:
         dataSource:
             dbCreate: none
-            url: jdbc:postgresql://192.168.100.9:5432/mntn
+            url: jdbc:postgresql://127.0.0.1:5432/mntn
+            username: postgres
+            password: 'steinsgate'
             properties:
                 jmxEnabled: true
                 initialSize: 5
