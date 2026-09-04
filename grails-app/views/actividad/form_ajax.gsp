@@ -193,17 +193,30 @@
     //     ]
     // });
 
+    // CKEDITOR.replace( 'algoritmo', {
+    //     height: "140px",
+    //     toolbar                 : [
+    //         ['Font', 'FontSize', 'Scayt', '-', 'Undo', 'Redo'],
+    //         ['HorizontalRule'],
+    //         [ '-', 'TextColor', 'BGColor', '-', 'About'],
+    //         ['Bold', 'Italic', 'Underline', 'Subscript', 'Superscript'],
+    //         ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
+    //     ]
+    // });
+
+
     CKEDITOR.replace( 'algoritmo', {
         height: "140px",
         toolbar                 : [
-            ['Font', 'FontSize', 'Scayt', '-', 'Undo', 'Redo'],
-//            ['Find', 'Replace', '-', 'SelectAll'],
-            ['HorizontalRule'],
-            [ '-', 'TextColor', 'BGColor', '-', 'About'],
-//            '/',
-            ['Bold', 'Italic', 'Underline', /*'Strike', */'Subscript', 'Superscript'/*, '-', 'RemoveFormat'*/],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
+            ['FontSize', 'Scayt', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+            ['Bold', 'Italic', 'Underline','NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'],
         ]
+    });
+
+    CKEDITOR.on('instanceReady', function (ev) {
+        ev.editor.document.on('drop', function (ev) {
+            ev.data.preventDefault(true);
+        });
     });
 
 
