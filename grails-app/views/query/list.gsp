@@ -4,6 +4,8 @@
     <meta name="layout" content="main">
     <title>Querys</title>
 
+    <ckeditor:resources/>
+
     <style type="text/css">
     .table {
         font-size     : 12px;

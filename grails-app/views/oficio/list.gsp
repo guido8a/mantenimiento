@@ -3,6 +3,9 @@
 <head>
     <meta name="layout" content="main">
     <title>Lista de oficios</title>
+
+    <ckeditor:resources/>
+
 </head>
 
 <body>

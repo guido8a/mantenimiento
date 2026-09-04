@@ -45,7 +45,7 @@
     <asset:javascript src="/apli/fontawesome.all.min.js"/>
     <asset:stylesheet src="/fonts/fontawesome-webfont.woff"/>
 
-    <asset:javascript src="/ckeditor/ckeditor.js"/>
+%{--    <asset:javascript src="/ckeditor/ckeditor.js"/>--}%
 
 
 %{--    <asset:javascript src="/jquery/bootstrap-datepicker.js"/>--}%
