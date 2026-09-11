@@ -23,16 +23,41 @@ class WardInterceptor {
             usro = session.usuario
         }
 
+        if( actionName.toString().toLowerCase().contains('save') ){
+            if(!session){
+                println("graba sin sesión")
+            } else {
+                println "session: ${session.usuario}"
+            }
+            flash.clase = "alert-success"
+            flash.message = "Se han guardado los datos y terminado la sesión por inactividad en el sistema"
+
+            return true
+        }
+
+        if(session) {
+            usro = session.usuario
+        }
+
+
+        def app = ""
+
+        if (grails.util.Environment.getCurrent().name == 'development') {
+            app = '/'
+        } else {
+            app = '/mntn/'
+        }
+
+
         if(session.an == 'saveTramite' && session.cn == 'tramite'){
-//            println("entro")
             return true
         } else {
             if (!session?.usuario || !session?.perfil) {
                 println "...sin sesión"
                 if(controllerName != "inicio" && actionName != "index") {
-//                    flash.message = "Usted ha superado el tiempo de inactividad máximo de la sesión"
                 }
-                render "<script type='text/javascript'> window.location.href = '/' </script>"
+//                render "<script type='text/javascript'> window.location.href = '/' </script>"
+                render "<script type='text/javascript'> window.location.href = '${app}' </script>"
                 session.finalize()
                 return false
             }
