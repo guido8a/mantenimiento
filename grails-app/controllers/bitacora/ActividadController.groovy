@@ -7,7 +7,15 @@ class ActividadController {
     def dbConnectionService
 
     def list(){
+        println "params: $params"
+        def cnta = 0
+        def cn = dbConnectionService.getConnection()
+        def sql = "select count(*) cnta from actv, prdo where now()::date between prdofcds and prdofchs and " +
+                "actv.prdo__id = prdo.prdo__id"
+        println "SQL: $sql"
+        cnta = cn.rows(sql.toString())[0].cnta
 
+        return [cuenta: cnta]
     }
 
     def tablaActividades_ajax(){
@@ -42,7 +50,7 @@ class ActividadController {
         }
 
         def select  =  "select actv__id, usronmbr||' '||usroapll usuario, tpmtcdgo, actvfcha, actvdscr, actvreqm," +
-                "mdstdscr from actv, tpmt, usro, mdst "
+                "mdstdscr, usrotitl from actv, tpmt, usro, mdst "
         def txwh = " where tpmt.tpmt__id = actv.tpmt__id and usro.usro__id = actv.usro__id and " +
                 "mdst.mdst__id = actv.mdst__id and ${bsca} ilike '%${params.criterio}%' ${usuarioTx} ${periodoTx} ${tipoTx} "
         sqlTx = "${select} ${txwh} order by actvfcha limit 50 ".toString()

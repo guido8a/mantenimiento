@@ -19,9 +19,9 @@ th, td {
 <table class="table table-bordered table-striped table-hover table-condensed" id="tabla" style="width: 100%; background-color: #a39e9e">
     <thead>
     <tr style="text-align: center">
-        <th style="width: 12%">Usuario</th>
+        <th style="width: 15%">Usuario</th>
         %{--<th style="width: 5%">T</th>--}%
-        <th style="width: 10%">Fecha</th>
+        <th style="width: 7%">Fecha</th>
         <th style="width: 63%">Descripción</th>
         <th style="width: 14%">Acciones</th>
         <th style="width: 1%"></th>
@@ -35,9 +35,9 @@ th, td {
             <g:each in="${data}" var="actividad">
                 <g:set var="actividadId" value="${actividad?.actv__id}"/>
                 <tr data-id="${actividad.actv__id}" style="width: 100%" class="${actividad?.tpmtcdgo == 'MJ'? 'mejora':''}">
-                    <td style="width: 12%">${actividad.usuario}<br>(${actividad.mdstdscr})</td>
+                    <td style="width: 15%">${actividad.usrotitl} ${actividad.usuario}<br>(${actividad.mdstdscr})</td>
                     %{--<td style="width: 5%">${actividad.tpmtcdgo}</td>--}%
-                    <td style="width: 10%">${actividad?.actvfcha?.format("dd-MM-yy HH:mm")}</td>
+                    <td style="width: 7%">${actividad?.actvfcha?.format("dd-MM-yy HH:mm")}</td>
                     <td style="width: 63%">${actividad.actvdscr} (${actividad.actvreqm})</td>
                     <td style="width: 14%; text-align: center">
                         <a class="btn btn-xs btn-info btnVerActividad" href="#"  title="Ver actividad" data-id="${actividad.actv__id}">

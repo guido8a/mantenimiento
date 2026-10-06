@@ -24,6 +24,7 @@
 
         <div class="col-md-2" style="margin-top: 20px" >
             <a href="#" class="btn btn-info btnCrearActividad" style="width: 140px"><i class="fa fa-file"></i>  Nueva actividad</a>
+            Actividades del periodo: ${cuenta}
         </div>
 
         <div class="col-md-2" style="margin-left: -20px">
@@ -65,7 +66,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12" style="margin-top: 20px">
+    <div class="col-md-12" style="margin-top: 0px">
         <div class="col-md-12" id="divActividad">
 
         </div>
