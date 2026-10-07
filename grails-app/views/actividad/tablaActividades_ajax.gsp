@@ -16,6 +16,8 @@ th, td {
 }
 </style>
 
+Actividades del periodo: ${cuenta}
+
 <table class="table table-bordered table-striped table-hover table-condensed" id="tabla" style="width: 100%; background-color: #a39e9e">
     <thead>
     <tr style="text-align: center">
